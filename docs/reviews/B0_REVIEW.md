@@ -158,3 +158,11 @@ Re-verification after the fixes (owner-run, this session, before freezing `b0-fr
 - `artifacts/b0/api-spike.json` and the spike script still match their recorded sha256 values; the internal PDF sha256 values are unchanged.
 
 The round-5 review target is the `b0-freeze-r5` tag. No normative file may be edited while that review runs; this log is the only file expected to change.
+
+### Freeze record for `b0-freeze-r5`
+
+- Freeze commit: `18821e36dc3271b2a2c0be5cfc38e2dabc888692`, tagged `b0-freeze-r5` (lightweight tag). It changes five normative files (`README.md`, `benchmark/manifest.json`, `benchmark/validate_manifest.py`, `docs/B0_FREEZE.sha256`, `docs/B0_PREREGISTRATION.md`) and this log relative to `b0-freeze-r4`.
+- The tagged tree tracks 19 files: the 17 normative files in `docs/B0_FREEZE.sha256`, the manifest itself, and this review log. The log has been tracked since `ace4e64`; it is excluded from the manifest because it is the live disposition log, not a normative artifact. The freeze therefore covers the same 18-file normative set as r4.
+- Working-tree check: `sha256sum -c docs/B0_FREEZE.sha256` → 17/17 `OK`, exit 0.
+- Fresh-clone check: cloned the repository to a temporary directory, checked out `b0-freeze-r5`, ran the same command → 17/17 `OK`, exit 0.
+- Evidence re-run before freezing: multi-line unit source `"line one\nline two"` vs PDF `'line one\r\nline two'` (18 characters); both canonicalize to `"line one line two"`; span `[0, 18)`; IoU `0.878`; median positive height `8.134 pt` / `14 pt` = `0.581`. D11 on Matplotlib 3.10.8: 7/7 in-view default labels were mathtext; the bare string raised `TypeError`; `'{:g}'.format` produced 7/7 plain labels. Validator: `MANIFEST PASS`, 13 count lines. Pytest: 3 passed.
