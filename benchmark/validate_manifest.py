@@ -68,7 +68,7 @@ def main() -> int:
         features = item.get("features", [])
         if not isinstance(features, list) or not features:
             fail(errors, f"template {tid}: features must be a non-empty list")
-        if any("rotated" in feature for feature in features):
+        if any("rotated" in str(feature) for feature in features):
             fail(errors, f"template {tid}: rotated features are out of scope in v1")
         if "scientific_ticks" in features:
             fail(
@@ -76,32 +76,45 @@ def main() -> int:
                 f"template {tid}: scientific_ticks is ambiguous; declare log_ticks_plain_text",
             )
         is_log = any(str(feature).startswith("log_") for feature in features)
-        if is_log and "log_ticks_plain_text" not in features:
+        family_lower = str(item.get("family", "")).lower()
+        if ("log" in family_lower or is_log) and "log_ticks_plain_text" not in features:
             fail(
                 errors,
                 f"template {tid}: log axes must declare log_ticks_plain_text "
                 "(default mathdefault labels are out of scope)",
             )
+        if "date" in family_lower and "date_ticks_horizontal" not in features:
+            fail(errors, f"template {tid}: date axes must declare date_ticks_horizontal")
         formatter = item.get("tick_formatter", "")
+        if "$" in str(formatter):
+            fail(errors, f"template {tid}: tick_formatter must not contain '$' "
+                         "(mathtext is out of scope)")
+        if "mathtext" in str(formatter).lower() and "usemathtext=false" not in str(
+            formatter
+        ).lower():
+            fail(errors, f"template {tid}: tick_formatter must not use mathtext")
         if "log_ticks_plain_text" in features:
-            if not isinstance(formatter, str) or "FuncFormatter" not in formatter:
+            if formatter != "FuncFormatter('{:g}'.format)":
                 fail(
                     errors,
-                    f"template {tid}: log_ticks_plain_text requires a FuncFormatter "
-                    "tick_formatter binding",
+                    f"template {tid}: log_ticks_plain_text requires the exact binding "
+                    "\"FuncFormatter('{:g}'.format)\"",
                 )
-            elif "mathtext" in formatter.lower():
-                fail(errors, f"template {tid}: log tick formatter must not use mathtext")
         if "scientific_offset" in features:
-            if not isinstance(formatter, str) or "useMathText=False" not in formatter:
+            if formatter != "ScalarFormatter(useMathText=False)":
                 fail(
                     errors,
-                    f"template {tid}: scientific_offset requires "
-                    "tick_formatter with useMathText=False",
+                    f"template {tid}: scientific_offset requires the exact binding "
+                    "\"ScalarFormatter(useMathText=False)\"",
                 )
-        if ("log_ticks_plain_text" in features or "scientific_offset" in features) and not str(
-            item.get("note", "")
-        ).strip():
+        note = str(item.get("note", "")).strip()
+        if "date_ticks_horizontal" in features and not note:
+            fail(errors, f"template {tid}: date_ticks_horizontal requires a scope note")
+        if any(str(feature).startswith("date_ticks_") for feature in features) and (
+            "date_ticks_horizontal" not in features
+        ):
+            fail(errors, f"template {tid}: date ticks must declare date_ticks_horizontal")
+        if ("log_ticks_plain_text" in features or "scientific_offset" in features) and not note:
             fail(errors, f"template {tid}: plain tick labels require an explicit scope note")
         target_role = item.get("target_role", "")
         if not isinstance(target_role, str) or not target_role:

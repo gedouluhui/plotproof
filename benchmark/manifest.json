@@ -202,8 +202,8 @@
         "log_ticks_plain_text"
       ],
       "target_role": "title",
-      "tick_formatter": "FuncFormatter('{:g}')",
-      "note": "Log tick labels are plain text via FuncFormatter('{:g}') and contain no '$'; default mathdefault log labels are out of scope (section 3.2) and would push the clean sample below the 0.90 coverage gate."
+      "tick_formatter": "FuncFormatter('{:g}'.format)",
+      "note": "Log tick labels are plain text via the callable FuncFormatter('{:g}'.format) and contain no '$'; the bare string '{:g}' is not callable. Default mathdefault log labels are out of scope (section 3.2) and would push the clean sample below the 0.90 coverage gate."
     },
     {
       "id": "D12",
@@ -218,7 +218,7 @@
         "ylabel",
         "date_ticks_horizontal"
       ],
-      "note": "Date tick labels are horizontal; rotated ticks are out of scope (section 3.2).",
+      "note": "Date tick labels are horizontal (date_ticks_horizontal); rotated ticks are out of scope (section 3.2) and would push the clean sample below the 0.90 coverage gate.",
       "target_role": "title"
     },
     {

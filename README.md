@@ -29,7 +29,7 @@ Only high-confidence evidence produces `FAIL`. Medium-confidence evidence forces
 ## What it will not do
 
 - It is not a general PDF checker. Arbitrary, multi-page, rotated, or non-wrapper PDFs are rejected in v1.
-- Rotated text, mathtext, path-only text, and multiple pages are out of scope; figures that depend on them become `UNKNOWN`.
+- Rotated text and mathtext are recorded as unsupported units and force `UNKNOWN`; path-only text is outside the source model and is not claimed checked; multi-page PDFs are rejected as `ERROR`.
 - It is not a semantic or aesthetic judge: it does not check whether the chart's message is true or whether the colors look good.
 - It is not an ML model. The core is deterministic text and geometry evidence.
 - `PASS` means "no supported defect was found with sufficient coverage", not "the figure is correct".
@@ -49,7 +49,7 @@ Facts it established:
 
 The CJK part of the spike uses Noto Sans CJK SC (OFL-1.1), pinned in the prereg by sha256; proprietary Windows fonts are not used in public artifacts.
 
-The frozen benchmark inventory is [`benchmark/manifest.json`](benchmark/manifest.json), validated by [`benchmark/validate_manifest.py`](benchmark/validate_manifest.py): 24 templates (12 development, 12 sealed holdout), 228 samples, 192 defect instances, 96 of them in the holdout, 24 per defect class in the holdout. The manifest lists every sample with its variant, seed, split, expected state, and target role. **No samples have been generated yet.**
+The frozen benchmark inventory is [`benchmark/manifest.json`](benchmark/manifest.json), validated by [`benchmark/validate_manifest.py`](benchmark/validate_manifest.py): 24 templates (12 development, 12 holdout), 228 samples, 192 defect instances, 96 of them in the holdout, 24 per defect class in the holdout. The manifest lists every sample with its variant, seed, split, expected state, and target role. The holdout split is frozen at B0; the holdout samples themselves are generated and sealed at B2. **No samples have been generated yet.**
 
 The evaluation design — input contract, defect definitions, holdout protocol, matching rules, gates, baselines, and the stop rule — is frozen in [`docs/B0_PREREGISTRATION.md`](docs/B0_PREREGISTRATION.md) before any detector code. Two dev counterexamples (a rotated-label case and a semi-transparent occluder) are labeled `UNKNOWN` by design; they must never become `FAIL`. The six holdout counterexamples are all expected `PASS`.
 
@@ -90,7 +90,7 @@ The report will carry the captured source manifest, the findings with evidence, 
 
 | Milestone | Content | Status |
 |---|---|---|
-| B0 | support scope, defect definitions, sample inventory, holdout and metric freeze, licence audit, PDFium spike | design frozen; three review rounds recorded, round-4 re-review pending on tag `b0-freeze-r4` |
+| B0 | support scope, defect definitions, sample inventory, holdout and metric freeze, licence audit, PDFium spike | design frozen; four review rounds recorded, round-5 re-review pending on tag `b0-freeze-r5` |
 | B1 | deterministic checker core for D1–D4, dev split only | not started |
 | B2 | baseline comparison and threshold calibration on the dev split | not started |
 | B3 | one sealed holdout run, preregistered report | not started |
