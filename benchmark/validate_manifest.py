@@ -29,6 +29,23 @@ def main() -> int:
     if data.get("split_policy") != "template_family":
         fail(errors, "split_policy must be template_family")
 
+    binding = data.get("label_binding")
+    if not isinstance(binding, dict):
+        fail(errors, "manifest must declare a label_binding object")
+    else:
+        expected_binding = {
+            "layout": "constrained",
+            "axis_label_rotation": 0,
+            "colorbar_orientation": "horizontal",
+            "colorbar_label_rotation": 0,
+            "colorbar_label_role": "xlabel",
+        }
+        for key, value in expected_binding.items():
+            if binding.get(key) != value:
+                fail(errors, f"label_binding.{key} must be {value!r}")
+        if not str(binding.get("clean_sample_check", "")).strip():
+            fail(errors, "label_binding.clean_sample_check must be a non-empty string")
+
     templates = data.get("templates", [])
     counters = data.get("counterexamples", [])
     variants = data.get("variants", [])
@@ -83,8 +100,27 @@ def main() -> int:
                 f"template {tid}: log axes must declare log_ticks_plain_text "
                 "(default mathdefault labels are out of scope)",
             )
-        if "date" in family_lower and "date_ticks_horizontal" not in features:
+        if family_lower.split("_")[0] in {"date", "datetime"} and "date_ticks_horizontal" not in features:
             fail(errors, f"template {tid}: date axes must declare date_ticks_horizontal")
+        needs_horizontal = any("ylabel" in str(feature) for feature in features) or (
+            "colorbar_label" in features
+        )
+        if needs_horizontal and item.get("labels_horizontal") is not True:
+            fail(
+                errors,
+                f"template {tid}: y-label or colorbar-label templates must declare "
+                '"labels_horizontal": true (rotated labels are out of scope in v1)',
+            )
+        if "labels_horizontal" in item and not isinstance(item["labels_horizontal"], bool):
+            fail(errors, f"template {tid}: labels_horizontal must be a boolean")
+        if "colorbar_label" in features and "colorbar_horizontal" not in features:
+            fail(
+                errors,
+                f"template {tid}: colorbar_label requires colorbar_horizontal "
+                "(a vertical colorbar with a horizontal label overlaps its tick labels)",
+            )
+        if "colorbar_horizontal" in features and "colorbar" not in features:
+            fail(errors, f"template {tid}: colorbar_horizontal requires a colorbar feature")
         formatter = item.get("tick_formatter", "")
         if "$" in str(formatter):
             fail(errors, f"template {tid}: tick_formatter must not contain '$' "
@@ -139,6 +175,27 @@ def main() -> int:
             counter_splits[split] += 1
         if item.get("expected_state") not in {"PASS", "UNKNOWN"}:
             fail(errors, f"counterexample {cid}: expected_state must be PASS or UNKNOWN")
+        if cid == "L04":
+            if "labels_horizontal" in item:
+                fail(
+                    errors,
+                    "counterexample L04: the rotated-text counterexample must not "
+                    "declare labels_horizontal",
+                )
+        elif item.get("labels_horizontal") is not True:
+            fail(
+                errors,
+                f"counterexample {cid}: must declare "
+                '"labels_horizontal": true (rotated labels are out of scope in v1)',
+            )
+        fixed_states = {"L04": "UNKNOWN", "L06": "UNKNOWN"}
+        if cid in fixed_states and item.get("expected_state") != fixed_states[cid]:
+            fail(
+                errors,
+                f"counterexample {cid}: expected_state must be {fixed_states[cid]}",
+            )
+        if split == "holdout" and item.get("expected_state") != "PASS":
+            fail(errors, f"counterexample {cid}: holdout counterexamples must expect PASS")
 
     if counter_splits != {"dev": 6, "holdout": 6}:
         fail(errors, f"counterexamples must be 6 dev / 6 holdout, found {counter_splits}")

@@ -1,9 +1,9 @@
 # PlotProof B0 Preregistration
 
-**Version:** 1.1 (frozen candidate, 2026-11-13)
-**Status:** B0 design is frozen before detector implementation. Round-1 through round-4 reviews and their dispositions are recorded in `docs/reviews/B0_REVIEW.md`; round 4 was REJECT. The round-4 fixes are pinned by `docs/B0_FREEZE.sha256` and the `b0-freeze-r5` tag; the round-5 scoped re-review of that tag is pending. Do not start B1 detector work until that re-review is recorded as passing.
+**Version:** 1.2 (frozen candidate, 2026-11-13)
+**Status:** B0 design is frozen before detector implementation. Round-1 through round-5 reviews and their dispositions are recorded in `docs/reviews/B0_REVIEW.md`; round 5 was REJECT. The round-5 fixes are pinned by `docs/B0_FREEZE.sha256` and the `b0-freeze-r6` tag; the round-6 scoped re-review of that tag is pending. Do not start B1 detector work until that re-review is recorded as passing.
 
-**Version history.** 1.1 (2026-11-13): round-4 fixes — whitespace-run canonicalization so multi-line units align with PDFium's CRLF; exact, callable D11 and H09 formatter bindings plus a D12 guard; unsupported units now force `UNKNOWN`; the out-of-scope contract split into identifiable `Text` units versus non-`Text` content; painted-text predicate for ticks and clipped text. 1.0 (2026-11-13): initial frozen candidate.
+**Version history.** 1.2 (2026-11-13): round-5 fixes — benchmark axis labels are horizontal under constrained layout and D08/H04 use a horizontal colorbar, so clean `PASS` states are reachable; the path-only/mathtext `ERROR` contradiction removed; display coordinates corrected to a bottom-left origin with an explicit transform; wrapper-sourced `source_units_total` reconciles coverage so unit-dropping bugs cannot yield `PASS`; wrapper record extended with font size, paint order, and alpha components; unit ID and `source_object_id` unified; missing-font samples are `ERROR` and stay in denominators. 1.1 (2026-11-13): round-4 fixes — whitespace-run canonicalization so multi-line units align with PDFium's CRLF; exact, callable D11 and H09 formatter bindings plus a D12 guard; unsupported units now force `UNKNOWN`; the out-of-scope contract split into identifiable `Text` units versus non-`Text` content; painted-text predicate for ticks and clipped text. 1.0 (2026-11-13): initial frozen candidate.
 
 **Product:** PlotProof — a source-assisted export checker for Matplotlib figures.
 
@@ -12,6 +12,7 @@
 - 本文件在写任何检测器代码之前，冻结 P2 PlotProof 的输入边界、缺陷定义、228 个自制样本的模板清单、按模板族划分的保留集规则、匹配/去重规则、指标与放行门槛。
 - B0 只完成可行性核验与设计冻结：Matplotlib→PDF→PDFium 的字符框/文本/位图链路已在本机跑通；样本尚未生成，检测器尚未实现，没有任何真实用户或效果数据。
 - 已核验的关键事实：`pdf.fonttype=42` 可提取中英文文本与字符框；`fonttype=3` 下中文提取失败；缺字警告与字体 cmap 缺失可作证据，但“PDF 文本里仍有该字符”**不能**证明字形已渲染；回退字体可消除缺字警告。
+- 基线事实：24 个模板的轴标签一律水平（`rotation=0`）并使用 constrained 布局；两个色条模板（D08/H04）使用水平色条，色条标签为色条的 x 轴标签。默认竖直 ylabel 属于旋转文本，会让样本变成 UNKNOWN，因此不能出现在基准的期望 PASS 样本里。
 - 初始放行门槛：保留集高置信 FAIL precision ≥ 0.95、端到端 recall ≥ 0.80、样本级 UNKNOWN ≤ 0.20、ERROR ≤ 0.05、文本对齐覆盖率（aligned/total）≥ 0.90，且干净样本/合法反例不得被高置信判 FAIL。
 - 这些是待验证的产品门槛，不是已经达到的成绩；样本为自制合成数据，不能外推为真实世界准确率。
 
@@ -57,17 +58,18 @@ A v1 check consumes exactly one of these:
 1. A live Matplotlib `Figure` plus the PDF written by `plotproof.export.save(fig, path)`, or
 2. A frozen test bundle containing the captured source manifest (JSON) and the exported PDF, created by the same wrapper.
 
-The wrapper must record: Matplotlib version, backend, `pdf.fonttype`, figure size in inches, DPI, save kwargs (`bbox_inches`, `pad_inches`, `transparent`), page size, cropbox, mediabox, rotation, output sha256, source text object IDs, their text, font family list, resolved font files, color, alpha, rotation, bounding boxes in display coordinates, visibility, z-order, and the artist class.
+The wrapper must record: Matplotlib version, backend, `pdf.fonttype`, figure size in inches, DPI, save kwargs (`bbox_inches`, `pad_inches`, `transparent`), page size, cropbox, mediabox, rotation, output sha256, source text object IDs, their text, font family list, resolved font files, font size in points, color, text alpha, artist alpha, facecolor alpha, rotation, bounding boxes in display coordinates, visibility, z-order, paint order, the artist class, and `source_units_total` — the number of §7.1 units its deterministic traversal enumerated. Font size is required by §7.1's height band; paint order and the alpha components are required by D2's occlusion evidence; `source_units_total` is the independent count the detector's coverage must reconcile against (§7.1, §11).
 
 **Rejected as invalid input (ERROR):**
 
 - multi-page PDF, page rotation ≠ 0, cropbox ≠ mediabox;
 - encrypted or malformed PDF;
 - a PDF not produced by the wrapper (missing source manifest or hash mismatch);
-- a non-PDF export (`png`, `svg`, `eps`);
-- a figure whose text contains a path-only or mathtext object that cannot be mapped to Unicode **and** no supported text objects remain (the latter is `UNKNOWN`, not `ERROR`; see §3).
+- a non-PDF export (`png`, `svg`, `eps`).
 
-**Coordinate normalization.** All comparisons happen in PDF points with the origin at the bottom-left of the page. Matplotlib display coordinates (origin top-left) are converted through the figure's DPI and page size; the wrapper records the exact transform. No DPI is guessed from the PDF. If the transform cannot be established, the result is `UNKNOWN`.
+A figure whose only text is mathtext or path-only text is **not** `ERROR`: mathtext units are counted as unsupported and force `UNKNOWN`; path text is not a `Text` unit and is not counted; an empty unit set is `UNKNOWN` (§3.2, §4.1).
+
+**Coordinate normalization.** All comparisons happen in PDF points with the origin at the bottom-left of the page. Matplotlib display coordinates also use a bottom-left origin; convert both axes with `x_pt = x_display * 72 / dpi` and `y_pt = y_display * 72 / dpi`. No y-flip is applied. The wrapper records the exact transform. No DPI is guessed from the PDF. If the transform cannot be established, the result is `UNKNOWN`.
 
 **Process rule.** Every PDFium call in a process is serialized. Parallel rendering is allowed only across separate processes. This is a hard requirement from the PDFium/pypdfium2 documentation, not an optimization. Object lifetimes are explicit (open → use → close in `try/finally`), and a render subprocess timeout kills only its own PID.
 
@@ -82,7 +84,7 @@ The wrapper must record: Matplotlib version, backend, `pdf.fonttype`, figure siz
 | Page geometry | rotation 0, cropbox == mediabox, finite size ≤ A2 |
 | Text objects | title, suptitle, axis labels, tick labels, legend text, annotations (`Axes.text` / `annotate`), colorbar labels, `Figure.text` |
 | Languages | English; Chinese (Simplified) when a CJK font is available; mixed CJK/English within one label |
-| Text features | numbers, negative signs, units, thousands separators, multi-line text, opaque background bboxes; rotation 0 only in v1 |
+| Text features | numbers, negative signs, units, thousands separators, multi-line text, opaque background bboxes; rotation 0 only in v1. Axis labels, shared axis labels, twin-axis labels, and colorbar labels are drawn horizontal in the benchmark (`rotation=0`) |
 | Fonts | DejaVu Sans (bundled with Matplotlib) for ASCII; Noto Sans CJK SC or Source Han Sans SC (OFL) for CJK; user-provided fonts are allowed if the wrapper records the file |
 | PDF text mode | `pdf.fonttype=42` fully supported; `pdf.fonttype=3` supported for ASCII only |
 | Defect classes | D1 clipped text, D2 occluded text, D3 overlapping text, D4 missing glyph (see §4) |
@@ -106,12 +108,12 @@ An item in this list is outside the v1 evidence model. `PASS` is a statement abo
 
 Table-cell strings and inset-axes or 3D text are ordinary `Text` objects: if they satisfy the §7.1 unit predicate they are checked as ordinary text; the table or axes structure itself is not checked.
 
-A figure with **no units** is `UNKNOWN`, never `PASS`. A figure with any unsupported unit, or with text alignment coverage below 0.90, is also `UNKNOWN` (§4.1, §7.1).
+A figure whose only text is mathtext has unsupported units and is `UNKNOWN`; a figure whose only text is path text has no units and is `UNKNOWN`. Neither is `ERROR`. A figure with **no units** is `UNKNOWN`, never `PASS`. A figure with any unsupported unit, or with text alignment coverage below 0.90, is also `UNKNOWN` (§4.1, §7.1).
 
 ### 3.3 Font policy
 
 - Microsoft fonts (Microsoft YaHei, SimHei, SimSun) are **not** used in public benchmark artifacts and are never committed. The B0 feasibility run used Noto Sans CJK SC instead.
-- The public CJK benchmark requires Noto Sans CJK SC (OFL-1.1) or Source Han Sans SC (OFL-1.1). The font binary is downloaded into `.fonts/` (git-ignored) and pinned by sha256 in the prereg. If the font is missing, CJK samples are skipped with a recorded reason; they are not silently replaced by a proprietary font.
+- The public CJK benchmark requires Noto Sans CJK SC (OFL-1.1) or Source Han Sans SC (OFL-1.1). The font binary is downloaded into `.fonts/` (git-ignored) and pinned by sha256 in the prereg. If the font is missing, affected CJK samples are `ERROR` with reason `font_unavailable`; they remain in the §8 recall, UNKNOWN, and ERROR denominators and are never silently skipped, dropped, or replaced by a proprietary font.
 - DejaVu Sans is bundled with Matplotlib and is used for ASCII samples.
 - Every sample records the resolved font family, file path, and file hash. Changing a font invalidates byte-level comparisons.
 
@@ -196,7 +198,7 @@ Priority is fixed:
 ERROR > FAIL > UNKNOWN > PASS
 ```
 
-- `ERROR`: invalid input, hash mismatch, renderer crash, timeout, or internal error.
+- `ERROR`: invalid input, hash mismatch, renderer crash, timeout, internal error, a required font unavailable (`font_unavailable`), or a report whose `aligned_units + unaligned_units + unsupported_units` does not equal the wrapper's `source_units_total` (`unit_accounting_mismatch`).
 - `FAIL`: at least one high-confidence finding.
 - `UNKNOWN`: no high-confidence finding, but at least one medium finding, at least one unsupported unit (`unsupported_rotated` or `unsupported_mathtext`), text alignment coverage below 0.90, or an empty unit set.
 - `PASS`: no findings, no unsupported units, and text alignment coverage ≥ 0.90. Non-`Text` out-of-scope content may exist but is never claimed checked (§3.2).
@@ -207,7 +209,7 @@ A medium finding never becomes `FAIL`. A `FAIL` may coexist with unknown objects
 
 The authoritative inventory is `benchmark/manifest.json`. `benchmark/validate_manifest.py` recomputes the counts; the numbers below were printed by that script on 2026-11-13 and must be re-read from the script if the manifest changes.
 
-**Design rule.** 24 templates, 12 dev + 12 holdout. Each template has one clean sample (seed 1) and four defect variants (`clip`, `occlude`, `overlap`, `missing_glyph`) at seeds 1 and 2. Each template declares a `target_role` (the text object that receives the injected defect); every sample record pins that role. Each defect sample contains exactly one injected defect instance and must be checked for collateral high-confidence defects before sealing. Twelve legal counterexamples (6 dev, 6 holdout) are added. The `samples` array in the manifest enumerates all 228 records with ID, variant, seed, expected state, defect class, target role, and split; the counts below are asserted by the validator rather than inferred from prose.
+**Design rule.** 24 templates, 12 dev + 12 holdout. Each template has one clean sample (seed 1) and four defect variants (`clip`, `occlude`, `overlap`, `missing_glyph`) at seeds 1 and 2. Each template declares a `target_role` (the text object that receives the injected defect); every sample record pins that role. Every template that draws a y-axis, shared y-axis, twin-axis, or colorbar label also declares `labels_horizontal`; the generator binds `rotation=0`, because a default Matplotlib ylabel is rotated and would force every such sample to `UNKNOWN`. Each sample, clean or defective, must be checked for collateral high-confidence defects and page clipping before sealing. Twelve legal counterexamples (6 dev, 6 holdout) are added. The `samples` array in the manifest enumerates all 228 records with ID, variant, seed, expected state, defect class, target role, and split; the counts below are asserted by the validator rather than inferred from prose.
 
 | Quantity | Value |
 |---|---|
@@ -223,7 +225,7 @@ The authoritative inventory is `benchmark/manifest.json`. `benchmark/validate_ma
 | Per defect class, total | 48 |
 | Per defect class, holdout | 24 |
 
-The 24 templates cover line, multi-series line, vertical/grouped/stacked/horizontal bar, scatter, histogram, box, violin, heatmap, contour, pie, errorbar, log scale, datetime axis, twin axes, stacked area, dense ticks, mixed CJK/English, scientific notation, legend outside, 1×2 subplots, and negative/unit formatting. Multi-line text is exercised by counterexample L12, not by a template. Rotated text and mathtext are deliberately absent from the inventory because they are out of scope (§3.2); the generator bindings below force D11 and H09 onto plain text. The exact templates and features are in the manifest.
+The 24 templates cover line, multi-series line, vertical/grouped/stacked/horizontal bar, scatter, histogram, box, violin, heatmap, contour, pie, errorbar, log scale, datetime axis, twin axes, stacked area, dense ticks, mixed CJK/English, scientific notation, legend outside, 1×2 subplots, and negative/unit formatting. Multi-line text is exercised by counterexample L12, not by a template. The 24 templates contain no rotated text; counterexample L04 intentionally does and is expected `UNKNOWN`. Mathtext is absent from the templates because it is out of scope (§3.2); the generator bindings below force D11 and H09 onto plain text. The exact templates and features are in the manifest.
 
 Three templates carry a scope note in the manifest and bind the generator; the validator enforces each binding structurally:
 
@@ -231,9 +233,11 @@ Three templates carry a scope note in the manifest and bind the generator; the v
 - **D12 (datetime axis)** uses horizontal date tick labels. Rotated date ticks are out of scope and would push the clean sample below the 0.90 coverage gate; the validator requires `date_ticks_horizontal` plus a scope note for any `date_ticks_*` feature and rejects any template feature containing `rotated`.
 - **H09 (scientific notation)** must render a plain offset text (`1e3`) with `axes.formatter.use_mathtext = False`. A `$`-bearing offset is unsupported (§3.2) and may not be the target role; the validator requires the exact `ScalarFormatter(useMathText=False)` binding and a scope note.
 
+**Horizontal label binding.** Every template whose features contain a y-axis label (`ylabel`, `shared_ylabel`, `two_ylabels`, `ylabel_en_unit`, `ylabel_cjk_unit`) or `colorbar_label` must also declare `labels_horizontal`; the validator rejects a label-bearing template without it. The manifest's `label_binding` object fixes the rest: all templates use Matplotlib's constrained layout (`layout="constrained"`), axis labels use `rotation=0` with the default labelpad, and the two colorbar templates (D08, H04) declare `colorbar_horizontal` and use a horizontal colorbar whose label is the colorbar axes' x-label at `rotation=0`. Constrained layout is required because a horizontal y-label is wider than a rotated one: without it the label is pushed off the left page edge at the default margin (measured: bbox x0 = −10.5 px on a 400 px page). A horizontal label on a *vertical* colorbar is also rejected because a long label is centred on the bar's right side and overlaps its tick labels regardless of labelpad (measured: 74 px² overlap with a 20 pt pad for a 139 px-wide label); a horizontal colorbar keeps the label below the bar, inside the page and clear of the tick labels for label widths from 10 to 139 px. Every counterexample except L04 must also declare `labels_horizontal`. This binding is what makes the clean and counterexample `PASS` states reachable under the rotation-0 scope; a default vertical ylabel would be an unsupported unit and force `UNKNOWN` (§3.2, §4.1). Before sealing, the generator applies the manifest check `no page clipping and no high-confidence text overlap` to every clean sample; a sample that fails is regenerated, never relabeled.
+
 **Generator labels are not ground truth.** The mutation script produces traceable labels (a known object and a known injection), but every holdout sample must be reviewed once against the exported PDF before sealing. If only one person reviews, the project must not claim double annotation or inter-annotator agreement.
 
-**Legal counterexamples.** L01–L12 cover white label backgrounds, legends over data but not text, touching bboxes with separated ink, rotated bbox overlap with separated ink (expected `UNKNOWN`, not `FAIL`, because rotated text is out of scope), legal near-edge text, a semi-transparent frame over text (expected `UNKNOWN`), white labels on a heatmap, frameless legend over data, a colorbar label near but not overlapping ticks, an axis label outside the axes but inside the page, tight-bbox expansion, and multi-line line spacing.
+**Legal counterexamples.** L01–L12 cover white label backgrounds, legends over data but not text, touching bboxes with separated ink, rotated bbox overlap with separated ink (expected `UNKNOWN`, not `FAIL`, because rotated text is out of scope), legal near-edge text, a semi-transparent frame over text (expected `UNKNOWN`), white labels on a heatmap, frameless legend over data, a colorbar label near but not overlapping ticks, an axis label outside the axes but inside the page, tight-bbox expansion, and multi-line line spacing. Every counterexample except L04 draws its axis and colorbar labels horizontally, so L09 and L10 remain `PASS`-reachable; L04 is the only counterexample with intentional rotated text.
 
 ## 6. Holdout protocol (frozen before detector development)
 
@@ -249,7 +253,7 @@ Three templates carry a scope note in the manifest and bind the generator; the v
 
 ## 7. Evaluation units, matching, and deduplication
 
-**Reference defect instance.** A tuple `(sample_id, defect_class, source_object_id)`. A sample may contain more than one instance; v1 generators inject one.
+**Reference defect instance.** A tuple `(sample_id, defect_class, source_object_id)`. `source_object_id` is the unit ID defined in §7.1: the wrapper's deterministic artist-traversal index, recorded for every `Text` object. A sample may contain more than one instance; v1 generators inject one.
 
 **Finding.** A JSON object with at least: `sample_id`, `defect_class`, `rule_id`, `source_object_id` (nullable), `confidence` (`high`/`medium`), `state` (`FAIL`/`UNKNOWN`), `page`, `box_pdf_points`, `source_text`, `evidence`, `renderer_version`, `input_sha256`.
 
@@ -270,7 +274,7 @@ Three templates carry a scope note in the manifest and bind the generator; the v
 
 Alignment runs once per sample, before any defect rule. It maps each supported **source unit** to PDF character boxes. D1, D2, D3, D4 and the coverage metric use only aligned units, so this procedure is part of the contract, not an implementation detail.
 
-**Unit.** A Matplotlib `Text` object (including `Annotation`, tick labels, offset text, legend labels, colorbar labels, `Figure.text`, and table-cell text) is a **unit** when its `get_text()` is non-empty after strip, text and artist alpha are > 0, `get_visible()` is true, its window extent is non-empty and intersects the figure bbox, and it is not fully clipped by an explicit clip box. A tick label additionally requires its tick location to lie inside the axis view limits: an out-of-view tick is not painted and is not a unit. A multi-line string is one unit; Matplotlib draws its lines inside one artist draw call, and its characters are contiguous in content order. A unit is **supported** when its rotation is exactly 0.0° at draw time and its text contains no `$`; otherwise it is **unsupported**, with reason `unsupported_rotated` or `unsupported_mathtext`. Unsupported units are listed in `unknown_objects`, stay in the coverage denominator, and force the sample to at least `UNKNOWN` (§4.1). Unit ID is the deterministic artist-traversal index recorded by the wrapper.
+**Unit.** A Matplotlib `Text` object (including `Annotation`, tick labels, offset text, legend labels, colorbar labels, `Figure.text`, and table-cell text) is a **unit** when its `get_text()` is non-empty after strip, text and artist alpha are > 0, `get_visible()` is true, its window extent is non-empty and intersects the figure bbox, and it is not fully clipped by an explicit clip box. A tick label additionally requires its tick location to lie inside the axis view limits: an out-of-view tick is not painted and is not a unit. A multi-line string is one unit; Matplotlib draws its lines inside one artist draw call, and its characters are contiguous in content order. A unit is **supported** when its rotation is exactly 0.0° at draw time and its text contains no `$`; otherwise it is **unsupported**, with reason `unsupported_rotated` or `unsupported_mathtext`. Unsupported units are listed in `unknown_objects`, stay in the coverage denominator, and force the sample to at least `UNKNOWN` (§4.1). Unit ID is the deterministic artist-traversal index recorded by the wrapper; it is the `source_object_id` used by findings and reference instances (§7).
 
 **Canonical form.** Apply to both sides: map every Unicode whitespace character to U+0020; collapse each maximal run of whitespace to one U+0020; otherwise `NFKC(c)` if it is exactly one character, else `c` unchanged. No case folding, no deletion of non-whitespace characters, no ligature expansion. Record for every original character the canonical index it maps to; characters inside one collapsed whitespace run share one canonical index. A stripped source unit's canonical string neither starts nor ends with a space. The collapse is required because PDFium returns a line break as CRLF: the source newline produces one canonical space, and the two PDF characters produce one as well.
 
@@ -292,7 +296,7 @@ Ambiguous units are removed from the assignment and count as unaligned. Their as
 
 **Unaligned reasons.** `no_text_match`, `height_mismatch`, `low_overlap`, `ambiguous`, `conflict`, `unsupported_rotated`, `unsupported_mathtext`. Each is recorded with the unit ID in `unknown_objects`.
 
-**Coverage.** For one sample, `coverage = aligned_units / total_units`, where `total_units = aligned_units + unaligned_units + unsupported_units`. `unaligned_units` is the sum of the five supported-reason counts (`no_text_match`, `height_mismatch`, `low_overlap`, `ambiguous`, `conflict`); `unsupported_units` is the sum of `unsupported_rotated` and `unsupported_mathtext`. The denominator includes unsupported and unaligned units; the numerator includes only units assigned without an ambiguity. The report records all four counts plus `unaligned_by_reason`, so the ratio is recomputable (§11). The §8 metric is the macro-average of this ratio over holdout samples that have at least one unit; samples with zero units are excluded from the macro-average, counted and reported separately, and are always `UNKNOWN` (§3.2). A sample below 0.90 is `UNKNOWN`; any `unsupported_units > 0` also forces `UNKNOWN` regardless of the ratio (§4.1).
+**Coverage.** `source_units_total` is the number of units enumerated by the wrapper's deterministic traversal, recorded in the source manifest independently of the detector. For one sample, `units_accounted = aligned_units + unaligned_units + unsupported_units` must equal `source_units_total`; a mismatch is `ERROR` with reason `unit_accounting_mismatch` (§4.1, §11). `coverage = aligned_units / total_units`, where `total_units = aligned_units + unaligned_units + unsupported_units`. `unaligned_units` is the sum of the five supported-reason counts (`no_text_match`, `height_mismatch`, `low_overlap`, `ambiguous`, `conflict`); `unsupported_units` is the sum of `unsupported_rotated` and `unsupported_mathtext`. The denominator includes unsupported and unaligned units; the numerator includes only units assigned without an ambiguity. The report records all four counts plus `unaligned_by_reason`, so the ratio is recomputable (§11). The §8 metric is the macro-average of this ratio over holdout samples that have at least one unit; samples with zero units are excluded from the macro-average, counted and reported separately, and are always `UNKNOWN` (§3.2). A sample below 0.90 is `UNKNOWN`; any `unsupported_units > 0` also forces `UNKNOWN` regardless of the ratio (§4.1).
 
 **Use of evidence.** D1's boundary test, D2's character-box coverage, D3's pairwise character-box overlap, and D4's per-character evidence use only aligned character boxes. An unaligned unit may still produce the `D1` medium case ("whole source bbox outside the page, no aligned char box"), but never a high-confidence finding.
 
@@ -307,7 +311,7 @@ All metrics are computed on the sealed holdout. Wilson intervals are reported fo
 | High-confidence precision | matched high-confidence findings / all high-confidence findings | ≥ 0.95 |
 | End-to-end recall | matched reference defects / all 96 reference defects | ≥ 0.80 |
 | Sample-level UNKNOWN rate | holdout samples with state UNKNOWN / 114 | ≤ 0.20 |
-| Sample-level ERROR rate | holdout samples with state ERROR / 114 (valid inputs only) | ≤ 0.05 |
+| Sample-level ERROR rate | holdout samples with state ERROR / 114 preregistered holdout samples; invalid inputs and missing-font samples remain in the denominator | ≤ 0.05 |
 | Text alignment coverage | macro-average over holdout samples with at least one unit of `aligned_units / total_units`, where `total_units = aligned + unaligned + unsupported` (§7.1); zero-unit samples are excluded from the macro-average, counted separately, and are `UNKNOWN` | ≥ 0.90 |
 | Clean/counterexample behaviour | holdout clean and counterexample samples (18) that end in `PASS`; none may end in `FAIL` | ≥ 16/18 PASS and 0 FAIL |
 | Incremental value over the strongest fair baseline | end-to-end recall at precision ≥ 0.95, minus baseline B's best recall on the same holdout whose own precision is ≥ 0.95 (§9) | ≥ +0.10 absolute; or ≥ +0.05 with the UNKNOWN rate not worse by more than 0.05 |
@@ -376,8 +380,8 @@ Every run writes a JSON report and, optionally, a local HTML report.
 schema_version, tool_version, input_sha256, source_manifest_sha256,
 matplotlib_version, pdfium_version, page_count, page_size_pt, rotation,
 overall_state (PASS|FAIL|UNKNOWN|ERROR),
-coverage {total_units, aligned_units, unaligned_units, unsupported_units,
-          unaligned_by_reason {reason: count}, ratio},
+coverage {source_units_total, total_units, aligned_units, unaligned_units,
+          unsupported_units, unaligned_by_reason {reason: count}, ratio},
 zero_unit_samples,
 findings [ {rule_id, defect_class, source_object_id, confidence, state,
             page, box_pdf_points, source_text, evidence, reason} ],
@@ -386,7 +390,7 @@ errors [ {stage, message} ],
 timing {wall_ms}
 ```
 
-`coverage.total_units = aligned_units + unaligned_units + unsupported_units`. `unaligned_by_reason` records all seven reasons listed in §7.1: its five supported-failure keys sum to `unaligned_units`, and its two `unsupported_*` keys sum to `unsupported_units`. Any `unsupported_units > 0` forces the sample to at least `UNKNOWN` (§4.1). `ratio = aligned_units / total_units`; it is `null` exactly when `total_units = 0`, in which case the sample is `UNKNOWN`, is excluded from the §8 macro-average, and increments the run-level `zero_unit_samples` count. A reader must be able to recompute `ratio` from the counts; a report whose counts do not add up is invalid and its sample state is `ERROR`.
+`coverage.source_units_total` must equal `coverage.total_units = aligned_units + unaligned_units + unsupported_units`; otherwise the sample is `ERROR` (`unit_accounting_mismatch`). `source_units_total` is copied from the wrapper's source manifest, so a detector that silently drops units cannot produce a valid report. `unaligned_by_reason` records all seven reasons listed in §7.1: its five supported-failure keys sum to `unaligned_units`, and its two `unsupported_*` keys sum to `unsupported_units`. Any `unsupported_units > 0` forces the sample to at least `UNKNOWN` (§4.1). `ratio = aligned_units / total_units`; it is `null` exactly when `total_units = 0`, in which case the sample is `UNKNOWN`, is excluded from the §8 macro-average, and increments the run-level `zero_unit_samples` count. A reader must be able to recompute `ratio` from the counts; a report whose counts do not add up is invalid and its sample state is `ERROR`.
 
 Each finding must be reproducible from the input hash, tool version, and renderer version. The HTML report is local-only, escapes all source text, embeds crops as data URIs (no remote assets), and shows coverage and unknown objects next to findings. A `PASS` with coverage below the gate is not allowed: the state becomes `UNKNOWN`.
 
@@ -413,7 +417,7 @@ Each finding must be reproducible from the input hash, tool version, and rendere
 | Spike reproducible from a clean checkout | pinned font via `spikes/fetch_b0_font.py`; 14/14 checks; evidence written only on pass | PASS |
 | Package import does not pull heavy stack | subprocess isolation test in `tests/test_package.py` | PASS (3 passed in `.venv`) |
 | Detector code not started | `plotproof/__init__.py` is a version stub | PASS (by design) |
-| Independent read-only review | `docs/reviews/B0_REVIEW.md` and project handover | PENDING (round 5 of tag `b0-freeze-r5`) |
+| Independent read-only review | `docs/reviews/B0_REVIEW.md` and project handover | PENDING (round 6 of tag `b0-freeze-r6`) |
 
 ## 14. Known limitations
 
@@ -423,7 +427,8 @@ Each finding must be reproducible from the input hash, tool version, and rendere
 - Text extraction is not rendering evidence. A character can be present in the PDF text stream while its glyph is missing.
 - Bounding-box intersection is not occlusion. v1 requires an opaque artist, a later recorded paint order, and ≥90% coverage; semi-transparent cases remain `UNKNOWN`.
 - Rotated text, mathtext, path text, multi-page PDFs, and arbitrary PDFs are out of scope. Rotated text and mathtext are still `Text` units: they are recorded as `unsupported_*`, stay in the coverage denominator, and force `UNKNOWN`. Path text is not a `Text` object; it is not enumerated and the report does not claim to have checked it. Multi-page PDFs are rejected as `ERROR` under §2. None of these can produce a supported finding, and none is silently reclassified as clean.
-- Alignment failure modes are visible, not hidden. Supported units that fail alignment are recorded as `no_text_match`, `height_mismatch`, `low_overlap`, `ambiguous`, or `conflict`; units excluded by scope are recorded as `unsupported_rotated` or `unsupported_mathtext`. All of them stay in the coverage denominator, and coverage < 0.90 forces `UNKNOWN` for the figure. A detection bug that drops source units therefore cannot turn into a `PASS`.
+- Alignment failure modes are visible, not hidden. Supported units that fail alignment are recorded as `no_text_match`, `height_mismatch`, `low_overlap`, `ambiguous`, or `conflict`; units excluded by scope are recorded as `unsupported_rotated` or `unsupported_mathtext`. All of them stay in the coverage denominator, and coverage < 0.90 forces `UNKNOWN` for the figure. Unit accounting is reconciled against the wrapper: the wrapper reports `source_units_total` independently of the detector (§7.1), and if `aligned + unaligned + unsupported` does not equal it the sample is `ERROR` (`unit_accounting_mismatch`). A detector that silently drops a unit therefore produces `ERROR`, not a high coverage ratio and not a `PASS`. This check only detects undercounting relative to the wrapper's enumeration; a wrapper bug that never enumerates a unit is outside its reach and would need the B2 label-review evidence to surface.
+- Only horizontal text is supported in v1. Every template's axis labels, shared/twin y-labels, and colorbar label are bound to `rotation=0` (§5), so the expected clean and counterexample states are reachable. A figure using Matplotlib's default vertical ylabel contributes an `unsupported_rotated` unit and can therefore at best be `UNKNOWN`; this is a scope limitation of v1, not a detector failure, and the benchmark does not measure real-world coverage of default-styled figures.
 - Two dev counterexamples are expected `UNKNOWN` by design: L04 (rotated annotation) and L06 (semi-transparent occlusion). The six holdout counterexamples are expected `PASS`. The §8 clean/counterexample gate counts only the 18 holdout clean and counterexample samples; a `FAIL` on any of them fails that gate. A `FAIL` on a dev counterexample is a B2 development defect recorded in the iteration log, not a §8 gate result.
 - Holdout samples are not generated at B0. Only the split, sealing rules, and label expectations exist; the sealed files are produced at B2 and never tuned against.
 - Font availability changes results. CJK samples require an OFL CJK font; proprietary fonts are excluded from public artifacts.
@@ -433,7 +438,7 @@ Each finding must be reproducible from the input hash, tool version, and rendere
 ## 15. Change control
 
 - Typo and clarification edits are allowed with a version bump and a changelog line; they must not change semantics.
-- The reviewed revision is pinned by `docs/B0_FREEZE.sha256` and the `b0-freeze-r5` tag. Editing any pinned file invalidates that freeze; a re-review requires a new tag and a new freeze manifest.
+- The reviewed revision is pinned by `docs/B0_FREEZE.sha256` and the `b0-freeze-r6` tag. Editing any pinned file invalidates that freeze; a re-review requires a new tag and a new freeze manifest.
 - Any change to defect definitions, support scope, split, matching, metrics, or gates after holdout generation requires a new prereg version and a full rerun. Old results are archived, not deleted.
 - The sealed holdout is unsealed at most once per prereg version. The unsealing timestamp, evaluation script hash, and input seal hash are recorded.
 - If a gate fails, the result is published as a failure. The project may iterate on the dev set and rerun a new prereg version, but may not relabel the holdout to pass.

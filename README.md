@@ -49,7 +49,7 @@ Facts it established:
 
 The CJK part of the spike uses Noto Sans CJK SC (OFL-1.1), pinned in the prereg by sha256; proprietary Windows fonts are not used in public artifacts.
 
-The frozen benchmark inventory is [`benchmark/manifest.json`](benchmark/manifest.json), validated by [`benchmark/validate_manifest.py`](benchmark/validate_manifest.py): 24 templates (12 development, 12 holdout), 228 samples, 192 defect instances, 96 of them in the holdout, 24 per defect class in the holdout. The manifest lists every sample with its variant, seed, split, expected state, and target role. The holdout split is frozen at B0; the holdout samples themselves are generated and sealed at B2. **No samples have been generated yet.**
+The frozen benchmark inventory is [`benchmark/manifest.json`](benchmark/manifest.json), validated by [`benchmark/validate_manifest.py`](benchmark/validate_manifest.py): 24 templates (12 development, 12 holdout), 228 samples, 192 defect instances, 96 of them in the holdout, 24 per defect class in the holdout. The manifest lists every sample with its variant, seed, split, expected state, and target role. Every template's axis and colorbar labels are bound to horizontal text (`rotation=0`); Matplotlib's default vertical y-label is rotated text, which v1 records as unsupported and forces `UNKNOWN`. The holdout split is frozen at B0; the holdout samples themselves are generated and sealed at B2. **No samples have been generated yet.**
 
 The evaluation design — input contract, defect definitions, holdout protocol, matching rules, gates, baselines, and the stop rule — is frozen in [`docs/B0_PREREGISTRATION.md`](docs/B0_PREREGISTRATION.md) before any detector code. Two dev counterexamples (a rotated-label case and a semi-transparent occluder) are labeled `UNKNOWN` by design; they must never become `FAIL`. The six holdout counterexamples are all expected `PASS`.
 
@@ -90,7 +90,7 @@ The report will carry the captured source manifest, the findings with evidence, 
 
 | Milestone | Content | Status |
 |---|---|---|
-| B0 | support scope, defect definitions, sample inventory, holdout and metric freeze, licence audit, PDFium spike | design frozen; four review rounds recorded, round-5 re-review pending on tag `b0-freeze-r5` |
+| B0 | support scope, defect definitions, sample inventory, holdout and metric freeze, licence audit, PDFium spike | design frozen; five review rounds recorded, round-6 re-review pending on tag `b0-freeze-r6` |
 | B1 | deterministic checker core for D1–D4, dev split only | not started |
 | B2 | baseline comparison and threshold calibration on the dev split | not started |
 | B3 | one sealed holdout run, preregistered report | not started |
