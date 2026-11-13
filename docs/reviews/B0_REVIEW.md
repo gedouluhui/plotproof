@@ -194,3 +194,11 @@ Re-verification after the fixes (owner-run, this session, before freezing `b0-fr
 - `benchmark/manifest.json` written with `json.dumps(indent=2, ensure_ascii=False)` and `newline="\n"`: 75,504 bytes, 0 CRLF, 3,064 LF.
 
 The round-6 review target is the `b0-freeze-r6` tag. No normative file may be edited while that review runs; this log is the only file expected to change.
+
+### Freeze record for `b0-freeze-r6`
+
+- Freeze commit: `940d8b20332b3b8231348028ae72f3aeb15020b6`, tagged `b0-freeze-r6` (lightweight tag). It changes six files (`README.md`, `benchmark/manifest.json`, `benchmark/validate_manifest.py`, `docs/B0_FREEZE.sha256`, `docs/B0_PREREGISTRATION.md`, and this log) relative to `b0-freeze-r5`.
+- The tagged tree tracks 19 files: the 17 normative files in `docs/B0_FREEZE.sha256`, `docs/B0_FREEZE.sha256` itself (which cannot hash itself), and this review log. The log is tracked but excluded from the manifest because it is the live disposition log, not a normative artifact.
+- Working-tree check: `sha256sum -c docs/B0_FREEZE.sha256` → 17/17 `OK`, exit 0.
+- Fresh-clone check: cloned the repository to a temporary directory, checked out `b0-freeze-r6`, ran the same command → exit 0 with every listed row `OK`.
+- Evidence at the freeze (owner-run this session): validator `MANIFEST PASS` with 13 count lines; mutation suite 17/17 with the `update_axis` negative control passing; `.venv` pytest 3 passed. Label binding probe: default y-label and colorbar-label rotation `90.0`; horizontal y-label with no layout engine at `(-10.53, 148.5, 46.5, 14.0)` px, constrained at `(4.2, 161.9, 46.5, 14.0)` px with 0 overlap, `tight_layout` 1.97 px² overlap; vertical colorbar with a 139.4 px label 74.38 px² overlap at labelpads 20/24/28/32; horizontal colorbar inside the page at y = 2.8 px with 0 overlap for 9.5–139.4 px labels. Coordinate probe: IoU `0.873223` bottom-left versus `0.0` top-left.
