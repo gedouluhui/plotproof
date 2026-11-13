@@ -1,0 +1,23 @@
+# PlotProof B0 freeze manifest (tag: b0-freeze-r4).
+# Format: <sha256>  <path>, verifiable with `sha256sum -c docs/B0_FREEZE.sha256`.
+# Scope: the 17 normative files below. NOT included by design:
+#   docs/reviews/B0_REVIEW.md  (live disposition log, appended after the tag)
+#   docs/B0_FREEZE.sha256      (this manifest cannot hash itself)
+#   .fonts/, .venv/, .pytest_cache/, benchmark/holdout/  (local/generated, git-ignored)
+f5d1decffc660b75235df1f1519641d97dbd1621ea7a04add7696b90c2086c32  .gitignore
+61228e3a45c45c984189c9f47aa3743dc76bb1a70db48039fe78552b2694356b  LICENSE
+36659d92042c9fc6d316ea300cd7ffa7905c1e08517a73f46baf65b1005019b6  README.md
+1c1ddd4c7575383e49687e55b0ae98faaf77369f8a99bbca25cef6a1d4234506  THIRD_PARTY_NOTICES.md
+5b761240dfb49f4b273a9a3bd532a5f853261f089ee4c11c21e50c35fbab659b  artifacts/b0/api-spike-fonttype3.pdf
+0800e869b86f66c671e8ccf94c7a3ae15ac25a576291ab5ca0ecb62165fd820a  artifacts/b0/api-spike-fonttype42.pdf
+5a804cd82909ebd4819bb677481c6895b8a3e932be4b29b985676a46ca5400a7  artifacts/b0/api-spike-render.png
+64464d46900433ac5e4799057b381251ff2f622c7e02b5fb18c20334cf5f22f6  artifacts/b0/api-spike.json
+b9ab4784e2ad0eeedc5d45c75e778a14c44008c517918d73702ff6b16afbb906  benchmark/manifest.json
+650c77db0cf110913383277a5f0d7eb94b6814bd6e18cd69cfb9ec112911fe16  benchmark/validate_manifest.py
+f6151d30c78b5286a7877428e36d7e3c336f284175d651d30d9c7b991abf2612  docs/B0_PREREGISTRATION.md
+a0cca4976bf80eaf6f26a2d899918734c7a3939e42a5995c76b3f504398796e0  docs/DEPENDENCY_LICENSES.md
+272fb299b67ca6a4f71f0b60a56b33ec73a1ebb688f6460e6f7611d2006ec8f7  plotproof/__init__.py
+9a0a048e025a0f1e9439e51889e668328d86d66b83783a33fd99d44d14f3a5d9  pyproject.toml
+aeba5aa83053dc9893b673dba767b5c6b9abf70233c505edd0de432d9247349e  spikes/b0_pdfium_spike.py
+77b6d3bb77bc486f3ede63abd254183adce06b09ce60bd85d1cedde6357a12f9  spikes/fetch_b0_font.py
+b29e87632ea4d17bc5948c71024dba5b298b7f2b85ee47fdf17febaa75b9b57d  tests/test_package.py

@@ -1,0 +1,47 @@
+from __future__ import annotations
+
+import json
+import subprocess
+import sys
+from pathlib import Path
+
+import plotproof
+
+ROOT = Path(__file__).resolve().parents[1]
+HEAVY = ("matplotlib", "numpy", "pypdfium2", "fontTools", "PIL")
+PROBE = (
+    "import json, sys\n"
+    "import plotproof\n"
+    "{extra}"
+    "heavy = [m for m in {heavy!r} if m in sys.modules]\n"
+    "print(json.dumps({{'version': plotproof.__version__, 'heavy': heavy}}))\n"
+)
+
+
+def run_probe(extra: str = "") -> dict[str, object]:
+    code = PROBE.format(extra=extra, heavy=HEAVY)
+    result = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return json.loads(result.stdout)
+
+
+def test_package_exposes_design_stage_version() -> None:
+    assert plotproof.__version__ == "0.0.0.dev0"
+    assert plotproof.__all__ == []
+
+
+def test_importing_the_package_loads_no_heavy_dependency() -> None:
+    probe = run_probe()
+    assert probe["version"] == "0.0.0.dev0"
+    assert probe["heavy"] == []
+
+
+def test_heavy_dependency_probe_can_detect_an_import() -> None:
+    """Control: the same predicate must report PIL when the probe imports it."""
+    probe = run_probe("import PIL  # noqa: F401\n")
+    assert "PIL" in probe["heavy"]

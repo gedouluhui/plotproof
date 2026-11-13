@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.hypothesis/
+.coverage
+htmlcov/
+
+# Local virtual environments
+.venv/
+venv/
+
+# Local font cache (large; pinned by sha256 in docs/DEPENDENCY_LICENSES.md)
+.fonts/
+
+# Generated holdout samples and labels (sealed; only seal.json is committed)
+benchmark/holdout/*
+!benchmark/holdout/seal.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
