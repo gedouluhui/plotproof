@@ -229,3 +229,11 @@ Re-verification after the fixes (owner-run, this session, before freezing `b0-fr
 - Line endings: the four edited files are LF-only (`README.md` 0 CRLF, 110 LF; `benchmark/manifest.json` 0 CRLF, 3,077 LF; `benchmark/validate_manifest.py` 0 CRLF, 375 LF; `docs/B0_PREREGISTRATION.md` 0 CRLF, 462 LF).
 
 The round-7 review target is the `b0-freeze-r7` tag. No normative file may be edited while that review runs; this log is the only file expected to change.
+
+### Freeze record for `b0-freeze-r7`
+
+- Freeze commit: `2003f244fb36f7d80fe77a75d57802b4154d9b13`, tagged `b0-freeze-r7` (lightweight tag). It changes six files (`README.md`, `benchmark/manifest.json`, `benchmark/validate_manifest.py`, `docs/B0_FREEZE.sha256`, `docs/B0_PREREGISTRATION.md`, and this log) relative to `b0-freeze-r6`. The prereg version is 1.3.
+- The tagged tree tracks 19 files: the 17 normative files in `docs/B0_FREEZE.sha256`, `docs/B0_FREEZE.sha256` itself, and this review log. The log is tracked but excluded from the manifest because it is the live disposition log, not a normative artifact.
+- Working-tree check: `sha256sum -c docs/B0_FREEZE.sha256` → 17/17 `OK`, exit 0.
+- Fresh-clone check: cloned the repository to a temporary directory, checked out `b0-freeze-r7` (`git describe --tags --exact-match` → `b0-freeze-r7` at `2003f24`), ran the same command → 17/17 `OK`, exit 0.
+- Evidence at the freeze (owner-run this session): validator `MANIFEST PASS` with 13 count lines; mutation checks 23/23 caught plus the `update_axis` negative control passing; `.venv` pytest 3 passed; alignment probe `0.213846 → 0.0` (left), `0.607143 → 0.0` (twin), shared label `-54.458 px → 4.167–121.417 px`; tight-bbox probe page `296.4 × 224.4` pt predicted = actual, IoU `0.267467 → 0.745486`, plain control `0.745485`; the four edited normative files are LF-only.
