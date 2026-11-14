@@ -1,4 +1,4 @@
-# PlotProof B0 freeze manifest (tag: b0-freeze-r7).
+# PlotProof B0 freeze manifest (tag: b0-freeze-r8).
 # Format: <sha256>  <path>, verifiable with `sha256sum -c docs/B0_FREEZE.sha256`.
 # Scope: the 17 normative files below. NOT included by design:
 #   docs/reviews/B0_REVIEW.md  (live disposition log, appended after the tag)
@@ -6,15 +6,15 @@
 #   .fonts/, .venv/, .pytest_cache/, benchmark/holdout/  (local/generated, git-ignored)
 f5d1decffc660b75235df1f1519641d97dbd1621ea7a04add7696b90c2086c32  .gitignore
 61228e3a45c45c984189c9f47aa3743dc76bb1a70db48039fe78552b2694356b  LICENSE
-6ee6191dfe9eab9398edb6cd23470af4e951c2a0e655e206e483b8e9b481df8c  README.md
+92ebd1f33ca4d29807415939ca81c483bc2086ed2406da5d0b1bf7e2a5adb7ec  README.md
 1c1ddd4c7575383e49687e55b0ae98faaf77369f8a99bbca25cef6a1d4234506  THIRD_PARTY_NOTICES.md
 5b761240dfb49f4b273a9a3bd532a5f853261f089ee4c11c21e50c35fbab659b  artifacts/b0/api-spike-fonttype3.pdf
 0800e869b86f66c671e8ccf94c7a3ae15ac25a576291ab5ca0ecb62165fd820a  artifacts/b0/api-spike-fonttype42.pdf
 5a804cd82909ebd4819bb677481c6895b8a3e932be4b29b985676a46ca5400a7  artifacts/b0/api-spike-render.png
 64464d46900433ac5e4799057b381251ff2f622c7e02b5fb18c20334cf5f22f6  artifacts/b0/api-spike.json
-26799bb435b6d070189f2f40d2ec086f456f76cd12a1275b58ecba4a90e36e7b  benchmark/manifest.json
-1b4d00901741670751394be48f2efb161062d3d6d6ed05c997a08ede6bfcfc13  benchmark/validate_manifest.py
-e959d852144e6e016845e938f2480215e61b81a941b019600bd6098ea3499582  docs/B0_PREREGISTRATION.md
+ce87bbac536c037b0e4e07e22cb27d770ddd4318b1fcd467c02d5a9a8d2fcb46  benchmark/manifest.json
+635c200aa3cbf3ac428568ea85acf3598177476741438b951b67e8e8e429f83e  benchmark/validate_manifest.py
+e54e04bdc3ee58eacf10c5645f9bb3c0c5c59701257a2c74c3e4fb34fc2defe0  docs/B0_PREREGISTRATION.md
 a0cca4976bf80eaf6f26a2d899918734c7a3939e42a5995c76b3f504398796e0  docs/DEPENDENCY_LICENSES.md
 272fb299b67ca6a4f71f0b60a56b33ec73a1ebb688f6460e6f7611d2006ec8f7  plotproof/__init__.py
 9a0a048e025a0f1e9439e51889e668328d86d66b83783a33fd99d44d14f3a5d9  pyproject.toml

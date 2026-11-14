@@ -53,6 +53,45 @@ def main() -> int:
         if unexpected:
             fail(errors, f"label_binding has unexpected keys: {unexpected}")
 
+    save_binding = data.get("save_binding")
+    if not isinstance(save_binding, dict):
+        fail(errors, "manifest must declare a save_binding object")
+    else:
+        expected_save = {
+            "matplotlib_version": "3.10.8",
+            "backend": "Agg",
+            "pdf_fonttype": 42,
+            "figure_dpi": 100,
+            "figure_size_inches": [10.0, 6.0],
+            "base_font_size_pt": 10.0,
+            "layout": "constrained",
+            "axes_unicode_minus": False,
+            "font_family_ascii": "DejaVu Sans",
+            "font_family_cjk": "Noto Sans CJK SC",
+            "cjk_font_scope": "per-text fontproperties",
+            "bbox_inches": None,
+            "pad_inches": None,
+            "pad_inches_effective": 0.1,
+        }
+        for key, value in expected_save.items():
+            if save_binding.get(key) != value:
+                fail(errors, f"save_binding.{key} must be {value!r}")
+        unexpected = sorted(set(save_binding) - set(expected_save))
+        if unexpected:
+            fail(errors, f"save_binding has unexpected keys: {unexpected}")
+
+    expected_template_splits = {
+        **{f"D{i:02d}": "dev" for i in range(1, 13)},
+        **{f"H{i:02d}": "holdout" for i in range(1, 13)},
+    }
+    expected_counter_splits = {
+        **{f"L{i:02d}": "dev" for i in range(1, 7)},
+        **{f"L{i:02d}": "holdout" for i in range(7, 13)},
+    }
+    expected_counter_states = {cid: "PASS" for cid in expected_counter_splits}
+    expected_counter_states["L04"] = "UNKNOWN"
+    expected_counter_states["L06"] = "UNKNOWN"
+
     templates = data.get("templates", [])
     counters = data.get("counterexamples", [])
     variants = data.get("variants", [])
@@ -65,12 +104,15 @@ def main() -> int:
         fail(errors, f"need at least 24 templates, found {len(templates)}")
     if len(counters) != 12:
         fail(errors, f"need exactly 12 counterexamples, found {len(counters)}")
-    if set(defect_variants) - set(variants):
-        fail(errors, "defect_variants must be a subset of variants")
-    if len(clean_seeds) != 1:
-        fail(errors, "clean seeds must contain exactly one seed")
-    if len(defect_seeds) != 2:
-        fail(errors, "defect seeds must contain exactly two seeds")
+    if variants != ["clean", "clip", "occlude", "overlap", "missing_glyph"]:
+        fail(errors, f"variants are frozen; found {variants!r}")
+    if defect_variants != ["clip", "occlude", "overlap", "missing_glyph"]:
+        fail(errors, f"defect_variants are frozen; found {defect_variants!r}")
+    if seeds != {"clean": [1], "defect": [1, 2]}:
+        fail(
+            errors,
+            f'seeds must be exactly {{"clean": [1], "defect": [1, 2]}}, found {seeds!r}',
+        )
 
     seen_ids: set[str] = set()
     seen_families: set[str] = set()
@@ -82,6 +124,13 @@ def main() -> int:
         if not tid or tid in seen_ids:
             fail(errors, f"template id missing or duplicated: {tid!r}")
         seen_ids.add(tid)
+        if tid not in expected_template_splits:
+            fail(errors, f"unexpected template id {tid!r}; the template set is frozen")
+        elif split != expected_template_splits[tid]:
+            fail(
+                errors,
+                f"template {tid}: split must be {expected_template_splits[tid]!r}",
+            )
         if not family or family in seen_families:
             fail(errors, f"template family missing or duplicated: {family!r}")
         seen_families.add(family)
@@ -99,6 +148,14 @@ def main() -> int:
                 errors,
                 f"template {tid}: scientific_ticks is ambiguous; declare log_ticks_plain_text",
             )
+        if "unicode_minus" in features:
+            fail(
+                errors,
+                f"template {tid}: unicode_minus is forbidden (PDFium drops U+2212 under "
+                "the default fonttype); declare ascii_minus",
+            )
+        if "negative_values" in features and "ascii_minus" not in features:
+            fail(errors, f"template {tid}: negative_values requires ascii_minus")
         is_log = any(str(feature).startswith("log_") for feature in features)
         family_lower = str(item.get("family", "")).lower()
         if ("log" in family_lower or is_log) and "log_ticks_plain_text" not in features:
@@ -162,6 +219,19 @@ def main() -> int:
         target_role = item.get("target_role", "")
         if not isinstance(target_role, str) or not target_role:
             fail(errors, f"template {tid}: target_role must be a non-empty string")
+        elif target_role not in features:
+            fail(
+                errors,
+                f"template {tid}: target_role {target_role!r} must be one of its features",
+            )
+
+    if seen_ids != set(expected_template_splits):
+        fail(
+            errors,
+            "template id set mismatch: "
+            f"missing={sorted(set(expected_template_splits) - seen_ids)} "
+            f"extra={sorted(seen_ids - set(expected_template_splits))}",
+        )
 
     if split_counts != {"dev": 12, "holdout": 12}:
         fail(errors, f"split must be 12 dev / 12 holdout, found {split_counts}")
@@ -182,6 +252,22 @@ def main() -> int:
             counter_splits[split] += 1
         if item.get("expected_state") not in {"PASS", "UNKNOWN"}:
             fail(errors, f"counterexample {cid}: expected_state must be PASS or UNKNOWN")
+        if cid not in expected_counter_splits:
+            fail(
+                errors,
+                f"unexpected counterexample id {cid!r}; the counterexample set is frozen",
+            )
+        elif split != expected_counter_splits[cid]:
+            fail(
+                errors,
+                f"counterexample {cid}: split must be {expected_counter_splits[cid]!r}",
+            )
+        if item.get("expected_state") != expected_counter_states.get(cid):
+            fail(
+                errors,
+                f"counterexample {cid}: expected_state must be "
+                f"{expected_counter_states.get(cid)!r}",
+            )
         if cid == "L04":
             if "labels_horizontal" in item:
                 fail(
@@ -195,14 +281,24 @@ def main() -> int:
                 f"counterexample {cid}: must declare "
                 '"labels_horizontal": true (rotated labels are out of scope in v1)',
             )
-        fixed_states = {"L04": "UNKNOWN", "L06": "UNKNOWN"}
-        if cid in fixed_states and item.get("expected_state") != fixed_states[cid]:
-            fail(
-                errors,
-                f"counterexample {cid}: expected_state must be {fixed_states[cid]}",
-            )
-        if split == "holdout" and item.get("expected_state") != "PASS":
-            fail(errors, f"counterexample {cid}: holdout counterexamples must expect PASS")
+        override = item.get("save_override")
+        if cid == "L11":
+            if override != {"bbox_inches": "tight", "pad_inches_effective": 0.1}:
+                fail(
+                    errors,
+                    "counterexample L11 (tight-bbox counterexample) must declare "
+                    'save_override {"bbox_inches": "tight", "pad_inches_effective": 0.1}',
+                )
+        elif override is not None:
+            fail(errors, f"counterexample {cid}: save_override is only allowed for L11")
+
+    if seen_counter_ids != set(expected_counter_splits):
+        fail(
+            errors,
+            "counterexample id set mismatch: "
+            f"missing={sorted(set(expected_counter_splits) - seen_counter_ids)} "
+            f"extra={sorted(seen_counter_ids - set(expected_counter_splits))}",
+        )
 
     if counter_splits != {"dev": 6, "holdout": 6}:
         fail(errors, f"counterexamples must be 6 dev / 6 holdout, found {counter_splits}")
