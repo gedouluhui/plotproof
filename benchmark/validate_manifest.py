@@ -36,15 +36,22 @@ def main() -> int:
         expected_binding = {
             "layout": "constrained",
             "axis_label_rotation": 0,
+            "left_ylabel_ha": "right",
+            "right_ylabel_ha": "left",
+            "supylabel_ha": "left",
             "colorbar_orientation": "horizontal",
             "colorbar_label_rotation": 0,
             "colorbar_label_role": "xlabel",
+            "clean_sample_check": (
+                "no page clipping and no D3 candidate with smaller-box coverage >= 0.15"
+            ),
         }
         for key, value in expected_binding.items():
             if binding.get(key) != value:
                 fail(errors, f"label_binding.{key} must be {value!r}")
-        if not str(binding.get("clean_sample_check", "")).strip():
-            fail(errors, "label_binding.clean_sample_check must be a non-empty string")
+        unexpected = sorted(set(binding) - set(expected_binding))
+        if unexpected:
+            fail(errors, f"label_binding has unexpected keys: {unexpected}")
 
     templates = data.get("templates", [])
     counters = data.get("counterexamples", [])

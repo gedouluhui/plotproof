@@ -1,15 +1,18 @@
 {
   "schema_version": 1,
-  "frozen_at": "2026-11-13",
+  "frozen_at": "2026-11-14",
   "product": "PlotProof",
   "split_policy": "template_family",
   "label_binding": {
     "layout": "constrained",
     "axis_label_rotation": 0,
+    "left_ylabel_ha": "right",
+    "right_ylabel_ha": "left",
+    "supylabel_ha": "left",
     "colorbar_orientation": "horizontal",
     "colorbar_label_rotation": 0,
     "colorbar_label_role": "xlabel",
-    "clean_sample_check": "no page clipping and no high-confidence text overlap"
+    "clean_sample_check": "no page clipping and no D3 candidate with smaller-box coverage >= 0.15"
   },
   "variants": [
     "clean",
