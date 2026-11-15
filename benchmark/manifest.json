@@ -6,6 +6,7 @@
   "label_binding": {
     "layout": "constrained",
     "axis_label_rotation": 0,
+    "axis_labelpad_pt": 4.0,
     "left_ylabel_ha": "right",
     "right_ylabel_ha": "left",
     "supylabel_ha": "left",
@@ -26,6 +27,7 @@
     "base_font_size_pt": 10.0,
     "layout": "constrained",
     "axes_unicode_minus": false,
+    "transparent": false,
     "font_family_ascii": "DejaVu Sans",
     "font_family_cjk": "Noto Sans CJK SC",
     "cjk_font_scope": "per-text fontproperties",
@@ -381,6 +383,57 @@
         "minor_ticks"
       ],
       "labels_horizontal": true,
+      "tick_binding": {
+        "x_major_ticks": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39
+        ],
+        "x_limits": [
+          -0.5,
+          39.5
+        ],
+        "x_minor_subdivisions": 4,
+        "x_label_rotation": 0,
+        "x_label_format": "{:d}"
+      },
       "target_role": "title"
     },
     {
@@ -471,6 +524,22 @@
         "thousands_separator"
       ],
       "labels_horizontal": true,
+      "tick_formatter": "FuncFormatter('{:,}'.format)",
+      "tick_binding": {
+        "y_limits": [
+          -10000,
+          10000
+        ],
+        "y_major_ticks": [
+          -10000,
+          -5000,
+          0,
+          5000,
+          10000
+        ],
+        "y_label_rotation": 0,
+        "y_label_format": "{:,d}"
+      },
       "target_role": "title"
     }
   ],

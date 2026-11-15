@@ -2,7 +2,7 @@
 
 **A source-assisted export checker for Matplotlib figures.** It will capture what a figure intends to draw at save time, compare that record with the rendered PDF, and explain what went wrong — or say `UNKNOWN` when the evidence is not strong enough.
 
-> **Status: B0 design freeze (2026-11-14).** There is no detector, no installable release, and no benchmark result yet. This repository currently contains a reproducible feasibility spike, a frozen benchmark manifest, a preregistration, and a version stub. Claims below describe the v1 design, not shipped behavior.
+> **Status: B0 design freeze (2026-11-15).** There is no detector, no installable release, and no benchmark result yet. This repository currently contains a reproducible feasibility spike, a frozen benchmark manifest, a preregistration, and a version stub. Eight independent review rounds are recorded in [`docs/reviews/B0_REVIEW.md`](docs/reviews/B0_REVIEW.md); round 8 returned REJECT, its fixes are frozen on tag `b0-freeze-r9`, and the round-9 re-review of that tag is pending. Claims below describe the v1 design, not shipped behavior.
 
 ## The problem
 
@@ -19,7 +19,7 @@ Checking the PDF text layer alone cannot prove that a glyph was drawn. Rasterizi
 
 | ID | Defect class | Source-assisted evidence |
 |---|---|---|
-| D1 | `clipped_text` | a text object's aligned character boxes extend past the page boundary in the exported PDF |
+| D1 | `clipped_text` | an aligned character box with positive area has at least half its area outside the page, or its centre strictly outside; zero-area PDFium boxes (CR/LF, tick-separator spaces) are ignored |
 | D2 | `occluded_text` | an opaque artist, painted after the text, covers at least 90% of the text's painted character boxes |
 | D3 | `overlapping_text` | two text objects' painted character boxes overlap enough to impair reading, with no opaque background separating them |
 | D4 | `missing_glyph` | a character is absent from every resolved font in the stack and Matplotlib emitted a missing-glyph warning naming it |
@@ -40,19 +40,22 @@ Only high-confidence evidence produces `FAIL`. Medium-confidence evidence forces
 
 The feasibility spike `spikes/b0_pdfium_spike.py` ran on the development machine and passed 14/14 checks. Machine-readable output: [`artifacts/b0/api-spike.json`](artifacts/b0/api-spike.json). Rendered example: [`artifacts/b0/api-spike-render.png`](artifacts/b0/api-spike-render.png).
 
-Facts it established:
+Two further owner-run probes back the round-8 fixes: [`spikes/b0_d1_boundary_probe.py`](spikes/b0_d1_boundary_probe.py) checks the single D1 boundary predicate on three pinned fixtures and passed 39/39 (output [`artifacts/b0/d1-boundary-probe.json`](artifacts/b0/d1-boundary-probe.json)); [`spikes/b0_validator_bypass_repro.py`](spikes/b0_validator_bypass_repro.py) runs four mutations against the round-7 validator and records that all four were accepted with exit 0 while a fifth (a state flip) was rejected — the reproduction of the round-8 validator finding, output [`artifacts/b0/validator-bypass-repro.json`](artifacts/b0/validator-bypass-repro.json). The validator itself is pinned by [`tests/test_manifest_mutations.py`](tests/test_manifest_mutations.py): 43 on-disk mutations, each required to fail with its exact diagnostic text, plus passing controls.
+
+Facts the probes established:
 
 - Matplotlib `pdf.fonttype=42` keeps CJK text and character boxes extractable through PDFium (76 characters, 50 non-whitespace, in the test page).
 - With `pdf.fonttype=3`, ASCII remains extractable but the CJK title is not — so v1 must return `UNKNOWN`, never a text-based `FAIL`, in that case.
 - A missing glyph (U+9F98 in DejaVu Sans) triggers a Matplotlib warning and is absent from the font cmap, **but the character is still present in the PDF text layer**. Text extraction is therefore not rendering evidence; D4 requires the cmap and warning evidence instead.
 - Under `pdf.fonttype=3`, PDFium drops U+2212 from extraction (`−1500` is read as `1500`); ASCII U+002D survives under both type 3 and type 42. The benchmark therefore freezes ASCII minus labels and pins `pdf.fonttype=42` in the manifest's `save_binding`.
 - A character absent from both benchmark fonts (U+20000) is dropped from extraction under fonttype 42, unlike U+9F98; the alignment rule matches the remaining characters (measured span-vs-source-bbox IoU 0.7045).
+- PDFium returns zero-area character boxes for CR/LF and for the spaces that separate x tick labels (measured: 2 of 125 characters on a title-only fixture, 21 of 180 on an axes with six tick labels and a title). D1 keys on positive-area boxes only, so whitespace can never make a text object "clipped".
 - A fallback font stack suppresses the missing-glyph warning.
 - On the recorded environment and font, identical input produced byte-identical PDFs (`sha256 0800e869b86f66c671e8ccf94c7a3ae15ac25a576291ab5ca0ecb62165fd820a`). Bytes may change with Matplotlib, PDFium, or font versions, so reproducibility is claimed only for the pinned environment.
 
 The CJK part of the spike uses Noto Sans CJK SC (OFL-1.1), pinned in the prereg by sha256; proprietary Windows fonts are not used in public artifacts.
 
-The frozen benchmark inventory is [`benchmark/manifest.json`](benchmark/manifest.json), validated by [`benchmark/validate_manifest.py`](benchmark/validate_manifest.py): 24 templates (12 development, 12 holdout), 228 samples, 192 defect instances, 96 of them in the holdout, 24 per defect class in the holdout. The manifest lists every sample with its variant, seed, split, expected state, and target role. Every sample is captured under one `save_binding` — Matplotlib 3.10.8, Agg, `pdf.fonttype=42`, 100 dpi, 10 × 6 in, 10 pt, constrained layout, `axes.unicode_minus=False` — because type 3 drops U+2212 from extraction and the dense-tick template's overlap geometry is figure-size dependent (measured worst clean-pair coverage 0.2646 at 6.4 × 4.8 in vs 0.0000 at 10 × 6 in). Every template's axis and colorbar labels are bound to horizontal text (`rotation=0`) with fixed alignment: left y-labels `ha='right'`, right (twin) y-labels `ha='left'`, figure-level shared y-labels `ha='left'` under constrained layout. Matplotlib's default vertical y-label is rotated text, which v1 records as unsupported and forces `UNKNOWN`; a horizontal label with the default centre alignment overlaps its tick column (measured smaller-box coverage 0.214 on the left label, 0.607 on the twin label — a high-confidence `D3` `FAIL`), and a shared label with centre alignment runs off the left page edge. The holdout split is frozen at B0; the holdout samples themselves are generated and sealed at B2. **No samples have been generated yet.**
+The frozen benchmark inventory is [`benchmark/manifest.json`](benchmark/manifest.json), validated by [`benchmark/validate_manifest.py`](benchmark/validate_manifest.py): 24 templates (12 development, 12 holdout), 228 samples, 192 defect instances, 96 of them in the holdout, 24 per defect class in the holdout. The manifest lists every sample with its variant, seed, split, expected state, and target role. Every sample is captured under one `save_binding` — Matplotlib 3.10.8, Agg, `pdf.fonttype=42`, 100 dpi, 10 × 6 in, 10 pt, constrained layout, `axes.unicode_minus=False`, `transparent=False` — because type 3 drops U+2212 from extraction and the dense-tick template's overlap geometry is figure-size dependent (with H07's forty-tick binding pinned, the measured worst clean-pair coverage is 0.5471 at 4 × 3 in, 0.1848 at 6.4 × 4.8 in, 0.0992 at 7 × 5 in, and 0.0000 at 10 × 6 in; the round-7 table measured without a pinned tick binding is superseded). Every template's axis and colorbar labels are bound to horizontal text (`rotation=0`, `labelpad=4.0`) with fixed alignment: left y-labels `ha='right'`, right (twin) y-labels `ha='left'`, figure-level shared y-labels `ha='left'` under constrained layout. H07's exact forty-tick binding and H12's thousands-separator formatter are pinned in the manifest and enforced by the validator. Matplotlib's default vertical y-label is rotated text, which v1 records as unsupported and forces `UNKNOWN`; a horizontal label with the default centre alignment overlaps its tick column (measured smaller-box coverage 0.214 on the left label, 0.607 on the twin label — a high-confidence `D3` `FAIL`), and a shared label with centre alignment runs off the left page edge. The holdout split is frozen at B0; the holdout samples themselves are generated and sealed at B2. **No samples have been generated yet.**
 
 The evaluation design — input contract, defect definitions, holdout protocol, matching rules, gates, baselines, and the stop rule — is frozen in [`docs/B0_PREREGISTRATION.md`](docs/B0_PREREGISTRATION.md) before any detector code. Two dev counterexamples (a rotated-label case and a semi-transparent occluder) are labeled `UNKNOWN` by design; they must never become `FAIL`. The six holdout counterexamples are all expected `PASS`.
 
@@ -65,6 +68,8 @@ python -m venv .venv
 .venv\Scripts\python -m pip install -e ".[dev]"
 .venv\Scripts\python spikes\fetch_b0_font.py
 .venv\Scripts\python spikes\b0_pdfium_spike.py
+.venv\Scripts\python spikes\b0_d1_boundary_probe.py
+.venv\Scripts\python spikes\b0_validator_bypass_repro.py
 .venv\Scripts\python benchmark\validate_manifest.py
 .venv\Scripts\python -m pytest
 ```
@@ -93,7 +98,7 @@ The report will carry the captured source manifest, the findings with evidence, 
 
 | Milestone | Content | Status |
 |---|---|---|
-| B0 | support scope, defect definitions, sample inventory, holdout and metric freeze, licence audit, PDFium spike | design frozen; seven review rounds recorded (round 7 returned REJECT); the round-7 fixes are frozen on tag `b0-freeze-r8`, round-8 re-review pending |
+| B0 | support scope, defect definitions, sample inventory, holdout and metric freeze, licence audit, PDFium spike | design frozen; eight review rounds recorded (round 8 returned REJECT); the round-8 fixes are frozen on tag `b0-freeze-r9`, round-9 re-review pending |
 | B1 | deterministic checker core for D1–D4, dev split only | not started |
 | B2 | baseline comparison and threshold calibration on the dev split | not started |
 | B3 | one sealed holdout run, preregistered report | not started |
@@ -109,4 +114,4 @@ MIT. Dependency and font licenses are recorded in [`docs/DEPENDENCY_LICENSES.md`
 
 PlotProof 要解决的是 Matplotlib 出图时的“静默失败”：轴标签被页边裁掉、图例压住数据、文字互相遮挡、中文缺字变成空白或方框。它不是通用 PDF 检查器，也不是审美评分器，而是一个**源码辅助**的导出检查器：在保存时记录文字、几何与样式，再用 PDFium 对导出的单页 PDF 做比对，输出带证据的 `PASS / FAIL / UNKNOWN / ERROR`。
 
-当前仓库处于 **B0 设计冻结阶段**：尚未实现检测器，没有可安装版本，也没有任何准确率或用户数据。已完成的是可复现的可行性 spike（14/14 项检查通过）、228 个样本的冻结清单、以及写死在代码之前的预登记文档。基准样本尚未生成，保留集尚未解封。水平文字的对齐方式也已写死：左侧 y 轴标签 `ha='right'`、右侧（twin）标签 `ha='left'`、整图共享标签 `ha='left'` 配合 constrained layout；默认居中方案实测与刻度标签重叠（覆盖率 0.214 / 0.607），共享标签还会跑出页面左边。`bbox_inches='tight'` 导出依赖保存时记录的裁切原点，缺失即 `UNKNOWN`，绝不猜裁切。依赖与字体许可已逐项核验，PyMuPDF（AGPL/商业双授权）被明确排除。
+当前仓库处于 **B0 设计冻结阶段**：尚未实现检测器，没有可安装版本，也没有任何准确率或用户数据。预登记文档已更新到 v1.5：第八轮独立审查给出 REJECT（2 个阻断项 + 9 个次要项，逐条复现与处置记录在评审日志中），修复冻结在 `b0-freeze-r9` 标签上，第九轮复审待进行。已完成的是可复现的可行性 spike（14/14 项检查通过）、D1 边界判据探针（39/39）、校验器变异套件（43 条变异 + 对照组）、228 个样本的冻结清单、以及写死在代码之前的预登记文档。基准样本尚未生成，保留集尚未解封。D1 只认面积为正的字符框，PDFium 给 CR/LF 和刻度分隔空格返回的零面积框一律忽略（实测标题页 125 字符中有 2 个、带六个刻度标签的坐标轴 180 字符中有 21 个），否则空白字符会把自己"判成"被裁。水平文字的对齐方式也已写死：左侧 y 轴标签 `ha='right'`、右侧（twin）标签 `ha='left'`、整图共享标签 `ha='left'` 配合 constrained layout、`labelpad=4.0`；默认居中方案实测与刻度标签重叠（覆盖率 0.214 / 0.607），共享标签还会跑出页面左边。保存绑定同时写死 `transparent=False`、`pdf.fonttype=42` 与 10 × 6 英寸；H07 的四十刻度绑定下，最坏干净样本覆盖率为 4×3 时 0.5471、6.4×4.8 时 0.1848、7×5 时 0.0992、10×6 时 0.0000（第七轮未钉刻度绑定的旧表已作废）。`bbox_inches='tight'` 导出依赖保存时记录的裁切原点，缺失即 `UNKNOWN`，绝不猜裁切。依赖与字体许可已逐项核验，PyMuPDF（AGPL/商业双授权）被明确排除。

@@ -1,0 +1,1144 @@
+{
+  "schema_version": 1,
+  "probe": "b0_d1_boundary_predicate",
+  "generated_at": "2026-11-15T02:11:49+00:00",
+  "script": "spikes/b0_d1_boundary_probe.py",
+  "script_sha256": "c03813478bb2fbe616462a7797499055d6e2387c08cd09b427ff6d8b0fdf30ad",
+  "figure_spec": {
+    "figsize_in": [
+      10.0,
+      6.0
+    ],
+    "dpi": 100,
+    "fonttype": 42,
+    "font_family": "DejaVu Sans",
+    "font_size_pt": 10,
+    "fixtures": {
+      "axes_title": {
+        "kind": "axes_title",
+        "text": "Quarterly revenue by region, preliminary figures (2026, USD)\nSource: internal ledger; values rounded to the nearest thousand"
+      },
+      "tick_labels": {
+        "kind": "tick_labels",
+        "text": "Quarterly revenue by region, preliminary figures (2026, USD)\nSource: internal ledger; values rounded to the nearest thousand"
+      },
+      "figure_text": {
+        "kind": "figure_text",
+        "text": "Quarterly revenue by region, preliminary figures (2026, USD)\nSource: internal ledger; values rounded to the nearest thousand"
+      }
+    }
+  },
+  "figure_spec_sha256": "a0495185fdf05a1f3c6eef3722ff606286c1255867ddf53f9c09a522d7122719",
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "matplotlib": "3.10.8",
+    "pypdfium2": "5.8.0",
+    "pdfium_build": "149.0.7825.0"
+  },
+  "fixtures": {
+    "axes_title": {
+      "pdf_sha256": "7163d2d501f8d99fa6816a3dc60d3166a8206905c15b73bf585912c6e888bca3",
+      "page_rect_pt": [
+        0.0,
+        0.0,
+        720.0,
+        432.0
+      ],
+      "char_count": 125,
+      "text": "Quarterly revenue by region, preliminary figures (2026, USD)\r\nSource: internal ledger; values rounded to the nearest thousand",
+      "zero_area": {
+        "count": 2,
+        "characters": {
+          "space": 0,
+          "cr": 1,
+          "lf": 1
+        },
+        "boxes": [
+          {
+            "index": 60,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              522.2947,
+              397.3506,
+              522.2947,
+              397.3506
+            ]
+          },
+          {
+            "index": 61,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              522.2947,
+              397.3506,
+              522.2947,
+              397.3506
+            ]
+          }
+        ]
+      },
+      "corrected_predicate": {
+        "high": 0,
+        "medium": 0
+      },
+      "literal_round7": {
+        "s7_at_least_half_area_outside_flagged": 2,
+        "s4_less_than_half_area_inside_flagged": 0
+      },
+      "positive_boxes": {
+        "count": 123,
+        "inside_all": true,
+        "min_x0": 208.66781616210938,
+        "max_x1": 528.9595947265625,
+        "min_y0": 384.0899963378906,
+        "max_y1": 405.06060791015625
+      }
+    },
+    "tick_labels": {
+      "pdf_sha256": "65f4e59a8ff8a73a8e128d2253760a02774673d4bbdc14c594a176f7462c2337",
+      "page_rect_pt": [
+        0.0,
+        0.0,
+        720.0,
+        432.0
+      ],
+      "char_count": 180,
+      "text": "0.0 0.2 0.4 0.6 0.8 1.0\r\n0.0\r\n0.2\r\n0.4\r\n0.6\r\n0.8\r\n1.0\r\nQuarterly revenue by region, preliminary figures (2026, USD)\r\nSource: internal ledger; values rounded to the nearest thousand",
+      "zero_area": {
+        "count": 21,
+        "characters": {
+          "space": 5,
+          "cr": 8,
+          "lf": 8
+        },
+        "boxes": [
+          {
+            "index": 3,
+            "char": " ",
+            "codepoint": "U+0020",
+            "box": [
+              97.9469,
+              32.9263,
+              97.9469,
+              32.9263
+            ]
+          },
+          {
+            "index": 7,
+            "char": " ",
+            "codepoint": "U+0020",
+            "box": [
+              209.5469,
+              32.9263,
+              209.5469,
+              32.9263
+            ]
+          },
+          {
+            "index": 11,
+            "char": " ",
+            "codepoint": "U+0020",
+            "box": [
+              321.1469,
+              32.9263,
+              321.1469,
+              32.9263
+            ]
+          },
+          {
+            "index": 15,
+            "char": " ",
+            "codepoint": "U+0020",
+            "box": [
+              432.7469,
+              32.9263,
+              432.7469,
+              32.9263
+            ]
+          },
+          {
+            "index": 19,
+            "char": " ",
+            "codepoint": "U+0020",
+            "box": [
+              544.3469,
+              32.9263,
+              544.3469,
+              32.9263
+            ]
+          },
+          {
+            "index": 23,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              655.9468,
+              32.9263,
+              655.9468,
+              32.9263
+            ]
+          },
+          {
+            "index": 24,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              655.9468,
+              32.9263,
+              655.9468,
+              32.9263
+            ]
+          },
+          {
+            "index": 28,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              82.9938,
+              43.7231,
+              82.9938,
+              43.7231
+            ]
+          },
+          {
+            "index": 29,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              82.9938,
+              43.7231,
+              82.9938,
+              43.7231
+            ]
+          },
+          {
+            "index": 33,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              82.9938,
+              110.2511,
+              82.9938,
+              110.2511
+            ]
+          },
+          {
+            "index": 34,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              82.9938,
+              110.2511,
+              82.9938,
+              110.2511
+            ]
+          },
+          {
+            "index": 38,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              82.9938,
+              176.7791,
+              82.9938,
+              176.7791
+            ]
+          },
+          {
+            "index": 39,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              82.9938,
+              176.7791,
+              82.9938,
+              176.7791
+            ]
+          },
+          {
+            "index": 43,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              82.9938,
+              243.3071,
+              82.9938,
+              243.3071
+            ]
+          },
+          {
+            "index": 44,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              82.9938,
+              243.3071,
+              82.9938,
+              243.3071
+            ]
+          },
+          {
+            "index": 48,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              82.9938,
+              309.8351,
+              82.9938,
+              309.8351
+            ]
+          },
+          {
+            "index": 49,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              82.9938,
+              309.8351,
+              82.9938,
+              309.8351
+            ]
+          },
+          {
+            "index": 53,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              82.9938,
+              376.3631,
+              82.9938,
+              376.3631
+            ]
+          },
+          {
+            "index": 54,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              82.9938,
+              376.3631,
+              82.9938,
+              376.3631
+            ]
+          },
+          {
+            "index": 115,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              522.2947,
+              397.3506,
+              522.2947,
+              397.3506
+            ]
+          },
+          {
+            "index": 116,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              522.2947,
+              397.3506,
+              522.2947,
+              397.3506
+            ]
+          }
+        ]
+      },
+      "corrected_predicate": {
+        "high": 0,
+        "medium": 0
+      },
+      "literal_round7": {
+        "s7_at_least_half_area_outside_flagged": 21,
+        "s4_less_than_half_area_inside_flagged": 0
+      },
+      "positive_boxes": {
+        "count": 159,
+        "inside_all": true,
+        "min_x0": 67.75375366210938,
+        "max_x1": 655.286865234375,
+        "min_y0": 32.79624938964844,
+        "max_y1": 405.06060791015625
+      }
+    },
+    "figure_text": {
+      "pdf_sha256": "129217fad28036509f83d5ea85eabd13bd83a6d81763b210bc76e1c068fd90b3",
+      "page_rect_pt": [
+        0.0,
+        0.0,
+        720.0,
+        432.0
+      ],
+      "char_count": 125,
+      "text": "Quarterly revenue by region, preliminary figures (2026, USD)\r\nSource: internal ledger; values rounded to the nearest thousand",
+      "zero_area": {
+        "count": 2,
+        "characters": {
+          "space": 0,
+          "cr": 1,
+          "lf": 1
+        },
+        "boxes": [
+          {
+            "index": 60,
+            "char": "\r",
+            "codepoint": "U+000D",
+            "box": [
+              513.2946,
+              218.8375,
+              513.2946,
+              218.8375
+            ]
+          },
+          {
+            "index": 61,
+            "char": "\n",
+            "codepoint": "U+000A",
+            "box": [
+              513.2946,
+              218.8375,
+              513.2946,
+              218.8375
+            ]
+          }
+        ]
+      },
+      "corrected_predicate": {
+        "high": 0,
+        "medium": 0
+      },
+      "literal_round7": {
+        "s7_at_least_half_area_outside_flagged": 2,
+        "s4_less_than_half_area_inside_flagged": 0
+      },
+      "positive_boxes": {
+        "count": 123,
+        "inside_all": true,
+        "min_x0": 199.66781616210938,
+        "max_x1": 519.9595947265625,
+        "min_y0": 205.57687377929688,
+        "max_y1": 226.54750061035156
+      }
+    }
+  },
+  "corrected_predicate_rule": "positive-area boxes only; A_out >= 0.5*A or center strictly outside => high; 0 < A_out < 0.5*A => medium; A = 0 => ignored",
+  "synthetic_cases": [
+    {
+      "name": "fully_inside",
+      "page": [
+        0.0,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "box": [
+        10.0,
+        10.0,
+        20.0,
+        20.0
+      ],
+      "expected": "none",
+      "got": "none",
+      "ok": true
+    },
+    {
+      "name": "half_outside_inclusive",
+      "page": [
+        0.0,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "box": [
+        -5.0,
+        10.0,
+        5.0,
+        20.0
+      ],
+      "expected": "high",
+      "got": "high",
+      "ok": true
+    },
+    {
+      "name": "just_under_half_outside",
+      "page": [
+        0.0,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "box": [
+        -4.9995,
+        10.0,
+        5.0005,
+        20.0
+      ],
+      "expected": "medium",
+      "got": "medium",
+      "ok": true
+    },
+    {
+      "name": "fully_outside",
+      "page": [
+        0.0,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "box": [
+        120.0,
+        120.0,
+        140.0,
+        140.0
+      ],
+      "expected": "high",
+      "got": "high",
+      "ok": true
+    },
+    {
+      "name": "straddles_corner",
+      "page": [
+        0.0,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "box": [
+        90.0,
+        90.0,
+        110.0,
+        110.0
+      ],
+      "expected": "high",
+      "got": "high",
+      "ok": true
+    },
+    {
+      "name": "zero_area_inside",
+      "page": [
+        0.0,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "box": [
+        15.0,
+        10.0,
+        15.0,
+        20.0
+      ],
+      "expected": "none",
+      "got": "none",
+      "ok": true
+    },
+    {
+      "name": "zero_area_center_outside",
+      "page": [
+        0.0,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "box": [
+        -5.0,
+        10.0,
+        -5.0,
+        20.0
+      ],
+      "expected": "none",
+      "got": "none",
+      "ok": true
+    },
+    {
+      "name": "zero_area_at_page_edge",
+      "page": [
+        0.0,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "box": [
+        0.0,
+        10.0,
+        0.0,
+        20.0
+      ],
+      "expected": "none",
+      "got": "none",
+      "ok": true
+    },
+    {
+      "name": "tiny_sliver_outside",
+      "page": [
+        0.0,
+        0.0,
+        100.0,
+        100.0
+      ],
+      "box": [
+        -0.001,
+        10.0,
+        10.0,
+        20.0
+      ],
+      "expected": "medium",
+      "got": "medium",
+      "ok": true
+    }
+  ],
+  "center_clause_check": {
+    "positive_boxes_checked": 814,
+    "outside_centers": 328,
+    "min_outside_fraction": 0.75,
+    "implied": true
+  },
+  "checks": [
+    {
+      "id": "axes_title.single_page",
+      "status": "PASS",
+      "detail": {
+        "page_count": 1,
+        "page_rect_pt": [
+          0.0,
+          0.0,
+          720.0,
+          432.0
+        ]
+      }
+    },
+    {
+      "id": "axes_title.page_size_is_10x6_at_100dpi",
+      "status": "PASS",
+      "detail": [
+        0.0,
+        0.0,
+        720.0,
+        432.0
+      ]
+    },
+    {
+      "id": "axes_title.text_index_matches_char_boxes",
+      "status": "PASS",
+      "detail": {
+        "len_text": 125,
+        "char_count": 125
+      }
+    },
+    {
+      "id": "axes_title.two_lines_present",
+      "status": "PASS",
+      "detail": {
+        "text": "Quarterly revenue by region, preliminary figures (2026, USD)\r\nSource: internal ledger; values rounded to the nearest thousand"
+      }
+    },
+    {
+      "id": "axes_title.zero_area_boxes_exist",
+      "status": "PASS",
+      "detail": {
+        "zero_area_count": 2,
+        "char_count": 125
+      }
+    },
+    {
+      "id": "axes_title.zero_area_boxes_are_whitespace",
+      "status": "PASS",
+      "detail": {
+        "characters": [
+          {
+            "char": "\n",
+            "codepoint": "U+000A"
+          },
+          {
+            "char": "\r",
+            "codepoint": "U+000D"
+          }
+        ]
+      }
+    },
+    {
+      "id": "axes_title.all_positive_area_boxes_inside_page",
+      "status": "PASS",
+      "detail": {
+        "positive_count": 123,
+        "min_x0": 208.66781616210938,
+        "max_x1": 528.9595947265625,
+        "min_y0": 384.0899963378906,
+        "max_y1": 405.06060791015625
+      }
+    },
+    {
+      "id": "axes_title.corrected_predicate_clean",
+      "status": "PASS",
+      "detail": {
+        "high": 0,
+        "medium": 0
+      }
+    },
+    {
+      "id": "axes_title.literal_round7_s7_flags_zero_area_boxes",
+      "status": "PASS",
+      "detail": {
+        "literal_s7_flagged": 2,
+        "zero_area_boxes": 2
+      }
+    },
+    {
+      "id": "axes_title.literal_round7_s4_does_not_flag_zero_area_boxes",
+      "status": "PASS",
+      "detail": {
+        "literal_s4_flagged": 0
+      }
+    },
+    {
+      "id": "axes_title.byte_identical_repeat",
+      "status": "PASS",
+      "detail": {
+        "sha256": "7163d2d501f8d99fa6816a3dc60d3166a8206905c15b73bf585912c6e888bca3",
+        "sha256_repeat": "7163d2d501f8d99fa6816a3dc60d3166a8206905c15b73bf585912c6e888bca3"
+      }
+    },
+    {
+      "id": "tick_labels.single_page",
+      "status": "PASS",
+      "detail": {
+        "page_count": 1,
+        "page_rect_pt": [
+          0.0,
+          0.0,
+          720.0,
+          432.0
+        ]
+      }
+    },
+    {
+      "id": "tick_labels.page_size_is_10x6_at_100dpi",
+      "status": "PASS",
+      "detail": [
+        0.0,
+        0.0,
+        720.0,
+        432.0
+      ]
+    },
+    {
+      "id": "tick_labels.text_index_matches_char_boxes",
+      "status": "PASS",
+      "detail": {
+        "len_text": 180,
+        "char_count": 180
+      }
+    },
+    {
+      "id": "tick_labels.two_lines_present",
+      "status": "PASS",
+      "detail": {
+        "text": "0.0 0.2 0.4 0.6 0.8 1.0\r\n0.0\r\n0.2\r\n0.4\r\n0.6\r\n0.8\r\n1.0\r\nQuarterly revenue by region, preliminary figures (2026, USD)\r\nSource: internal ledger; values rounded to the nearest thousand"
+      }
+    },
+    {
+      "id": "tick_labels.zero_area_boxes_exist",
+      "status": "PASS",
+      "detail": {
+        "zero_area_count": 21,
+        "char_count": 180
+      }
+    },
+    {
+      "id": "tick_labels.zero_area_boxes_are_whitespace",
+      "status": "PASS",
+      "detail": {
+        "characters": [
+          {
+            "char": "\n",
+            "codepoint": "U+000A"
+          },
+          {
+            "char": "\r",
+            "codepoint": "U+000D"
+          },
+          {
+            "char": " ",
+            "codepoint": "U+0020"
+          }
+        ]
+      }
+    },
+    {
+      "id": "tick_labels.all_positive_area_boxes_inside_page",
+      "status": "PASS",
+      "detail": {
+        "positive_count": 159,
+        "min_x0": 67.75375366210938,
+        "max_x1": 655.286865234375,
+        "min_y0": 32.79624938964844,
+        "max_y1": 405.06060791015625
+      }
+    },
+    {
+      "id": "tick_labels.corrected_predicate_clean",
+      "status": "PASS",
+      "detail": {
+        "high": 0,
+        "medium": 0
+      }
+    },
+    {
+      "id": "tick_labels.literal_round7_s7_flags_zero_area_boxes",
+      "status": "PASS",
+      "detail": {
+        "literal_s7_flagged": 21,
+        "zero_area_boxes": 21
+      }
+    },
+    {
+      "id": "tick_labels.literal_round7_s4_does_not_flag_zero_area_boxes",
+      "status": "PASS",
+      "detail": {
+        "literal_s4_flagged": 0
+      }
+    },
+    {
+      "id": "tick_labels.byte_identical_repeat",
+      "status": "PASS",
+      "detail": {
+        "sha256": "65f4e59a8ff8a73a8e128d2253760a02774673d4bbdc14c594a176f7462c2337",
+        "sha256_repeat": "65f4e59a8ff8a73a8e128d2253760a02774673d4bbdc14c594a176f7462c2337"
+      }
+    },
+    {
+      "id": "figure_text.single_page",
+      "status": "PASS",
+      "detail": {
+        "page_count": 1,
+        "page_rect_pt": [
+          0.0,
+          0.0,
+          720.0,
+          432.0
+        ]
+      }
+    },
+    {
+      "id": "figure_text.page_size_is_10x6_at_100dpi",
+      "status": "PASS",
+      "detail": [
+        0.0,
+        0.0,
+        720.0,
+        432.0
+      ]
+    },
+    {
+      "id": "figure_text.text_index_matches_char_boxes",
+      "status": "PASS",
+      "detail": {
+        "len_text": 125,
+        "char_count": 125
+      }
+    },
+    {
+      "id": "figure_text.two_lines_present",
+      "status": "PASS",
+      "detail": {
+        "text": "Quarterly revenue by region, preliminary figures (2026, USD)\r\nSource: internal ledger; values rounded to the nearest thousand"
+      }
+    },
+    {
+      "id": "figure_text.zero_area_boxes_exist",
+      "status": "PASS",
+      "detail": {
+        "zero_area_count": 2,
+        "char_count": 125
+      }
+    },
+    {
+      "id": "figure_text.zero_area_boxes_are_whitespace",
+      "status": "PASS",
+      "detail": {
+        "characters": [
+          {
+            "char": "\n",
+            "codepoint": "U+000A"
+          },
+          {
+            "char": "\r",
+            "codepoint": "U+000D"
+          }
+        ]
+      }
+    },
+    {
+      "id": "figure_text.all_positive_area_boxes_inside_page",
+      "status": "PASS",
+      "detail": {
+        "positive_count": 123,
+        "min_x0": 199.66781616210938,
+        "max_x1": 519.9595947265625,
+        "min_y0": 205.57687377929688,
+        "max_y1": 226.54750061035156
+      }
+    },
+    {
+      "id": "figure_text.corrected_predicate_clean",
+      "status": "PASS",
+      "detail": {
+        "high": 0,
+        "medium": 0
+      }
+    },
+    {
+      "id": "figure_text.literal_round7_s7_flags_zero_area_boxes",
+      "status": "PASS",
+      "detail": {
+        "literal_s7_flagged": 2,
+        "zero_area_boxes": 2
+      }
+    },
+    {
+      "id": "figure_text.literal_round7_s4_does_not_flag_zero_area_boxes",
+      "status": "PASS",
+      "detail": {
+        "literal_s4_flagged": 0
+      }
+    },
+    {
+      "id": "figure_text.byte_identical_repeat",
+      "status": "PASS",
+      "detail": {
+        "sha256": "129217fad28036509f83d5ea85eabd13bd83a6d81763b210bc76e1c068fd90b3",
+        "sha256_repeat": "129217fad28036509f83d5ea85eabd13bd83a6d81763b210bc76e1c068fd90b3"
+      }
+    },
+    {
+      "id": "axes_title_only_cr_lf_are_zero_area",
+      "status": "PASS",
+      "detail": {
+        "space": 0,
+        "cr": 1,
+        "lf": 1
+      }
+    },
+    {
+      "id": "tick_label_spaces_are_zero_area",
+      "status": "PASS",
+      "detail": {
+        "space": 5,
+        "cr": 8,
+        "lf": 8
+      }
+    },
+    {
+      "id": "figure_text_spaces_have_positive_area",
+      "status": "PASS",
+      "detail": {
+        "zero_area": {
+          "space": 0,
+          "cr": 1,
+          "lf": 1
+        },
+        "positive_boxes": 123,
+        "char_count": 125
+      }
+    },
+    {
+      "id": "round7_sections_disagreed_on_every_fixture",
+      "status": "PASS",
+      "detail": {
+        "axes_title": {
+          "s7_at_least_half_area_outside_flagged": 2,
+          "s4_less_than_half_area_inside_flagged": 0
+        },
+        "tick_labels": {
+          "s7_at_least_half_area_outside_flagged": 21,
+          "s4_less_than_half_area_inside_flagged": 0
+        },
+        "figure_text": {
+          "s7_at_least_half_area_outside_flagged": 2,
+          "s4_less_than_half_area_inside_flagged": 0
+        }
+      }
+    },
+    {
+      "id": "synthetic_endpoints",
+      "status": "PASS",
+      "detail": [
+        {
+          "name": "fully_inside",
+          "page": [
+            0.0,
+            0.0,
+            100.0,
+            100.0
+          ],
+          "box": [
+            10.0,
+            10.0,
+            20.0,
+            20.0
+          ],
+          "expected": "none",
+          "got": "none",
+          "ok": true
+        },
+        {
+          "name": "half_outside_inclusive",
+          "page": [
+            0.0,
+            0.0,
+            100.0,
+            100.0
+          ],
+          "box": [
+            -5.0,
+            10.0,
+            5.0,
+            20.0
+          ],
+          "expected": "high",
+          "got": "high",
+          "ok": true
+        },
+        {
+          "name": "just_under_half_outside",
+          "page": [
+            0.0,
+            0.0,
+            100.0,
+            100.0
+          ],
+          "box": [
+            -4.9995,
+            10.0,
+            5.0005,
+            20.0
+          ],
+          "expected": "medium",
+          "got": "medium",
+          "ok": true
+        },
+        {
+          "name": "fully_outside",
+          "page": [
+            0.0,
+            0.0,
+            100.0,
+            100.0
+          ],
+          "box": [
+            120.0,
+            120.0,
+            140.0,
+            140.0
+          ],
+          "expected": "high",
+          "got": "high",
+          "ok": true
+        },
+        {
+          "name": "straddles_corner",
+          "page": [
+            0.0,
+            0.0,
+            100.0,
+            100.0
+          ],
+          "box": [
+            90.0,
+            90.0,
+            110.0,
+            110.0
+          ],
+          "expected": "high",
+          "got": "high",
+          "ok": true
+        },
+        {
+          "name": "zero_area_inside",
+          "page": [
+            0.0,
+            0.0,
+            100.0,
+            100.0
+          ],
+          "box": [
+            15.0,
+            10.0,
+            15.0,
+            20.0
+          ],
+          "expected": "none",
+          "got": "none",
+          "ok": true
+        },
+        {
+          "name": "zero_area_center_outside",
+          "page": [
+            0.0,
+            0.0,
+            100.0,
+            100.0
+          ],
+          "box": [
+            -5.0,
+            10.0,
+            -5.0,
+            20.0
+          ],
+          "expected": "none",
+          "got": "none",
+          "ok": true
+        },
+        {
+          "name": "zero_area_at_page_edge",
+          "page": [
+            0.0,
+            0.0,
+            100.0,
+            100.0
+          ],
+          "box": [
+            0.0,
+            10.0,
+            0.0,
+            20.0
+          ],
+          "expected": "none",
+          "got": "none",
+          "ok": true
+        },
+        {
+          "name": "tiny_sliver_outside",
+          "page": [
+            0.0,
+            0.0,
+            100.0,
+            100.0
+          ],
+          "box": [
+            -0.001,
+            10.0,
+            10.0,
+            20.0
+          ],
+          "expected": "medium",
+          "got": "medium",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "id": "center_clause_implied_for_positive_area",
+      "status": "PASS",
+      "detail": {
+        "positive_boxes_checked": 814,
+        "outside_centers": 328,
+        "min_outside_fraction": 0.75,
+        "implied": true
+      }
+    }
+  ],
+  "result": "PASS"
+}

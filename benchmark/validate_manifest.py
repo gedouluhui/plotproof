@@ -3,7 +3,11 @@
 Stdlib only. This script does not generate samples and does not run any detector.
 
 Run:
-    python benchmark/validate_manifest.py
+    python benchmark/validate_manifest.py [path/to/manifest.json]
+
+With no argument it validates the frozen benchmark/manifest.json. The optional
+path exists so tests can run the same validator against mutated copies; the
+release gate always calls it with no argument.
 """
 
 from __future__ import annotations
@@ -20,8 +24,41 @@ def fail(errors: list[str], message: str) -> None:
     errors.append(message)
 
 
+def strict_equal(value: object, expected: object) -> bool:
+    """Compare JSON values including scalar types.
+
+    JSON ``0``/``1`` must not satisfy a boolean binding: Python treats
+    ``0 == False`` as true, which would let ``"transparent": 0`` pass a
+    ``false`` requirement. Containers compare recursively so nested ints,
+    floats and booleans keep their JSON types.
+    """
+    if isinstance(expected, bool):
+        return isinstance(value, bool) and value is expected
+    if isinstance(expected, list):
+        return (
+            isinstance(value, list)
+            and len(value) == len(expected)
+            and all(strict_equal(v, e) for v, e in zip(value, expected))
+        )
+    if isinstance(expected, dict):
+        return (
+            isinstance(value, dict)
+            and set(value) == set(expected)
+            and all(strict_equal(value[k], expected[k]) for k in expected)
+        )
+    if expected is None:
+        return value is None
+    if isinstance(expected, (int, float)):
+        return type(value) is type(expected) and value == expected
+    return isinstance(value, str) and value == expected
+
+
 def main() -> int:
-    data = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    if len(sys.argv) > 2:
+        print("usage: validate_manifest.py [path/to/manifest.json]", file=sys.stderr)
+        return 2
+    target = Path(sys.argv[1]) if len(sys.argv) == 2 else MANIFEST
+    data = json.loads(target.read_text(encoding="utf-8"))
     errors: list[str] = []
 
     if data.get("schema_version") != 1:
@@ -36,6 +73,7 @@ def main() -> int:
         expected_binding = {
             "layout": "constrained",
             "axis_label_rotation": 0,
+            "axis_labelpad_pt": 4.0,
             "left_ylabel_ha": "right",
             "right_ylabel_ha": "left",
             "supylabel_ha": "left",
@@ -47,7 +85,7 @@ def main() -> int:
             ),
         }
         for key, value in expected_binding.items():
-            if binding.get(key) != value:
+            if not strict_equal(binding.get(key), value):
                 fail(errors, f"label_binding.{key} must be {value!r}")
         unexpected = sorted(set(binding) - set(expected_binding))
         if unexpected:
@@ -66,6 +104,7 @@ def main() -> int:
             "base_font_size_pt": 10.0,
             "layout": "constrained",
             "axes_unicode_minus": False,
+            "transparent": False,
             "font_family_ascii": "DejaVu Sans",
             "font_family_cjk": "Noto Sans CJK SC",
             "cjk_font_scope": "per-text fontproperties",
@@ -74,7 +113,7 @@ def main() -> int:
             "pad_inches_effective": 0.1,
         }
         for key, value in expected_save.items():
-            if save_binding.get(key) != value:
+            if not strict_equal(save_binding.get(key), value):
                 fail(errors, f"save_binding.{key} must be {value!r}")
         unexpected = sorted(set(save_binding) - set(expected_save))
         if unexpected:
@@ -91,6 +130,65 @@ def main() -> int:
     expected_counter_states = {cid: "PASS" for cid in expected_counter_splits}
     expected_counter_states["L04"] = "UNKNOWN"
     expected_counter_states["L06"] = "UNKNOWN"
+
+    # Hard-coded identities: a template must not change what it measures.
+    expected_template_roles = {tid: "title" for tid in expected_template_splits}
+    expected_template_roles["H11"] = "suptitle"
+    expected_formatters = {
+        "D11": "FuncFormatter('{:g}'.format)",
+        "H09": "ScalarFormatter(useMathText=False)",
+        "H12": "FuncFormatter('{:,}'.format)",
+    }
+    expected_tick_bindings = {
+        "H07": {
+            "x_major_ticks": list(range(40)),
+            "x_limits": [-0.5, 39.5],
+            "x_minor_subdivisions": 4,
+            "x_label_rotation": 0,
+            "x_label_format": "{:d}",
+        },
+        "H12": {
+            "y_limits": [-10000, 10000],
+            "y_major_ticks": [-10000, -5000, 0, 5000, 10000],
+            "y_label_rotation": 0,
+            "y_label_format": "{:,d}",
+        },
+    }
+    template_required_keys = {
+        "id",
+        "family",
+        "split",
+        "chart",
+        "language",
+        "similarity_group",
+        "features",
+        "target_role",
+    }
+    template_optional_keys = {"labels_horizontal", "note", "tick_formatter", "tick_binding"}
+    counter_required_keys = {"id", "family", "split", "expected_state", "note"}
+    counter_optional_keys = {"labels_horizontal", "save_override"}
+    template_sample_keys = {
+        "id",
+        "template_id",
+        "family",
+        "split",
+        "variant",
+        "seed",
+        "target_role",
+        "defect_class",
+        "expected_state",
+    }
+    counter_sample_keys = {
+        "id",
+        "counterexample_id",
+        "family",
+        "split",
+        "variant",
+        "seed",
+        "target_role",
+        "defect_class",
+        "expected_state",
+    }
 
     templates = data.get("templates", [])
     counters = data.get("counterexamples", [])
@@ -138,6 +236,13 @@ def main() -> int:
             fail(errors, f"template {tid}: invalid split {split!r}")
         else:
             split_counts[split] += 1
+        keys = set(item)
+        missing = sorted(template_required_keys - keys)
+        extra = sorted(keys - (template_required_keys | template_optional_keys))
+        if missing:
+            fail(errors, f"template {tid}: missing keys {missing}")
+        if extra:
+            fail(errors, f"template {tid}: unexpected keys {extra}")
         features = item.get("features", [])
         if not isinstance(features, list) or not features:
             fail(errors, f"template {tid}: features must be a non-empty list")
@@ -175,8 +280,12 @@ def main() -> int:
                 f"template {tid}: y-label or colorbar-label templates must declare "
                 '"labels_horizontal": true (rotated labels are out of scope in v1)',
             )
-        if "labels_horizontal" in item and not isinstance(item["labels_horizontal"], bool):
-            fail(errors, f"template {tid}: labels_horizontal must be a boolean")
+        if "labels_horizontal" in item and item["labels_horizontal"] is not True:
+            fail(
+                errors,
+                f"template {tid}: v1 has no rotated template labels; "
+                "labels_horizontal must be true when declared",
+            )
         if "colorbar_label" in features and "colorbar_horizontal" not in features:
             fail(
                 errors,
@@ -185,7 +294,7 @@ def main() -> int:
             )
         if "colorbar_horizontal" in features and "colorbar" not in features:
             fail(errors, f"template {tid}: colorbar_horizontal requires a colorbar feature")
-        formatter = item.get("tick_formatter", "")
+        formatter = item.get("tick_formatter")
         if "$" in str(formatter):
             fail(errors, f"template {tid}: tick_formatter must not contain '$' "
                          "(mathtext is out of scope)")
@@ -193,6 +302,22 @@ def main() -> int:
             formatter
         ).lower():
             fail(errors, f"template {tid}: tick_formatter must not use mathtext")
+        expected_formatter = expected_formatters.get(tid)
+        if not strict_equal(formatter, expected_formatter):
+            fail(
+                errors,
+                f"template {tid}: tick_formatter must be {expected_formatter!r}",
+            )
+        tick_binding = item.get("tick_binding")
+        expected_ticks = expected_tick_bindings.get(tid)
+        if expected_ticks is None:
+            if tick_binding is not None:
+                fail(
+                    errors,
+                    f"template {tid}: tick_binding is only allowed for H07 and H12",
+                )
+        elif not strict_equal(tick_binding, expected_ticks):
+            fail(errors, f"template {tid}: tick_binding does not match the frozen binding")
         if "log_ticks_plain_text" in features:
             if formatter != "FuncFormatter('{:g}'.format)":
                 fail(
@@ -207,6 +332,18 @@ def main() -> int:
                     f"template {tid}: scientific_offset requires the exact binding "
                     "\"ScalarFormatter(useMathText=False)\"",
                 )
+        if "thousands_separator" in features and formatter != "FuncFormatter('{:,}'.format)":
+            fail(
+                errors,
+                f"template {tid}: thousands_separator requires the exact binding "
+                "\"FuncFormatter('{:,}'.format)\"",
+            )
+        if formatter == "FuncFormatter('{:,}'.format)" and "thousands_separator" not in features:
+            fail(
+                errors,
+                f"template {tid}: the thousands-separator formatter requires the "
+                "thousands_separator feature",
+            )
         note = str(item.get("note", "")).strip()
         if "date_ticks_horizontal" in features and not note:
             fail(errors, f"template {tid}: date_ticks_horizontal requires a scope note")
@@ -224,6 +361,13 @@ def main() -> int:
                 errors,
                 f"template {tid}: target_role {target_role!r} must be one of its features",
             )
+        if tid in expected_template_roles:
+            expected_role = expected_template_roles[tid]
+            if target_role != expected_role:
+                fail(
+                    errors,
+                    f"template {tid}: target_role must be {expected_role!r}",
+                )
 
     if seen_ids != set(expected_template_splits):
         fail(
@@ -243,6 +387,13 @@ def main() -> int:
         if not cid or cid in seen_counter_ids:
             fail(errors, f"counterexample id missing or duplicated: {cid!r}")
         seen_counter_ids.add(cid)
+        keys = set(item)
+        missing = sorted(counter_required_keys - keys)
+        extra = sorted(keys - (counter_required_keys | counter_optional_keys))
+        if missing:
+            fail(errors, f"counterexample {cid}: missing keys {missing}")
+        if extra:
+            fail(errors, f"counterexample {cid}: unexpected keys {extra}")
         if item.get("family", "") in seen_families:
             fail(errors, f"counterexample family collides with template: {item.get('family')!r}")
         split = item.get("split", "")
@@ -384,11 +535,32 @@ def main() -> int:
         if expected_state not in {"PASS", "FAIL", "UNKNOWN"}:
             fail(errors, f"sample {sid}: invalid expected_state {expected_state!r}")
         if variant == "counterexample":
+            if set(sample) != counter_sample_keys:
+                fail(errors, f"sample {sid}: counterexample sample keys are frozen")
             cid = sample.get("counterexample_id", "")
             counter = counter_by_id.get(cid)
+            if sid != f"{cid}.counterexample":
+                fail(
+                    errors,
+                    f"sample {sid}: id must be '<counterexample>.counterexample'",
+                )
+            if sample.get("seed") is not None:
+                fail(errors, f"sample {sid}: counterexample samples must not declare a seed")
+            if sample.get("target_role") is not None:
+                fail(
+                    errors,
+                    f"sample {sid}: counterexample samples must not declare target_role",
+                )
+            if sample.get("defect_class") is not None:
+                fail(
+                    errors,
+                    f"sample {sid}: counterexample samples must not declare defect_class",
+                )
             if counter is None:
                 fail(errors, f"sample {sid}: unknown counterexample {cid!r}")
             else:
+                if sample.get("family") != counter.get("family"):
+                    fail(errors, f"sample {sid}: family disagrees with counterexample")
                 if sample.get("split") != counter.get("split"):
                     fail(errors, f"sample {sid}: split disagrees with counterexample")
                 if expected_state != counter.get("expected_state"):
@@ -398,14 +570,26 @@ def main() -> int:
                 sample_counts["holdout"] += 1
             continue
 
+        if set(sample) != template_sample_keys:
+            fail(errors, f"sample {sid}: sample keys are frozen")
         tid = sample.get("template_id", "")
         template = template_by_id.get(tid)
         if template is None:
             fail(errors, f"sample {sid}: unknown template {tid!r}")
             continue
+        if sid != f"{tid}.{variant}.s{sample.get('seed')}":
+            fail(
+                errors,
+                f"sample {sid}: id must be '<template>.<variant>.s<seed>'",
+            )
+        if sample.get("family") != template.get("family"):
+            fail(errors, f"sample {sid}: family disagrees with template {tid}")
         if sample.get("split") != template.get("split"):
             fail(errors, f"sample {sid}: split disagrees with template {tid}")
-        if sample.get("seed") not in (clean_seeds if variant == "clean" else defect_seeds):
+        seed_value = sample.get("seed")
+        if type(seed_value) is not int:
+            fail(errors, f"sample {sid}: seed must be an integer")
+        elif seed_value not in (clean_seeds if variant == "clean" else defect_seeds):
             fail(errors, f"sample {sid}: seed not allowed for variant {variant}")
         target_role = sample.get("target_role", "")
         if not isinstance(target_role, str) or not target_role:

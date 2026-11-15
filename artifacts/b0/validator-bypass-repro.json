@@ -1,0 +1,116 @@
+{
+  "spike_version": 1,
+  "timestamp_utc": "2026-11-15T02:09:14.370552+00:00",
+  "git_head": "672dc43db0989e93032e270da2ff95a124f14af5",
+  "old_validator_sha256": "635c200aa3cbf3ac428568ea85acf3598177476741438b951b67e8e8e429f83e",
+  "old_manifest_sha256": "ce87bbac536c037b0e4e07e22cb27d770ddd4318b1fcd467c02d5a9a8d2fcb46",
+  "python": "3.12.3 | packaged by conda-forge | (main, Apr 15 2024, 18:20:11) [MSC v.1938 64 bit (AMD64)]",
+  "controls": {
+    "unmutated_head_manifest": {
+      "returncode": 0,
+      "stdout_tail": [
+        "MANIFEST PASS"
+      ],
+      "stderr_tail": []
+    }
+  },
+  "accepted_by_old_validator": {
+    "template_role_swap_d01": {
+      "returncode": 0,
+      "stdout_tail": [
+        "MANIFEST PASS"
+      ],
+      "stderr_tail": []
+    },
+    "sample_template_swap": {
+      "returncode": 0,
+      "stdout_tail": [
+        "MANIFEST PASS"
+      ],
+      "stderr_tail": []
+    },
+    "sample_family_change": {
+      "returncode": 0,
+      "stdout_tail": [
+        "MANIFEST PASS"
+      ],
+      "stderr_tail": []
+    },
+    "save_unicode_minus_int_zero": {
+      "returncode": 0,
+      "stdout_tail": [
+        "MANIFEST PASS"
+      ],
+      "stderr_tail": []
+    }
+  },
+  "rejected_by_old_validator": {
+    "sample_expected_state_flip": {
+      "returncode": 1,
+      "stdout_tail": [
+        "per_defect_class_holdout=24"
+      ],
+      "stderr_tail": [
+        "MANIFEST FAIL",
+        "- sample D01.clip.s1: defect samples must expect FAIL"
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "old_validator_accepts_head_manifest",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stdout_tail": [
+          "MANIFEST PASS"
+        ],
+        "stderr_tail": []
+      }
+    },
+    {
+      "id": "old_validator_accepts_template_role_swap_d01",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stderr_tail": []
+      }
+    },
+    {
+      "id": "old_validator_accepts_sample_template_swap",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stderr_tail": []
+      }
+    },
+    {
+      "id": "old_validator_accepts_sample_family_change",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stderr_tail": []
+      }
+    },
+    {
+      "id": "old_validator_accepts_save_unicode_minus_int_zero",
+      "status": "PASS",
+      "detail": {
+        "returncode": 0,
+        "stderr_tail": []
+      }
+    },
+    {
+      "id": "old_validator_rejects_sample_expected_state_flip",
+      "status": "PASS",
+      "detail": {
+        "returncode": 1,
+        "stderr_tail": [
+          "MANIFEST FAIL",
+          "- sample D01.clip.s1: defect samples must expect FAIL"
+        ]
+      }
+    }
+  ],
+  "overall": "PASS"
+}
