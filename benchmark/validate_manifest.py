@@ -81,7 +81,7 @@ def main() -> int:
             "colorbar_label_rotation": 0,
             "colorbar_label_role": "xlabel",
             "clean_sample_check": (
-                "no page clipping and no D3 candidate with smaller-box coverage >= 0.15"
+                "no page clipping and no D3 candidate with smaller-union coverage >= 0.15"
             ),
         }
         for key, value in expected_binding.items():
@@ -140,6 +140,36 @@ def main() -> int:
     # Hard-coded identities: a template must not change what it measures.
     expected_template_roles = {tid: "title" for tid in expected_template_splits}
     expected_template_roles["H11"] = "suptitle"
+    # Round-10: the descriptive and generative template fields are frozen
+    # verbatim too. features drive the generator's construction; chart and
+    # similarity_group are part of the recorded inventory. A coordinated edit
+    # to a declared feature must fail here even when it stays self-consistent.
+    expected_template_metadata = {
+        "D01": ("line", "line", ["title", "xlabel", "ylabel", "xticks", "yticks", "legend_inside", "single_series"]),
+        "D02": ("line", "line", ["title", "xlabel", "ylabel", "legend_inside", "three_series", "y_unit"]),
+        "D03": ("bar", "bar", ["title", "xlabel", "ylabel", "xticks", "value_labels"]),
+        "D04": ("bar", "bar", ["title", "xlabel", "ylabel", "legend_inside", "two_groups", "xticks"]),
+        "D05": ("scatter", "scatter", ["title", "xlabel", "ylabel", "annotations", "grid"]),
+        "D06": ("histogram", "distribution", ["title", "xlabel", "ylabel", "xticks"]),
+        "D07": ("box", "distribution", ["title", "xlabel", "ylabel", "xticks", "four_groups"]),
+        "D08": ("heatmap", "matrix", ["title", "colorbar", "colorbar_label", "xticks", "yticks", "colorbar_horizontal"]),
+        "D09": ("pie", "part_to_whole", ["title", "slice_labels", "percent_labels"]),
+        "D10": ("errorbar", "line", ["title", "xlabel", "ylabel", "legend_inside", "five_points"]),
+        "D11": ("line", "line", ["title", "xlabel", "ylabel", "log_y", "log_ticks_plain_text"]),
+        "D12": ("line", "time", ["title", "xlabel", "ylabel", "date_ticks_horizontal"]),
+        "H01": ("violin", "distribution", ["title", "xlabel", "ylabel", "xticks", "four_groups"]),
+        "H02": ("bar", "bar", ["title", "xlabel", "ylabel", "legend_inside", "three_stacks", "xticks"]),
+        "H03": ("barh", "bar", ["title", "xlabel", "long_category_labels", "six_bars"]),
+        "H04": ("contour", "matrix", ["title", "colorbar", "colorbar_label", "xticks", "yticks", "colorbar_horizontal"]),
+        "H05": ("line", "line", ["title", "xlabel", "two_ylabels", "legend_inside", "dual_y"]),
+        "H06": ("area", "area", ["title", "xlabel", "ylabel", "legend_inside", "two_series", "stacked"]),
+        "H07": ("line", "line", ["title", "xlabel", "ylabel", "forty_xticks", "minor_ticks"]),
+        "H08": ("line", "line", ["title_cjk", "title", "xlabel_cjk", "ylabel_en_unit", "negative_values", "ascii_minus", "legend_inside"]),
+        "H09": ("line", "line", ["title", "xlabel", "ylabel", "scientific_offset", "xticks"]),
+        "H10": ("line", "line", ["title", "xlabel", "ylabel", "legend_below_axes", "bbox_to_anchor"]),
+        "H11": ("subplots_1x2", "layout", ["suptitle", "shared_xlabel", "shared_ylabel", "two_axes", "legends"]),
+        "H12": ("bar", "bar", ["title_cjk", "title", "ylabel_cjk_unit", "negative_values", "ascii_minus", "thousands_separator"]),
+    }
     expected_formatters = {
         "D11": "FuncFormatter('{:g}'.format)",
         "H09": "ScalarFormatter(useMathText=False)",
@@ -374,6 +404,26 @@ def main() -> int:
                     errors,
                     f"template {tid}: target_role must be {expected_role!r}",
                 )
+        expected_metadata = expected_template_metadata.get(tid)
+        if expected_metadata is not None:
+            chart, similarity_group, expected_features = expected_metadata
+            if item.get("chart") != chart:
+                fail(
+                    errors,
+                    f"template {tid}: chart must equal the frozen value {chart!r}",
+                )
+            if item.get("similarity_group") != similarity_group:
+                fail(
+                    errors,
+                    f"template {tid}: similarity_group must equal the frozen value "
+                    f"{similarity_group!r}",
+                )
+            if not strict_equal(item.get("features"), expected_features):
+                fail(
+                    errors,
+                    f"template {tid}: features must equal the frozen list "
+                    f"{expected_features!r}",
+                )
 
     if seen_ids != set(expected_template_splits):
         fail(
@@ -507,7 +557,7 @@ def main() -> int:
     declared = data.get("counts")
     if declared is None:
         fail(errors, "manifest must declare counts")
-    elif declared != counts:
+    elif not strict_equal(declared, counts):
         fail(errors, f"declared counts do not match computed counts:\n{declared}\n{counts}")
 
     samples = data.get("samples", [])

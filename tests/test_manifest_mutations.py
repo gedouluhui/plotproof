@@ -423,6 +423,32 @@ MUTATIONS: list[tuple[str, Mutation, str]] = [
         ),
         "counterexample L05: alpha_binding is only allowed for L06",
     ),
+    # round-10 findings: typed counts and the frozen template metadata
+    (
+        "counts_total_as_float",
+        lambda m: m["counts"].__setitem__("templates_total", 24.0),
+        "declared counts do not match computed counts",
+    ),
+    (
+        "counts_missing_key",
+        lambda m: m["counts"].pop("samples_total"),
+        "declared counts do not match computed counts",
+    ),
+    (
+        "template_chart_drift",
+        lambda m: set_template(m, "D01", "chart", "bar"),
+        "template D01: chart must equal the frozen value",
+    ),
+    (
+        "template_similarity_drift",
+        lambda m: set_template(m, "D01", "similarity_group", "bar"),
+        "template D01: similarity_group must equal the frozen value",
+    ),
+    (
+        "template_d01_feature_drop",
+        lambda m: template(m, "D01")["features"].remove("single_series"),
+        "template D01: features must equal the frozen list",
+    ),
 ]
 
 

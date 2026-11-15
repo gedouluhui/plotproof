@@ -13,7 +13,7 @@
     "colorbar_orientation": "horizontal",
     "colorbar_label_rotation": 0,
     "colorbar_label_role": "xlabel",
-    "clean_sample_check": "no page clipping and no D3 candidate with smaller-box coverage >= 0.15"
+    "clean_sample_check": "no page clipping and no D3 candidate with smaller-union coverage >= 0.15"
   },
   "save_binding": {
     "matplotlib_version": "3.10.8",
