@@ -343,3 +343,12 @@ Re-verification after the fixes (owner-run, this session, before freezing `b0-fr
 - Line endings: every edited file is LF-only (`README.md` 0 CRLF / 117 LF; `benchmark/manifest.json` 0 / 3,176; `benchmark/validate_manifest.py` 0 / 679; `docs/B0_PREREGISTRATION.md` 0 / 521; `docs/reviews/B0_REVIEW.md` 0 / 319 before this section; `spikes/b0_d1_boundary_probe.py` 0 / 503; `tests/test_manifest_mutations.py` 0 / 499; `artifacts/b0/d1-boundary-probe.json` 0 / 1,144).
 
 The round-10 review target is the `b0-freeze-r10` tag. No normative file may be edited while that review runs; this log is the only file expected to change.
+
+### Freeze record for `b0-freeze-r10`
+
+- Freeze commit: `75eac18f626da9f31c992fb15e79ee6b7744f894`, tagged `b0-freeze-r10` (annotated tag). It changes nine tracked files, all modified: `README.md`, `artifacts/b0/d1-boundary-probe.json`, `benchmark/manifest.json`, `benchmark/validate_manifest.py`, `docs/B0_FREEZE.sha256`, `docs/B0_PREREGISTRATION.md`, `docs/reviews/B0_REVIEW.md`, `spikes/b0_d1_boundary_probe.py`, and `tests/test_manifest_mutations.py`. The prereg version is 1.6.
+- The tagged tree tracks 24 files: the 22 normative files in `docs/B0_FREEZE.sha256`, `docs/B0_FREEZE.sha256` itself, and this review log. The log is tracked but excluded from the manifest because it is the live disposition log, not a normative artifact; the version in the tagged tree ends with the round-10 target statement and predates this section.
+- Working-tree check: `sha256sum -c docs/B0_FREEZE.sha256` → 22/22 `OK`, exit 0.
+- Fresh-clone check: cloned the repository to a temporary directory, checked out `b0-freeze-r10` (peeled to `75eac18`), ran the same command → 22/22 `OK`, exit 0; the clone tracks 24 files.
+- Evidence at the freeze (owner-run this session): validator `MANIFEST PASS` with 13 count lines; mutation suite 53 passed (47 defect mutations each asserting its exact diagnostic, plus six controls), full `.venv` pytest 56 passed; D1 boundary probe 39/39; line endings as recorded in the Round 9 section above.
+- Re-runnability note: `spikes/b0_validator_bypass_repro.py` still refuses to run once HEAD contains the fixed checks, so its artifact remains reproducible only from the `b0-freeze-r8` tree. The D1 probe has no such precondition and reproduces from this tag.
