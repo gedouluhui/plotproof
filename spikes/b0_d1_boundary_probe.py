@@ -5,10 +5,11 @@ character boxes for spaces and for the CR/LF of a line break, and that the
 round-7 wording of section 7 flagged those boxes as clipped on a fully inside
 two-line title. It is not the PlotProof detector.
 
-Two fixtures are measured because PDFium behaves differently by text path:
-an axes title reports zero-area boxes for its spaces as well, while a
-figure-level text reports hairline (positive-area) boxes for spaces and
-zero-area boxes only for CR/LF. The frozen predicate must be clean on both.
+Three fixtures are measured because PDFium behaves differently by text path:
+an axes title and a figure-level text report zero-area boxes only for CR/LF
+while their spaces keep hairline (positive-area) boxes, and the tick-label
+fixture also reports zero-area boxes for the spaces that separate x tick
+labels. The frozen predicate must be clean on all three.
 
 Run:
     python spikes/b0_d1_boundary_probe.py

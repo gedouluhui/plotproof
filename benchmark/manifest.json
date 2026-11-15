@@ -589,7 +589,11 @@
       "family": "translucent_legend_over_text",
       "expected_state": "UNKNOWN",
       "labels_horizontal": true,
-      "note": "A semi-transparent frame covers text; readability cannot be proven, so the result must not be FAIL."
+      "alpha_binding": {
+        "facecolor_alpha": 0.5,
+        "artist_alpha": 1.0
+      },
+      "note": "A semi-transparent frame (facecolor alpha 0.5, artist alpha 1.0, effective alpha 0.50) covers text; readability cannot be proven, so the result must not be FAIL."
     },
     {
       "id": "L07",

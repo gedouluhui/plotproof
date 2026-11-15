@@ -130,6 +130,12 @@ def main() -> int:
     expected_counter_states = {cid: "PASS" for cid in expected_counter_splits}
     expected_counter_states["L04"] = "UNKNOWN"
     expected_counter_states["L06"] = "UNKNOWN"
+    # Round-9: L06's translucency must be facecolor-only at alpha 0.5 with an
+    # opaque artist, so the effective alpha is 0.50 and the D2 medium band is
+    # exercised; an unpinned construction could silently become opaque.
+    expected_counter_alpha_binding = {
+        "L06": {"facecolor_alpha": 0.5, "artist_alpha": 1.0}
+    }
 
     # Hard-coded identities: a template must not change what it measures.
     expected_template_roles = {tid: "title" for tid in expected_template_splits}
@@ -166,7 +172,7 @@ def main() -> int:
     }
     template_optional_keys = {"labels_horizontal", "note", "tick_formatter", "tick_binding"}
     counter_required_keys = {"id", "family", "split", "expected_state", "note"}
-    counter_optional_keys = {"labels_horizontal", "save_override"}
+    counter_optional_keys = {"alpha_binding", "labels_horizontal", "save_override"}
     template_sample_keys = {
         "id",
         "template_id",
@@ -381,6 +387,7 @@ def main() -> int:
         fail(errors, f"split must be 12 dev / 12 holdout, found {split_counts}")
 
     seen_counter_ids: set[str] = set()
+    seen_counter_families: set[str] = set()
     counter_splits = {"dev": 0, "holdout": 0}
     for item in counters:
         cid = item.get("id", "")
@@ -394,8 +401,12 @@ def main() -> int:
             fail(errors, f"counterexample {cid}: missing keys {missing}")
         if extra:
             fail(errors, f"counterexample {cid}: unexpected keys {extra}")
-        if item.get("family", "") in seen_families:
-            fail(errors, f"counterexample family collides with template: {item.get('family')!r}")
+        family = item.get("family", "")
+        if not family or family in seen_counter_families:
+            fail(errors, f"counterexample family missing or duplicated: {family!r}")
+        seen_counter_families.add(family)
+        if family in seen_families:
+            fail(errors, f"counterexample family collides with template: {family!r}")
         split = item.get("split", "")
         if split not in counter_splits:
             fail(errors, f"counterexample {cid}: invalid split {split!r}")
@@ -431,6 +442,19 @@ def main() -> int:
                 errors,
                 f"counterexample {cid}: must declare "
                 '"labels_horizontal": true (rotated labels are out of scope in v1)',
+            )
+        expected_alpha = expected_counter_alpha_binding.get(cid)
+        if expected_alpha is not None:
+            if not strict_equal(item.get("alpha_binding"), expected_alpha):
+                fail(
+                    errors,
+                    f"counterexample {cid}: alpha_binding must be "
+                    f"{json.dumps(expected_alpha, sort_keys=True)}",
+                )
+        elif "alpha_binding" in item:
+            fail(
+                errors,
+                f"counterexample {cid}: alpha_binding is only allowed for L06",
             )
         override = item.get("save_override")
         if cid == "L11":

@@ -163,6 +163,17 @@ def add_counter_override(manifest: dict, cid: str) -> None:
     )
 
 
+def duplicate_counter_family(manifest: dict) -> None:
+    """Round-9: counterexample families must be pairwise unique too."""
+    family = counterexample(manifest, "L01")["family"]
+    set_counterexample(manifest, "L02", "family", family)
+    set_sample(manifest, "L02.counterexample", "family", family)
+
+
+def add_counter_alpha(manifest: dict, cid: str, binding: object) -> None:
+    set_counterexample(manifest, cid, "alpha_binding", binding)
+
+
 MUTATIONS: list[tuple[str, Mutation, str]] = [
     # save_binding and label_binding
     (
@@ -383,6 +394,34 @@ MUTATIONS: list[tuple[str, Mutation, str]] = [
         "counter_override_outside_l11",
         lambda m: add_counter_override(m, "L07"),
         "save_override is only allowed for L11",
+    ),
+    # round-9 findings: family uniqueness and L06's pinned alpha construction
+    (
+        "counter_family_duplicated",
+        duplicate_counter_family,
+        "counterexample family missing or duplicated: 'white_label_background'",
+    ),
+    (
+        "counter_alpha_binding_missing",
+        lambda m: counterexample(m, "L06").pop("alpha_binding"),
+        "counterexample L06: alpha_binding must be",
+    ),
+    (
+        "counter_alpha_binding_opaque",
+        lambda m: set_counterexample(
+            m,
+            "L06",
+            "alpha_binding",
+            {"facecolor_alpha": 1.0, "artist_alpha": 1.0},
+        ),
+        "counterexample L06: alpha_binding must be",
+    ),
+    (
+        "counter_alpha_binding_outside_l06",
+        lambda m: add_counter_alpha(
+            m, "L05", {"facecolor_alpha": 0.5, "artist_alpha": 1.0}
+        ),
+        "counterexample L05: alpha_binding is only allowed for L06",
     ),
 ]
 
