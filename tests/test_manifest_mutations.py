@@ -602,3 +602,7 @@ def test_mutation_is_rejected_for_the_intended_reason(
     assert result.returncode == 1, f"{name}: expected rc=1, got {result.returncode}"
     assert "MANIFEST FAIL" in result.stderr, f"{name}: no failure banner"
     assert fragment in result.stderr, f"{name}: expected diagnostic not emitted:\n{result.stderr}"
+
+
+if __name__ == "__main__":
+    raise SystemExit(pytest.main([__file__, "-q"]))

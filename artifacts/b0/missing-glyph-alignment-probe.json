@@ -1,0 +1,532 @@
+{
+  "schema_version": 1,
+  "probe": "b0_missing_glyph_alignment",
+  "generated_at": "2026-11-16T03:16:15+00:00",
+  "script": "spikes/b0_missing_glyph_alignment_probe.py",
+  "script_sha256": "a87e4b4df8f1b130be36df249c194000479ae3807ac4848a98a820354af21739",
+  "figure_spec": {
+    "figsize_in": [
+      4.0,
+      3.0
+    ],
+    "dpi": 100,
+    "fonttype": 42,
+    "font_family": "DejaVu Sans",
+    "font_size_pt": 10.0,
+    "text": "Trend 𠀀 chart",
+    "deleted_text": "Trend chart",
+    "missing_codepoint": "U+20000",
+    "provenance_codepoint": "U+9FD8"
+  },
+  "figure_spec_sha256": "f2e466cc7c57523d95ef4a9b82c0a2cb7f91bebeb53f2a93726748813b7e94b4",
+  "environment": {
+    "python": "3.12.3",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "matplotlib": "3.10.8",
+    "pypdfium2": "5.8.0",
+    "fonttools": "4.61.1",
+    "pdfium_build": "149.0.7825.0"
+  },
+  "fonts": {
+    "dejavu": {
+      "path": "C:\\Users\\lyj20\\anaconda3\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans.ttf",
+      "unicode_subtables": [
+        {
+          "platform_id": 0,
+          "encoding_id": 3,
+          "format": 4,
+          "size": 5367
+        },
+        {
+          "platform_id": 0,
+          "encoding_id": 10,
+          "format": 12,
+          "size": 5906
+        },
+        {
+          "platform_id": 3,
+          "encoding_id": 1,
+          "format": 4,
+          "size": 5367
+        },
+        {
+          "platform_id": 3,
+          "encoding_id": 10,
+          "format": 12,
+          "size": 5906
+        }
+      ]
+    },
+    "noto": {
+      "path": ".fonts/NotoSansCJKsc-Regular.otf",
+      "bytes": 16437364,
+      "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+      "unicode_subtables": [
+        {
+          "platform_id": 0,
+          "encoding_id": 3,
+          "format": 4,
+          "size": 42220
+        },
+        {
+          "platform_id": 0,
+          "encoding_id": 4,
+          "format": 12,
+          "size": 44810
+        },
+        {
+          "platform_id": 0,
+          "encoding_id": 5,
+          "format": 14,
+          "size": 0
+        },
+        {
+          "platform_id": 3,
+          "encoding_id": 1,
+          "format": 4,
+          "size": 42220
+        },
+        {
+          "platform_id": 3,
+          "encoding_id": 10,
+          "format": 12,
+          "size": 44810
+        }
+      ]
+    }
+  },
+  "measurement": {
+    "pdf_sha256": "65c057e5f2e2dc82950cfe46900903be4a6feaf98893441a8a5117d69468104e",
+    "page_rect_pt": [
+      0.0,
+      0.0,
+      288.0,
+      216.0
+    ],
+    "char_count": 11,
+    "text": "Trend chart",
+    "canonical_pdf": "Trend chart",
+    "source_bbox_pt": [
+      111.06,
+      102.96,
+      176.94,
+      113.04
+    ],
+    "source_bbox_area_pt2": 664.0704000000007,
+    "full_canonical_needle": "Trend 𠀀 chart",
+    "deleted_canonical_needle": "Trend chart",
+    "full_needle_occurrences": 0,
+    "deleted_needle_occurrences": 1,
+    "full_needle_span": null,
+    "deleted_needle_span": {
+      "canonical_position": 0,
+      "char_indices": [
+        0,
+        11
+      ],
+      "char_count": 11,
+      "bbox_pt": [
+        111.1362533569336,
+        105.11219024658203,
+        176.64605712890625,
+        112.95218658447266
+      ],
+      "positive_heights": 11,
+      "median_height_pt": 5.80999755859375,
+      "median_height_over_font_size": 0.580999755859375,
+      "iou_vs_source_bbox": 0.7734068882880467,
+      "intersection_area_pt2": 513.5966216681991,
+      "span_area_pt2": 513.5966216681991
+    },
+    "horizontal_alignment_sensitivity": {
+      "center": {
+        "iou_vs_source_bbox": 0.7734068882880467,
+        "source_bbox_pt": [
+          111.06,
+          102.96,
+          176.94,
+          113.04
+        ],
+        "span_bbox_pt": [
+          111.1362533569336,
+          105.11219024658203,
+          176.64605712890625,
+          112.95218658447266
+        ]
+      },
+      "left": {
+        "iou_vs_source_bbox": 0.7729882519480206,
+        "source_bbox_pt": [
+          144.0,
+          102.96,
+          209.88,
+          113.04
+        ],
+        "span_bbox_pt": [
+          143.97999572753906,
+          105.11219024658203,
+          209.48980712890625,
+          112.95218658447266
+        ]
+      }
+    }
+  },
+  "rule_under_test": "§7.1 missing-glyph alignment: delete every proven-missing character, recompute the canonical string, require the height band, and require IoU >= 0.50 against the unit's full source bbox",
+  "provenance_note": "The round-7 prose value 0.7045 was measured on the U+9FD8 string `Trend 鿘 chart`; U+9FD8 is absent from DejaVu Sans and present in Noto Sans CJK SC, a different font behavior from U+20000, so 0.7045 is not a U+20000 measurement.",
+  "checks": [
+    {
+      "id": "font.pinned_noto_present",
+      "status": "PASS",
+      "detail": {
+        "path": ".fonts/NotoSansCJKsc-Regular.otf",
+        "bytes": 16437364,
+        "sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b",
+        "expected_bytes": 16437364,
+        "expected_sha256": "2c76254f6fc379fddfce0a7e84fb5385bb135d3e399294f6eeb6680d0365b74b"
+      }
+    },
+    {
+      "id": "cmap.dejavu_resolved",
+      "status": "PASS",
+      "detail": {
+        "path": "C:\\Users\\lyj20\\anaconda3\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans.ttf"
+      }
+    },
+    {
+      "id": "cmap.noto_has_unicode_subtables",
+      "status": "PASS",
+      "detail": [
+        {
+          "platform_id": 0,
+          "encoding_id": 3,
+          "format": 4,
+          "size": 42220
+        },
+        {
+          "platform_id": 0,
+          "encoding_id": 4,
+          "format": 12,
+          "size": 44810
+        },
+        {
+          "platform_id": 0,
+          "encoding_id": 5,
+          "format": 14,
+          "size": 0
+        },
+        {
+          "platform_id": 3,
+          "encoding_id": 1,
+          "format": 4,
+          "size": 42220
+        },
+        {
+          "platform_id": 3,
+          "encoding_id": 10,
+          "format": 12,
+          "size": 44810
+        }
+      ]
+    },
+    {
+      "id": "cmap.missing_absent_from_dejavu",
+      "status": "PASS",
+      "detail": {
+        "codepoint": "U+20000",
+        "unicode_subtables": [
+          {
+            "platform_id": 0,
+            "encoding_id": 3,
+            "format": 4,
+            "size": 5367
+          },
+          {
+            "platform_id": 0,
+            "encoding_id": 10,
+            "format": 12,
+            "size": 5906
+          },
+          {
+            "platform_id": 3,
+            "encoding_id": 1,
+            "format": 4,
+            "size": 5367
+          },
+          {
+            "platform_id": 3,
+            "encoding_id": 10,
+            "format": 12,
+            "size": 5906
+          }
+        ]
+      }
+    },
+    {
+      "id": "cmap.missing_absent_from_noto",
+      "status": "PASS",
+      "detail": {
+        "codepoint": "U+20000",
+        "unicode_subtables": [
+          {
+            "platform_id": 0,
+            "encoding_id": 3,
+            "format": 4,
+            "size": 42220
+          },
+          {
+            "platform_id": 0,
+            "encoding_id": 4,
+            "format": 12,
+            "size": 44810
+          },
+          {
+            "platform_id": 0,
+            "encoding_id": 5,
+            "format": 14,
+            "size": 0
+          },
+          {
+            "platform_id": 3,
+            "encoding_id": 1,
+            "format": 4,
+            "size": 42220
+          },
+          {
+            "platform_id": 3,
+            "encoding_id": 10,
+            "format": 12,
+            "size": 44810
+          }
+        ]
+      }
+    },
+    {
+      "id": "provenance.u9fd8_absent_from_dejavu",
+      "status": "PASS",
+      "detail": {
+        "codepoint": "U+9FD8"
+      }
+    },
+    {
+      "id": "provenance.u9fd8_present_in_noto",
+      "status": "PASS",
+      "detail": {
+        "codepoint": "U+9FD8",
+        "noto_glyph": "cid47551"
+      }
+    },
+    {
+      "id": "save.repeat_is_byte_identical",
+      "status": "PASS",
+      "detail": {
+        "sha256": "65c057e5f2e2dc82950cfe46900903be4a6feaf98893441a8a5117d69468104e",
+        "sha256_repeat": "65c057e5f2e2dc82950cfe46900903be4a6feaf98893441a8a5117d69468104e",
+        "source_bbox_pt": [
+          111.06,
+          102.96,
+          176.94,
+          113.04
+        ]
+      }
+    },
+    {
+      "id": "save.warning_names_missing_codepoint",
+      "status": "PASS",
+      "detail": {
+        "warnings": [
+          "Glyph 131072 (\\N{CJK UNIFIED IDEOGRAPH-20000}) missing from font(s) DejaVu Sans.",
+          "Glyph 131072 (\\N{CJK UNIFIED IDEOGRAPH-20000}) missing from font(s) DejaVu Sans.",
+          "Glyph 131072 (\\N{CJK UNIFIED IDEOGRAPH-20000}) missing from font(s) DejaVu Sans."
+        ]
+      }
+    },
+    {
+      "id": "save.warning_names_resolved_font",
+      "status": "PASS",
+      "detail": {
+        "warnings": [
+          "Glyph 131072 (\\N{CJK UNIFIED IDEOGRAPH-20000}) missing from font(s) DejaVu Sans.",
+          "Glyph 131072 (\\N{CJK UNIFIED IDEOGRAPH-20000}) missing from font(s) DejaVu Sans.",
+          "Glyph 131072 (\\N{CJK UNIFIED IDEOGRAPH-20000}) missing from font(s) DejaVu Sans."
+        ]
+      }
+    },
+    {
+      "id": "pdf.single_page_and_pinned_size",
+      "status": "PASS",
+      "detail": {
+        "page_count": 1,
+        "page_rect_pt": [
+          0.0,
+          0.0,
+          288.0,
+          216.0
+        ]
+      }
+    },
+    {
+      "id": "pdf.text_index_matches_char_boxes",
+      "status": "PASS",
+      "detail": {
+        "len_text": 11,
+        "char_count": 11
+      }
+    },
+    {
+      "id": "pdf.missing_character_absent_from_extraction",
+      "status": "PASS",
+      "detail": {
+        "codepoint": "U+20000",
+        "text": "Trend chart"
+      }
+    },
+    {
+      "id": "canonical.full_needle_absent",
+      "status": "PASS",
+      "detail": {
+        "needle": "Trend 𠀀 chart",
+        "occurrences": 0
+      }
+    },
+    {
+      "id": "canonical.deleted_needle_present",
+      "status": "PASS",
+      "detail": {
+        "needle": "Trend chart",
+        "occurrences": 1
+      }
+    },
+    {
+      "id": "alignment.deleted_needle_span_found",
+      "status": "PASS",
+      "detail": {
+        "span": {
+          "canonical_position": 0,
+          "char_indices": [
+            0,
+            11
+          ],
+          "char_count": 11,
+          "bbox_pt": [
+            111.1362533569336,
+            105.11219024658203,
+            176.64605712890625,
+            112.95218658447266
+          ],
+          "positive_heights": 11,
+          "median_height_pt": 5.80999755859375,
+          "median_height_over_font_size": 0.580999755859375,
+          "iou_vs_source_bbox": 0.7734068882880467,
+          "intersection_area_pt2": 513.5966216681991,
+          "span_area_pt2": 513.5966216681991
+        }
+      }
+    },
+    {
+      "id": "alignment.height_band",
+      "status": "PASS",
+      "detail": {
+        "median_height_pt": 5.80999755859375,
+        "font_size_pt": 10.0,
+        "ratio": 0.580999755859375
+      }
+    },
+    {
+      "id": "alignment.iou_at_least_0_50",
+      "status": "PASS",
+      "detail": {
+        "iou": 0.7734068882880467,
+        "span_bbox_pt": [
+          111.1362533569336,
+          105.11219024658203,
+          176.64605712890625,
+          112.95218658447266
+        ],
+        "source_bbox_pt": [
+          111.06,
+          102.96,
+          176.94,
+          113.04
+        ],
+        "intersection_area_pt2": 513.5966216681991,
+        "span_area_pt2": 513.5966216681991,
+        "source_area_pt2": 664.0704000000007
+      }
+    },
+    {
+      "id": "alignment.measured_value_matches_prereg",
+      "status": "PASS",
+      "detail": {
+        "measured": 0.7734068882880467,
+        "prereg_value": 0.7734,
+        "horizontal_alignment": "center",
+        "tolerance": 0.0001
+      }
+    },
+    {
+      "id": "alignment.left_aligned_span_found",
+      "status": "PASS",
+      "detail": {
+        "span": {
+          "canonical_position": 0,
+          "char_indices": [
+            0,
+            11
+          ],
+          "char_count": 11,
+          "bbox_pt": [
+            143.97999572753906,
+            105.11219024658203,
+            209.48980712890625,
+            112.95218658447266
+          ],
+          "positive_heights": 11,
+          "median_height_pt": 5.80999755859375,
+          "median_height_over_font_size": 0.580999755859375,
+          "iou_vs_source_bbox": 0.7729882519480206,
+          "intersection_area_pt2": 513.4398480597883,
+          "span_area_pt2": 513.5966814826243
+        }
+      }
+    },
+    {
+      "id": "alignment.left_aligned_iou_at_least_0_50",
+      "status": "PASS",
+      "detail": {
+        "iou": 0.7729882519480206,
+        "span_bbox_pt": [
+          143.97999572753906,
+          105.11219024658203,
+          209.48980712890625,
+          112.95218658447266
+        ],
+        "source_bbox_pt": [
+          144.0,
+          102.96,
+          209.88,
+          113.04
+        ]
+      }
+    },
+    {
+      "id": "alignment.left_aligned_value_matches_prereg",
+      "status": "PASS",
+      "detail": {
+        "measured": 0.7729882519480206,
+        "prereg_value": 0.773,
+        "horizontal_alignment": "left",
+        "tolerance": 0.0001
+      }
+    },
+    {
+      "id": "alignment.rounds_to_three_decimals",
+      "status": "PASS",
+      "detail": {
+        "center": 0.7734068882880467,
+        "left": 0.7729882519480206,
+        "rounded": "0.773"
+      }
+    }
+  ],
+  "result": "PASS"
+}
