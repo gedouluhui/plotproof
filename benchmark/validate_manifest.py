@@ -63,6 +63,8 @@ def main() -> int:
 
     if data.get("schema_version") != 1:
         fail(errors, "schema_version must be 1")
+    if data.get("frozen_at") != "2026-11-15":
+        fail(errors, "frozen_at must be '2026-11-15'")
     if data.get("split_policy") != "template_family":
         fail(errors, "split_policy must be template_family")
 
@@ -140,6 +142,38 @@ def main() -> int:
     # Hard-coded identities: a template must not change what it measures.
     expected_template_roles = {tid: "title" for tid in expected_template_splits}
     expected_template_roles["H11"] = "suptitle"
+    # Round-11: the declared locale and the family name are identity, not
+    # prose. A renamed family could hide a template change, and a language
+    # drift changes which glyphs and which font stack the sample requires.
+    expected_template_languages = {tid: "en" for tid in expected_template_splits}
+    expected_template_languages["H08"] = "zh_en"
+    expected_template_languages["H12"] = "zh_en"
+    expected_template_families = {
+        "D01": "line_basic",
+        "D02": "line_multi",
+        "D03": "bar_vertical",
+        "D04": "bar_grouped",
+        "D05": "scatter",
+        "D06": "histogram",
+        "D07": "boxplot",
+        "D08": "heatmap",
+        "D09": "pie",
+        "D10": "errorbar",
+        "D11": "log_scale",
+        "D12": "datetime_axis",
+        "H01": "violin",
+        "H02": "bar_stacked",
+        "H03": "bar_horizontal",
+        "H04": "contour",
+        "H05": "twin_axes",
+        "H06": "area_stacked",
+        "H07": "dense_ticks",
+        "H08": "mixed_cjk_en",
+        "H09": "scientific_notation",
+        "H10": "legend_outside",
+        "H11": "subplots_suptitle",
+        "H12": "units_negative",
+    }
     # Round-10: the descriptive and generative template fields are frozen
     # verbatim too. features drive the generator's construction; chart and
     # similarity_group are part of the recorded inventory. A coordinated edit
@@ -268,6 +302,15 @@ def main() -> int:
         if not family or family in seen_families:
             fail(errors, f"template family missing or duplicated: {family!r}")
         seen_families.add(family)
+        expected_family = expected_template_families.get(tid)
+        if expected_family is not None and family != expected_family:
+            fail(
+                errors,
+                f"template {tid}: family must equal the frozen value {expected_family!r}",
+            )
+        expected_language = expected_template_languages.get(tid)
+        if expected_language is not None and item.get("language") != expected_language:
+            fail(errors, f"template {tid}: language must be {expected_language!r}")
         if split not in split_counts:
             fail(errors, f"template {tid}: invalid split {split!r}")
         else:

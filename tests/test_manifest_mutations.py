@@ -130,6 +130,21 @@ def swap_h11_target_role(manifest: dict) -> None:
             item["target_role"] = "shared_xlabel"
 
 
+def retag_template_role(manifest: dict, tid: str, role: str) -> None:
+    """Keep a template and its samples coherent so only the intended rule fires."""
+    set_template(manifest, tid, "target_role", role)
+    for item in manifest["samples"]:
+        if item.get("template_id") == tid:
+            item["target_role"] = role
+
+
+def retag_template_family(manifest: dict, tid: str, family: str) -> None:
+    set_template(manifest, tid, "family", family)
+    for item in manifest["samples"]:
+        if item.get("template_id") == tid:
+            item["family"] = family
+
+
 def sample_family_change(manifest: dict) -> None:
     """Round-8 bypass: the old validator never read ``sample.family``."""
     set_sample(manifest, "D01.clean.s1", "family", "bar_vertical")
@@ -449,6 +464,70 @@ MUTATIONS: list[tuple[str, Mutation, str]] = [
         lambda m: template(m, "D01")["features"].remove("single_series"),
         "template D01: features must equal the frozen list",
     ),
+    # round-11 findings: the nine neutralized guards and three identity pins
+    (
+        "template_labels_horizontal_missing",
+        lambda m: drop_template_key(m, "D01", "labels_horizontal"),
+        "y-label or colorbar-label templates must declare",
+    ),
+    (
+        "template_colorbar_horizontal_missing",
+        lambda m: template(m, "D08")["features"].remove("colorbar_horizontal"),
+        "colorbar_label requires colorbar_horizontal",
+    ),
+    (
+        "template_rotated_feature",
+        lambda m: template(m, "D01")["features"].append("rotated_ylabel"),
+        "rotated features are out of scope",
+    ),
+    (
+        "template_target_role_not_feature",
+        lambda m: retag_template_role(m, "D03", "legend_inside"),
+        "must be one of its features",
+    ),
+    (
+        "template_family_duplicated",
+        lambda m: retag_template_family(m, "D02", "line_basic"),
+        "template family missing or duplicated",
+    ),
+    (
+        "template_scientific_ticks_feature",
+        lambda m: template(m, "D01")["features"].append("scientific_ticks"),
+        "scientific_ticks is ambiguous",
+    ),
+    (
+        "template_unicode_minus_feature",
+        lambda m: template(m, "H08")["features"].append("unicode_minus"),
+        "unicode_minus is forbidden",
+    ),
+    (
+        "template_date_axes_without_horizontal",
+        lambda m: template(m, "D12")["features"].remove("date_ticks_horizontal"),
+        "date axes must declare date_ticks_horizontal",
+    ),
+    (
+        "counter_family_collides_template",
+        lambda m: (
+            set_counterexample(m, "L01", "family", "line_basic"),
+            set_sample(m, "L01.counterexample", "family", "line_basic"),
+        ),
+        "counterexample family collides with template",
+    ),
+    (
+        "frozen_at_drift",
+        lambda m: m.__setitem__("frozen_at", "2026-11-13"),
+        "frozen_at must be",
+    ),
+    (
+        "template_language_drift",
+        lambda m: set_template(m, "D01", "language", "zh"),
+        "template D01: language must be",
+    ),
+    (
+        "template_family_drift",
+        lambda m: retag_template_family(m, "D01", "line_renamed"),
+        "template D01: family must equal the frozen value",
+    ),
 ]
 
 
@@ -460,7 +539,7 @@ def base() -> dict:
 def test_every_case_has_a_unique_name() -> None:
     names = [case[0] for case in MUTATIONS]
     assert len(names) == len(set(names))
-    assert len(MUTATIONS) >= 40
+    assert len(MUTATIONS) == 64
 
 
 def test_frozen_manifest_passes() -> None:
