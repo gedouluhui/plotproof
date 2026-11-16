@@ -473,4 +473,13 @@ Re-verification after the fixes (owner-run, this session, before freezing `b0-fr
 
 The round-13 review target is the `b0-freeze-r13` tag. No normative file may be edited while that review runs; this log is the only file expected to change.
 
+### Freeze record for `b0-freeze-r13`
+
+- Freeze commit: `bc8eb63b3f901777dd764ac22167d0b2908ac2ae`, tagged `b0-freeze-r13` (annotated tag object `590a51091154db763d36fa2da33b5bb5f829638d`). It changes seven tracked files: five modified (`README.md`, `docs/B0_FREEZE.sha256`, `docs/B0_PREREGISTRATION.md`, `docs/reviews/B0_REVIEW.md`, `tests/test_manifest_mutations.py`) and two created (`spikes/b0_missing_glyph_alignment_probe.py`, `artifacts/b0/missing-glyph-alignment-probe.json`). The prereg version is 1.9.
+- The tagged tree tracks 26 files: the 24 normative files in `docs/B0_FREEZE.sha256`, `docs/B0_FREEZE.sha256` itself, and this review log. The log is tracked but excluded from the manifest because it is the live disposition log, not a normative artifact; the version in the tagged tree ends with the round-13 target statement and predates this section.
+- Working-tree check: `sha256sum -c docs/B0_FREEZE.sha256` → 24/24 `OK`, exit 0.
+- Fresh-clone check: cloned the repository to a temporary directory, checked out `b0-freeze-r13` (peeled to `bc8eb63`), ran the same command → 24/24 `OK`, exit 0; the clone tracks 26 files and its manifest header reads `b0-freeze-r13`.
+- Evidence at the freeze (owner-run this session): validator `MANIFEST PASS` with 13 count lines, exit 0; mutation suite 70 passed under pytest and 70 passed when the module is run as a script, full `.venv` pytest 73 passed with one third-party `anyio` deprecation warning; D1 boundary probe not re-run because neither the probe nor its fixtures changed — its last recorded run is 39/39 PASS at `2026-11-15T02:31:03Z`; missing-glyph alignment probe 23/23 PASS at `2026-11-16T03:16:15Z`, artifact sha256 `6778f8e61a7e5445fb79789958392b6c14f79336285b6f4b66041a7c17aca597`; line endings 0 CRLF throughout (README 118 LF; `docs/B0_PREREGISTRATION.md` 545; this log 476 at the freeze; `spikes/b0_missing_glyph_alignment_probe.py` 656; `tests/test_manifest_mutations.py` 608; `artifacts/b0/missing-glyph-alignment-probe.json` 532).
+- Re-runnability note: the alignment probe needs the pinned font (`spikes/fetch_b0_font.py`) and the `.venv` dependency set; it writes its artifact only on all-pass, so a re-run from this tag either reproduces the recorded artifact or leaves a `-FAILED.json`. The round-11 bypass reproduction still uses the `b0-freeze-r8` tree, as recorded above.
+
 
