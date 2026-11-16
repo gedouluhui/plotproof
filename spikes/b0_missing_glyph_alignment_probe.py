@@ -114,6 +114,19 @@ def project_path(path: Path) -> str:
         return resolved.name
 
 
+def portable_font_record(path: Path) -> dict[str, str]:
+    """Describe a font path without leaking machine-specific absolute paths."""
+    resolved = path.resolve()
+    record = {"name": resolved.name}
+    try:
+        record["relative_to_matplotlib_data"] = (
+            resolved.relative_to(Path(matplotlib.get_data_path()).resolve()).as_posix()
+        )
+    except ValueError:
+        pass
+    return record
+
+
 def unicode_cmap(path: Path) -> dict[str, object]:
     """Return the union of the font's Unicode cmap subtables."""
     font = TTFont(str(path), fontNumber=0, lazy=True)
@@ -379,7 +392,7 @@ def main() -> int:
     checks.add(
         "cmap.dejavu_resolved",
         dejavu_path.is_file() and "dejavu" in dejavu_path.name.lower(),
-        {"path": str(dejavu_path)},
+        portable_font_record(dejavu_path),
     )
     checks.add(
         "cmap.noto_has_unicode_subtables",
@@ -606,7 +619,10 @@ def main() -> int:
             "pdfium_build": str(pdfium.PDFIUM_INFO),
         },
         "fonts": {
-            "dejavu": {"path": str(dejavu_path), "unicode_subtables": dejavu["unicode_subtables"]},
+            "dejavu": {
+                **portable_font_record(dejavu_path),
+                "unicode_subtables": dejavu["unicode_subtables"],
+            },
             "noto": {
                 "path": PINNED_FONT["file"],
                 "bytes": noto_size,

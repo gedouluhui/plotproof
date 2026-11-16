@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
   "probe": "b0_missing_glyph_alignment",
-  "generated_at": "2026-11-16T03:16:15+00:00",
+  "generated_at": "2026-11-16T03:46:19+00:00",
   "script": "spikes/b0_missing_glyph_alignment_probe.py",
-  "script_sha256": "a87e4b4df8f1b130be36df249c194000479ae3807ac4848a98a820354af21739",
+  "script_sha256": "f6b5a63d85a14c8573f8b33414225d025dfb1f5cb2dcceb74501a0d30dcb5c45",
   "figure_spec": {
     "figsize_in": [
       4.0,
@@ -29,7 +29,8 @@
   },
   "fonts": {
     "dejavu": {
-      "path": "C:\\Users\\lyj20\\anaconda3\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans.ttf",
+      "name": "DejaVuSans.ttf",
+      "relative_to_matplotlib_data": "fonts/ttf/DejaVuSans.ttf",
       "unicode_subtables": [
         {
           "platform_id": 0,
@@ -189,7 +190,8 @@
       "id": "cmap.dejavu_resolved",
       "status": "PASS",
       "detail": {
-        "path": "C:\\Users\\lyj20\\anaconda3\\Lib\\site-packages\\matplotlib\\mpl-data\\fonts\\ttf\\DejaVuSans.ttf"
+        "name": "DejaVuSans.ttf",
+        "relative_to_matplotlib_data": "fonts/ttf/DejaVuSans.ttf"
       }
     },
     {
