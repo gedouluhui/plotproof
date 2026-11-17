@@ -559,7 +559,8 @@ MUTATIONS: list[tuple[str, Mutation, str]] = [
             m,
             "occlude",
             "one contributing artist with alpha_eff >= 0.90, later recorded "
-            "paint order, and joint coverage >= 0.90",
+            "paint order, supported occluder geometry, R_a inside the page, "
+            "and its own coverage of the target character union >= 0.90",
         ),
         "injection_binding must be exactly",
     ),
@@ -580,6 +581,73 @@ MUTATIONS: list[tuple[str, Mutation, str]] = [
         lambda m: add_counter_placement(m, "L07"),
         "annotation_placement is only allowed for L11",
     ),
+    # round-15 findings: type-strict scalars, exact key sets, null rejection,
+    # and the strengthened high-band injection literals
+    (
+        "schema_version_bool",
+        lambda m: m.__setitem__("schema_version", True),
+        "schema_version must be 1",
+    ),
+    (
+        "seeds_clean_bool",
+        lambda m: m["seeds"].__setitem__("clean", [True]),
+        "seeds must be exactly",
+    ),
+    (
+        "save_bbox_key_missing",
+        lambda m: m["save_binding"].pop("bbox_inches"),
+        "save_binding is missing frozen keys",
+    ),
+    (
+        "save_pad_key_missing",
+        lambda m: m["save_binding"].pop("pad_inches"),
+        "save_binding is missing frozen keys",
+    ),
+    (
+        "counter_save_override_null_outside_l11",
+        lambda m: set_counterexample(m, "L07", "save_override", None),
+        "save_override is only allowed for L11",
+    ),
+    (
+        "counter_annotation_null_outside_l11",
+        lambda m: set_counterexample(m, "L07", "annotation_placement", None),
+        "annotation_placement is only allowed for L11",
+    ),
+    (
+        "template_tick_binding_null",
+        lambda m: set_template(m, "D01", "tick_binding", None),
+        "tick_binding is only allowed for H07 and H12",
+    ),
+    (
+        "injection_binding_clip_to_r14_literal",
+        lambda m: set_injection(
+            m,
+            "clip",
+            "at least one aligned target character box has A_out >= 0.5*A "
+            "or its center is strictly outside the page",
+        ),
+        "injection_binding must be exactly",
+    ),
+    (
+        "injection_binding_occlude_to_r14_literal",
+        lambda m: set_injection(
+            m,
+            "occlude",
+            "one contributing artist with alpha_eff >= 0.95, later recorded "
+            "paint order, and joint coverage >= 0.90",
+        ),
+        "injection_binding must be exactly",
+    ),
+    (
+        "injection_binding_overlap_to_r14_literal",
+        lambda m: set_injection(
+            m,
+            "overlap",
+            "both members aligned, r >= 0.50 on character-box unions, and one "
+            "character-box pair overlapping >= 0.5 pt in both axes",
+        ),
+        "injection_binding must be exactly",
+    ),
 ]
 
 
@@ -591,7 +659,7 @@ def base() -> dict:
 def test_every_case_has_a_unique_name() -> None:
     names = [case[0] for case in MUTATIONS]
     assert len(names) == len(set(names))
-    assert len(MUTATIONS) == 69
+    assert len(MUTATIONS) == 79
 
 
 def test_frozen_manifest_passes() -> None:

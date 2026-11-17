@@ -61,7 +61,7 @@ def main() -> int:
     data = json.loads(target.read_text(encoding="utf-8"))
     errors: list[str] = []
 
-    if data.get("schema_version") != 1:
+    if not strict_equal(data.get("schema_version"), 1):
         fail(errors, "schema_version must be 1")
     if data.get("frozen_at") != "2026-11-16":
         fail(errors, "frozen_at must be '2026-11-16'")
@@ -114,6 +114,9 @@ def main() -> int:
             "pad_inches": None,
             "pad_inches_effective": 0.1,
         }
+        missing = sorted(set(expected_save) - set(save_binding))
+        if missing:
+            fail(errors, f"save_binding is missing frozen keys: {missing}")
         for key, value in expected_save.items():
             if not strict_equal(save_binding.get(key), value):
                 fail(errors, f"save_binding.{key} must be {value!r}")
@@ -121,22 +124,26 @@ def main() -> int:
         if unexpected:
             fail(errors, f"save_binding has unexpected keys: {unexpected}")
 
-    # Round-14: each defect variant must reach its class's high-confidence
-    # band, not merely a medium candidate. The manifest freezes the literals;
-    # the sealing check, not this validator, measures each rendered sample.
+    # Round-15: the literal must include every guard the high band needs —
+    # positive-area exclusivity for D1, one artist's own coverage plus
+    # supported geometry and in-page occlusion for D2, and the own-opaque-
+    # background exemption for D3. The sealing check, not this validator,
+    # measures each rendered sample.
     injection_binding = data.get("injection_binding")
     expected_injection = {
         "clip": (
-            "at least one aligned target character box has A_out >= 0.5*A "
-            "or its center is strictly outside the page"
+            "at least one aligned target character box has positive area A "
+            "and A_out >= 0.5*A, or its center is strictly outside the page"
         ),
         "occlude": (
             "one contributing artist with alpha_eff >= 0.95, later recorded "
-            "paint order, and joint coverage >= 0.90"
+            "paint order, supported occluder geometry, R_a inside the page, "
+            "and its own coverage of the target character union >= 0.90"
         ),
         "overlap": (
-            "both members aligned, r >= 0.50 on character-box unions, and "
-            "one character-box pair overlapping >= 0.5 pt in both axes"
+            "both members aligned, r >= 0.50 on their character-box unions, "
+            "one character-box pair overlapping >= 0.5 pt in both axes, and "
+            "neither own opaque background patch intersecting the overlap"
         ),
         "missing_glyph": (
             "exactly one character absent from every resolved font: U+20000"
@@ -311,7 +318,7 @@ def main() -> int:
         fail(errors, f"variants are frozen; found {variants!r}")
     if defect_variants != ["clip", "occlude", "overlap", "missing_glyph"]:
         fail(errors, f"defect_variants are frozen; found {defect_variants!r}")
-    if seeds != {"clean": [1], "defect": [1, 2]}:
+    if not strict_equal(seeds, {"clean": [1], "defect": [1, 2]}):
         fail(
             errors,
             f'seeds must be exactly {{"clean": [1], "defect": [1, 2]}}, found {seeds!r}',
@@ -425,7 +432,7 @@ def main() -> int:
         tick_binding = item.get("tick_binding")
         expected_ticks = expected_tick_bindings.get(tid)
         if expected_ticks is None:
-            if tick_binding is not None:
+            if "tick_binding" in item:
                 fail(
                     errors,
                     f"template {tid}: tick_binding is only allowed for H07 and H12",
@@ -587,7 +594,9 @@ def main() -> int:
         override = item.get("save_override")
         placement = item.get("annotation_placement")
         if cid == "L11":
-            if override != {"bbox_inches": "tight", "pad_inches_effective": 0.1}:
+            if not strict_equal(
+                override, {"bbox_inches": "tight", "pad_inches_effective": 0.1}
+            ):
                 fail(
                     errors,
                     "counterexample L11 (tight-bbox counterexample) must declare "
@@ -610,9 +619,9 @@ def main() -> int:
                     f"{json.dumps(expected_placement, sort_keys=True)}",
                 )
         else:
-            if override is not None:
+            if "save_override" in item:
                 fail(errors, f"counterexample {cid}: save_override is only allowed for L11")
-            if placement is not None:
+            if "annotation_placement" in item:
                 fail(
                     errors,
                     f"counterexample {cid}: annotation_placement is only allowed for L11",
