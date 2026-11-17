@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "frozen_at": "2026-11-16",
+  "frozen_at": "2026-11-18",
   "product": "PlotProof",
   "split_policy": "template_family",
   "label_binding": {
@@ -58,7 +58,7 @@
     ]
   },
   "injection_binding": {
-    "clip": "at least one aligned target character box has positive area A and A_out >= 0.5*A, or its center is strictly outside the page",
+    "clip": "at least one aligned target character box has positive area A and A_out >= 0.5*A, or is a positive-area box whose center is strictly outside the page",
     "occlude": "one contributing artist with alpha_eff >= 0.95, later recorded paint order, supported occluder geometry, R_a inside the page, and its own coverage of the target character union >= 0.90",
     "overlap": "both members aligned, r >= 0.50 on their character-box unions, one character-box pair overlapping >= 0.5 pt in both axes, and neither own opaque background patch intersecting the overlap",
     "missing_glyph": "exactly one character absent from every resolved font: U+20000"

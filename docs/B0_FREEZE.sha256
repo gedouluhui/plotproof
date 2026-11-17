@@ -1,4 +1,4 @@
-# PlotProof B0 freeze manifest (tag: b0-freeze-r16).
+# PlotProof B0 freeze manifest (tag: b0-freeze-r17).
 # Format: <sha256>  <path>, verifiable with `sha256sum -c docs/B0_FREEZE.sha256`.
 # Scope: the 24 normative files below. NOT included by design:
 #   docs/reviews/B0_REVIEW.md  (live disposition log, appended after the tag)
@@ -6,7 +6,7 @@
 #   .fonts/, .venv/, .pytest_cache/, benchmark/holdout/  (local/generated, git-ignored)
 f5d1decffc660b75235df1f1519641d97dbd1621ea7a04add7696b90c2086c32  .gitignore
 61228e3a45c45c984189c9f47aa3743dc76bb1a70db48039fe78552b2694356b  LICENSE
-d646af5ecbe1e508b1b56de9f9506db07d1042e04b8057278f3e6e6fb4cb5c9b  README.md
+716235f1fe8ebbc8adc3d146f4ee327d7f5a714e02795d223550daf31449e621  README.md
 1c1ddd4c7575383e49687e55b0ae98faaf77369f8a99bbca25cef6a1d4234506  THIRD_PARTY_NOTICES.md
 5b761240dfb49f4b273a9a3bd532a5f853261f089ee4c11c21e50c35fbab659b  artifacts/b0/api-spike-fonttype3.pdf
 0800e869b86f66c671e8ccf94c7a3ae15ac25a576291ab5ca0ecb62165fd820a  artifacts/b0/api-spike-fonttype42.pdf
@@ -15,9 +15,9 @@ d646af5ecbe1e508b1b56de9f9506db07d1042e04b8057278f3e6e6fb4cb5c9b  README.md
 7a983041d1d1dc7d18aa6e426307a903f90f1ae7130b3244d78023f3273b48e5  artifacts/b0/d1-boundary-probe.json
 acf6133f68e09f991ba21a72c455385918c2aae75aaf548575e3b6fa3a815933  artifacts/b0/missing-glyph-alignment-probe.json
 626056ffc992f1b88c80c15e3f28562528784f78f72b8607938b76bc96ac7347  artifacts/b0/validator-bypass-repro.json
-893cf9a0bb011b5986b0d033d3d5c4e9bf04dcb775c1ea1d25c4539d7d9d166a  benchmark/manifest.json
-2c2ba8f438d60ea78e73891596c687239ee8a6d0ba68e0fb8702371b4150860b  benchmark/validate_manifest.py
-4e252e1dae6b8798e266658c44e9089e49649fc0e3525e6d09b959905e515860  docs/B0_PREREGISTRATION.md
+f837fe95f76792e19244a6d75d85d7a1bed7ea311105637e59c5750d8db04f3e  benchmark/manifest.json
+188e39ff2a95e178703f06218be230b9f9cba7bf710f1cf2856a90e8f2a5d942  benchmark/validate_manifest.py
+1049dfacb7c5fd2cf98ec4b6e207debdc5ea8bf09104502e18841d134ea83e71  docs/B0_PREREGISTRATION.md
 a0cca4976bf80eaf6f26a2d899918734c7a3939e42a5995c76b3f504398796e0  docs/DEPENDENCY_LICENSES.md
 272fb299b67ca6a4f71f0b60a56b33ec73a1ebb688f6460e6f7611d2006ec8f7  plotproof/__init__.py
 9a0a048e025a0f1e9439e51889e668328d86d66b83783a33fd99d44d14f3a5d9  pyproject.toml

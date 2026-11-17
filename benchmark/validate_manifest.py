@@ -63,8 +63,8 @@ def main() -> int:
 
     if not strict_equal(data.get("schema_version"), 1):
         fail(errors, "schema_version must be 1")
-    if data.get("frozen_at") != "2026-11-16":
-        fail(errors, "frozen_at must be '2026-11-16'")
+    if data.get("frozen_at") != "2026-11-18":
+        fail(errors, "frozen_at must be '2026-11-18'")
     if data.get("split_policy") != "template_family":
         fail(errors, "split_policy must be template_family")
 
@@ -127,13 +127,16 @@ def main() -> int:
     # Round-15: the literal must include every guard the high band needs —
     # positive-area exclusivity for D1, one artist's own coverage plus
     # supported geometry and in-page occlusion for D2, and the own-opaque-
-    # background exemption for D3. The sealing check, not this validator,
-    # measures each rendered sample.
+    # background exemption for D3. Round 16 restricts the outside-page
+    # branch to a positive-area box in the literal itself, matching §5, so
+    # the compressed wording cannot read a zero-area box as clipped. The
+    # sealing check, not this validator, measures each rendered sample.
     injection_binding = data.get("injection_binding")
     expected_injection = {
         "clip": (
             "at least one aligned target character box has positive area A "
-            "and A_out >= 0.5*A, or its center is strictly outside the page"
+            "and A_out >= 0.5*A, or is a positive-area box whose center is "
+            "strictly outside the page"
         ),
         "occlude": (
             "one contributing artist with alpha_eff >= 0.95, later recorded "
