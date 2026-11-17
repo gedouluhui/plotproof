@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "frozen_at": "2026-11-15",
+  "frozen_at": "2026-11-16",
   "product": "PlotProof",
   "split_policy": "template_family",
   "label_binding": {
@@ -56,6 +56,12 @@
       1,
       2
     ]
+  },
+  "injection_binding": {
+    "clip": "at least one aligned target character box has A_out >= 0.5*A or its center is strictly outside the page",
+    "occlude": "one contributing artist with alpha_eff >= 0.95, later recorded paint order, and joint coverage >= 0.90",
+    "overlap": "both members aligned, r >= 0.50 on character-box unions, and one character-box pair overlapping >= 0.5 pt in both axes",
+    "missing_glyph": "exactly one character absent from every resolved font: U+20000"
   },
   "templates": [
     {
@@ -637,6 +643,13 @@
       "save_override": {
         "bbox_inches": "tight",
         "pad_inches_effective": 0.1
+      },
+      "annotation_placement": {
+        "x": 1.02,
+        "y": 0.5,
+        "coordinate_system": "figure_fraction",
+        "ha": "left",
+        "va": "center"
       }
     },
     {

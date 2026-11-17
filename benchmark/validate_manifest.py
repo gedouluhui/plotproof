@@ -63,8 +63,8 @@ def main() -> int:
 
     if data.get("schema_version") != 1:
         fail(errors, "schema_version must be 1")
-    if data.get("frozen_at") != "2026-11-15":
-        fail(errors, "frozen_at must be '2026-11-15'")
+    if data.get("frozen_at") != "2026-11-16":
+        fail(errors, "frozen_at must be '2026-11-16'")
     if data.get("split_policy") != "template_family":
         fail(errors, "split_policy must be template_family")
 
@@ -120,6 +120,36 @@ def main() -> int:
         unexpected = sorted(set(save_binding) - set(expected_save))
         if unexpected:
             fail(errors, f"save_binding has unexpected keys: {unexpected}")
+
+    # Round-14: each defect variant must reach its class's high-confidence
+    # band, not merely a medium candidate. The manifest freezes the literals;
+    # the sealing check, not this validator, measures each rendered sample.
+    injection_binding = data.get("injection_binding")
+    expected_injection = {
+        "clip": (
+            "at least one aligned target character box has A_out >= 0.5*A "
+            "or its center is strictly outside the page"
+        ),
+        "occlude": (
+            "one contributing artist with alpha_eff >= 0.95, later recorded "
+            "paint order, and joint coverage >= 0.90"
+        ),
+        "overlap": (
+            "both members aligned, r >= 0.50 on character-box unions, and "
+            "one character-box pair overlapping >= 0.5 pt in both axes"
+        ),
+        "missing_glyph": (
+            "exactly one character absent from every resolved font: U+20000"
+        ),
+    }
+    if not isinstance(injection_binding, dict):
+        fail(errors, "manifest must declare an injection_binding object")
+    elif not strict_equal(injection_binding, expected_injection):
+        fail(
+            errors,
+            "injection_binding must be exactly "
+            f"{json.dumps(expected_injection, sort_keys=True)}",
+        )
 
     expected_template_splits = {
         **{f"D{i:02d}": "dev" for i in range(1, 13)},
@@ -236,7 +266,12 @@ def main() -> int:
     }
     template_optional_keys = {"labels_horizontal", "note", "tick_formatter", "tick_binding"}
     counter_required_keys = {"id", "family", "split", "expected_state", "note"}
-    counter_optional_keys = {"alpha_binding", "labels_horizontal", "save_override"}
+    counter_optional_keys = {
+        "alpha_binding",
+        "labels_horizontal",
+        "save_override",
+        "annotation_placement",
+    }
     template_sample_keys = {
         "id",
         "template_id",
@@ -550,6 +585,7 @@ def main() -> int:
                 f"counterexample {cid}: alpha_binding is only allowed for L06",
             )
         override = item.get("save_override")
+        placement = item.get("annotation_placement")
         if cid == "L11":
             if override != {"bbox_inches": "tight", "pad_inches_effective": 0.1}:
                 fail(
@@ -557,8 +593,30 @@ def main() -> int:
                     "counterexample L11 (tight-bbox counterexample) must declare "
                     'save_override {"bbox_inches": "tight", "pad_inches_effective": 0.1}',
                 )
-        elif override is not None:
-            fail(errors, f"counterexample {cid}: save_override is only allowed for L11")
+            # Round-14: the annotation must sit outside fig.bbox and inside the
+            # tight page. A placement inside fig.bbox would let L11 pass for
+            # the wrong reason and would not exercise the expansion at all.
+            expected_placement = {
+                "x": 1.02,
+                "y": 0.5,
+                "coordinate_system": "figure_fraction",
+                "ha": "left",
+                "va": "center",
+            }
+            if not strict_equal(placement, expected_placement):
+                fail(
+                    errors,
+                    "counterexample L11 must pin annotation_placement "
+                    f"{json.dumps(expected_placement, sort_keys=True)}",
+                )
+        else:
+            if override is not None:
+                fail(errors, f"counterexample {cid}: save_override is only allowed for L11")
+            if placement is not None:
+                fail(
+                    errors,
+                    f"counterexample {cid}: annotation_placement is only allowed for L11",
+                )
 
     if seen_counter_ids != set(expected_counter_splits):
         fail(

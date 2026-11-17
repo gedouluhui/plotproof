@@ -189,6 +189,25 @@ def add_counter_alpha(manifest: dict, cid: str, binding: object) -> None:
     set_counterexample(manifest, cid, "alpha_binding", binding)
 
 
+def set_injection(manifest: dict, key: str, value: str) -> None:
+    manifest["injection_binding"][key] = value
+
+
+def add_counter_placement(manifest: dict, cid: str) -> None:
+    set_counterexample(
+        manifest,
+        cid,
+        "annotation_placement",
+        {
+            "x": 1.02,
+            "y": 0.5,
+            "coordinate_system": "figure_fraction",
+            "ha": "left",
+            "va": "center",
+        },
+    )
+
+
 MUTATIONS: list[tuple[str, Mutation, str]] = [
     # save_binding and label_binding
     (
@@ -528,6 +547,39 @@ MUTATIONS: list[tuple[str, Mutation, str]] = [
         lambda m: retag_template_family(m, "D01", "line_renamed"),
         "template D01: family must equal the frozen value",
     ),
+    # round-14 findings: per-class injection binding and the L11 placement pin
+    (
+        "injection_binding_missing",
+        lambda m: m.pop("injection_binding"),
+        "manifest must declare an injection_binding object",
+    ),
+    (
+        "injection_binding_occlude_to_medium",
+        lambda m: set_injection(
+            m,
+            "occlude",
+            "one contributing artist with alpha_eff >= 0.90, later recorded "
+            "paint order, and joint coverage >= 0.90",
+        ),
+        "injection_binding must be exactly",
+    ),
+    (
+        "l11_annotation_placement_missing",
+        lambda m: counterexample(m, "L11").pop("annotation_placement"),
+        "counterexample L11 must pin annotation_placement",
+    ),
+    (
+        "l11_annotation_placement_inside_figure",
+        lambda m: counterexample(m, "L11")["annotation_placement"].__setitem__(
+            "x", 0.98
+        ),
+        "counterexample L11 must pin annotation_placement",
+    ),
+    (
+        "counter_annotation_outside_l11",
+        lambda m: add_counter_placement(m, "L07"),
+        "annotation_placement is only allowed for L11",
+    ),
 ]
 
 
@@ -539,7 +591,7 @@ def base() -> dict:
 def test_every_case_has_a_unique_name() -> None:
     names = [case[0] for case in MUTATIONS]
     assert len(names) == len(set(names))
-    assert len(MUTATIONS) == 64
+    assert len(MUTATIONS) == 69
 
 
 def test_frozen_manifest_passes() -> None:
