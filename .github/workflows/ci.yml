@@ -22,31 +22,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -e ".[dev]"
-      - name: Debug worker reply
-        if: runner.os == 'Linux'
-        run: |
-          python - <<'PY'
-          from hashlib import sha256
-          import matplotlib
-          matplotlib.use('Agg')
-          import matplotlib.pyplot as plt
-          from plotproof.pdf_input import PdfLimits, _run_worker
-          fig, ax = plt.subplots(figsize=(4, 3), dpi=100)
-          ax.set_title('hello')
-          fig.savefig('/tmp/x.pdf')
-          data = open('/tmp/x.pdf', 'rb').read()
-          reply = _run_worker(data, PdfLimits(), None)
-          print('top', sorted(reply))
-          print('ok', reply.get('ok'), 'error', reply.get('error'))
-          body = reply.get('snapshot') or {}
-          print('keys', sorted(body))
-          for key in ('input_sha256', 'pypdfium2_version', 'pdfium_version', 'page_count',
-                      'rotation', 'page_size_pt', 'cropbox', 'mediabox', 'char_count'):
-              print(key, repr(body.get(key)))
-          chars = body.get('characters') or []
-          print('chars', len(chars), 'first', chars[:2])
-          print('sha', sha256(data).hexdigest())
-          PY
       - name: Test
         run: python -m pytest -q
       - name: Validate frozen benchmark manifest
