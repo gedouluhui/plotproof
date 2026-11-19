@@ -1,0 +1,5 @@
+# Deterministic line endings: mutation anchors and frozen hashes are byte-sensitive.
+* text=auto eol=lf
+*.pdf binary
+*.png binary
+*.whl binary
