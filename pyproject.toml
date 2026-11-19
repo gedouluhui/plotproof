@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "plotproof"
-version = "0.1.0a1"
+version = "0.1.0a2"
 description = "Source-assisted export evidence for Matplotlib figures (B1 preview: clipped/overlapping text, no font evidence)"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"

@@ -31,7 +31,7 @@ def run_probe(extra: str = "") -> dict[str, object]:
 
 
 def test_package_exposes_the_preview_version_and_lazy_api() -> None:
-    assert plotproof.__version__ == "0.1.0a1"
+    assert plotproof.__version__ == "0.1.0a2"
     assert sorted(plotproof.__all__) == ["CheckError", "CheckReport",
                                         "check_figure", "render_html"]
     # The attribute exists without importing the heavy assembly at package import.
@@ -40,7 +40,7 @@ def test_package_exposes_the_preview_version_and_lazy_api() -> None:
 
 def test_importing_the_package_loads_no_heavy_dependency() -> None:
     probe = run_probe()
-    assert probe["version"] == "0.1.0a1"
+    assert probe["version"] == "0.1.0a2"
     assert probe["heavy"] == []
 
 
