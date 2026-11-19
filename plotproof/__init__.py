@@ -5,7 +5,7 @@ that ``import plotproof`` stays free of Matplotlib, NumPy, PDFium and Pillow.
 """
 from __future__ import annotations
 
-__version__ = "0.1.0a1"
+__version__ = "0.1.0a2"
 
 __all__ = ["CheckError", "CheckReport", "check_figure", "render_html"]
 
