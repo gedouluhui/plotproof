@@ -4,15 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "plotproof"
-version = "0.0.0.dev0"
-description = "Source-assisted export checker for Matplotlib figures (B0 design stage; detector not implemented)"
+version = "0.1.0a1"
+description = "Source-assisted export evidence for Matplotlib figures (B1 preview: clipped/overlapping text, no font evidence)"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = { text = "MIT" }
 authors = [{ name = "PlotProof contributors" }]
 keywords = ["matplotlib", "pdf", "figure", "accessibility", "chart", "quality"]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: MIT License",
@@ -22,7 +22,7 @@ classifiers = [
     "Topic :: Software Development :: Quality Assurance",
 ]
 dependencies = [
-    "matplotlib>=3.10,<4",
+    "matplotlib==3.10.8",
     "numpy>=2,<3",
     "pypdfium2>=5,<6",
     "fonttools>=4.60,<5",
@@ -34,6 +34,9 @@ dev = [
     "pytest>=8",
     "hypothesis>=6",
 ]
+
+[project.scripts]
+plotproof = "plotproof.cli:main"
 
 [tool.setuptools]
 packages = ["plotproof"]

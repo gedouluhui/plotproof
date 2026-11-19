@@ -1,0 +1,1256 @@
+{
+  "input_sha256": "ab41566ba16483e24253568c963f26d56834526cae11946029349ac83ae387ff",
+  "original_dpi": 100.0,
+  "bbox_inches": "tight",
+  "pad_inches": 0.1,
+  "transparent": false,
+  "pre_tight_bbox_inches": [
+    -0.12277777777777779,
+    -0.10277777777777784,
+    3.722777777777778,
+    2.742777777777778
+  ],
+  "save_tight_bbox_inches": [
+    -0.123046875,
+    -0.09144097222222225,
+    3.7230468749999996,
+    2.7314409722222224
+  ],
+  "origin_display": [
+    -22.3046875,
+    -19.144097222222225
+  ],
+  "sources": [
+    {
+      "source_object_id": 0,
+      "artist_class": "Rectangle",
+      "text": null,
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 1,
+      "artist_class": "Rectangle",
+      "text": null,
+      "visible": true,
+      "raw_artist_alpha": 0.6,
+      "raw_color_alpha": 0.6,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 2,
+      "artist_class": "Spine",
+      "text": null,
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 0.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 3,
+      "artist_class": "Spine",
+      "text": null,
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 0.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 4,
+      "artist_class": "Spine",
+      "text": null,
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 0.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 5,
+      "artist_class": "Spine",
+      "text": null,
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 0.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 6,
+      "artist_class": "Text",
+      "text": "Time",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 7,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 8,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 9,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 10,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 11,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 12,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 13,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 14,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 15,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 16,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 17,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 18,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 19,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 20,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 21,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 22,
+      "artist_class": "Text",
+      "text": "Value",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 23,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 24,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 25,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 26,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 27,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 28,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 29,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 30,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 31,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 32,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 33,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 34,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 35,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 36,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 37,
+      "artist_class": "Text",
+      "text": "",
+      "visible": false,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 38,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 39,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 40,
+      "artist_class": "Text",
+      "text": "",
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    },
+    {
+      "source_object_id": 41,
+      "artist_class": "Rectangle",
+      "text": null,
+      "visible": true,
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "background_patch_id": null,
+      "owner_unit_id": null
+    }
+  ],
+  "events": [
+    {
+      "sequence": 0,
+      "kind": "filled_path",
+      "source_object_id": 0,
+      "artist_class": "Rectangle",
+      "bbox_pdf": {
+        "x0": 0.0,
+        "y0": 0.0,
+        "x1": 282.45937499999997,
+        "y1": 211.06375000000003
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          282.45937499999997,
+          0.0
+        ],
+        [
+          282.45937499999997,
+          211.06375000000003
+        ],
+        [
+          0.0,
+          211.06375000000003
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "path_codes": [
+        1,
+        2,
+        2,
+        2,
+        79
+      ]
+    },
+    {
+      "sequence": 1,
+      "kind": "filled_path",
+      "source_object_id": 41,
+      "artist_class": "Rectangle",
+      "bbox_pdf": {
+        "x0": 52.059375,
+        "y0": 37.54375,
+        "x1": 275.259375,
+        "y1": 203.86374999999998
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          52.059375,
+          37.54375
+        ],
+        [
+          275.259375,
+          37.54375
+        ],
+        [
+          275.259375,
+          203.86374999999998
+        ],
+        [
+          52.059375,
+          203.86374999999998
+        ],
+        [
+          52.059375,
+          37.54375
+        ]
+      ],
+      "path_codes": [
+        1,
+        2,
+        2,
+        2,
+        79
+      ]
+    },
+    {
+      "sequence": 2,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 62.204829545454544,
+        "y0": 34.04375,
+        "x1": 62.204829545454544,
+        "y1": 37.54375
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          62.204829545454544,
+          37.54375
+        ],
+        [
+          62.204829545454544,
+          34.04375
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 3,
+      "kind": "text",
+      "source_object_id": 10,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 54.251704545454544,
+        "y0": 20.871875000000003,
+        "x1": 70.15795454545454,
+        "y1": 30.543750000000003
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "0.0",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 4,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 112.93210227272726,
+        "y0": 34.04375,
+        "x1": 112.93210227272726,
+        "y1": 37.54375
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          112.93210227272726,
+          37.54375
+        ],
+        [
+          112.93210227272726,
+          34.04375
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 5,
+      "kind": "text",
+      "source_object_id": 12,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 104.97897727272726,
+        "y0": 20.871875000000003,
+        "x1": 120.88522727272726,
+        "y1": 30.543750000000003
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "0.5",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 6,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 163.65937499999998,
+        "y0": 34.04375,
+        "x1": 163.65937499999998,
+        "y1": 37.54375
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          163.65937499999998,
+          37.54375
+        ],
+        [
+          163.65937499999998,
+          34.04375
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 7,
+      "kind": "text",
+      "source_object_id": 14,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 155.70624999999998,
+        "y0": 20.871875000000003,
+        "x1": 171.61249999999998,
+        "y1": 30.543750000000003
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "1.0",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 8,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 214.3866477272727,
+        "y0": 34.04375,
+        "x1": 214.3866477272727,
+        "y1": 37.54375
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          214.3866477272727,
+          37.54375
+        ],
+        [
+          214.3866477272727,
+          34.04375
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 9,
+      "kind": "text",
+      "source_object_id": 16,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 206.4335227272727,
+        "y0": 20.871875000000003,
+        "x1": 222.3397727272727,
+        "y1": 30.543750000000003
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "1.5",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 10,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 265.11392045454545,
+        "y0": 34.04375,
+        "x1": 265.11392045454545,
+        "y1": 37.54375
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          265.11392045454545,
+          37.54375
+        ],
+        [
+          265.11392045454545,
+          34.04375
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 11,
+      "kind": "text",
+      "source_object_id": 18,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 257.16079545454545,
+        "y0": 20.871875000000003,
+        "x1": 273.06704545454545,
+        "y1": 30.543750000000003
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "2.0",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 12,
+      "kind": "text",
+      "source_object_id": 6,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 151.3859375,
+        "y0": 7.200000000000003,
+        "x1": 175.9328125,
+        "y1": 16.871875000000003
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "Time",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 13,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 48.559375,
+        "y0": 45.103750000000005,
+        "x1": 52.059375,
+        "y1": 45.103750000000005
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          52.059375,
+          45.103750000000005
+        ],
+        [
+          48.559375,
+          45.103750000000005
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 14,
+      "kind": "text",
+      "source_object_id": 26,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 38.7,
+        "y0": 39.228750000000005,
+        "x1": 45.059375,
+        "y1": 48.900625000000005
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "0",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 15,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 48.559375,
+        "y0": 82.90375,
+        "x1": 52.059375,
+        "y1": 82.90375
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          52.059375,
+          82.90375
+        ],
+        [
+          48.559375,
+          82.90375
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 16,
+      "kind": "text",
+      "source_object_id": 28,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 38.7,
+        "y0": 77.02875,
+        "x1": 45.059375,
+        "y1": 86.700625
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "1",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 17,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 48.559375,
+        "y0": 120.70375,
+        "x1": 52.059375,
+        "y1": 120.70375
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          52.059375,
+          120.70375
+        ],
+        [
+          48.559375,
+          120.70375
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 18,
+      "kind": "text",
+      "source_object_id": 30,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 38.7,
+        "y0": 114.82875,
+        "x1": 45.059375,
+        "y1": 124.500625
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "2",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 19,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 48.559375,
+        "y0": 158.50375,
+        "x1": 52.059375,
+        "y1": 158.50375
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          52.059375,
+          158.50375
+        ],
+        [
+          48.559375,
+          158.50375
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 20,
+      "kind": "text",
+      "source_object_id": 32,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 38.7,
+        "y0": 152.62875,
+        "x1": 45.059375,
+        "y1": 162.300625
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "3",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 21,
+      "kind": "filled_path",
+      "source_object_id": null,
+      "artist_class": null,
+      "bbox_pdf": {
+        "x0": 48.559375,
+        "y0": 196.30374999999998,
+        "x1": 52.059375,
+        "y1": 196.30374999999998
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": null,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          52.059375,
+          196.30374999999998
+        ],
+        [
+          48.559375,
+          196.30374999999998
+        ]
+      ],
+      "path_codes": null
+    },
+    {
+      "sequence": 22,
+      "kind": "text",
+      "source_object_id": 34,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 38.7,
+        "y0": 190.42874999999998,
+        "x1": 45.059375,
+        "y1": 200.10062499999998
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "4",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 23,
+      "kind": "text",
+      "source_object_id": 22,
+      "artist_class": "Text",
+      "bbox_pdf": {
+        "x0": 7.200000000000003,
+        "y0": 120.70375,
+        "x1": 34.7,
+        "y1": 130.375625
+      },
+      "alpha": {
+        "gc_alpha": 1.0,
+        "gc_forced": false,
+        "color_alpha": 1.0,
+        "effective": 1.0
+      },
+      "raw_artist_alpha": null,
+      "raw_color_alpha": 1.0,
+      "text": "Value",
+      "font_size_pt": 10.0,
+      "angle": 0.0,
+      "path_vertices_pdf": [],
+      "path_codes": null
+    },
+    {
+      "sequence": 24,
+      "kind": "filled_path",
+      "source_object_id": 1,
+      "artist_class": "Rectangle",
+      "bbox_pdf": {
+        "x0": 131.259375,
+        "y0": 100.18375,
+        "x1": 188.85937500000003,
+        "y1": 143.38375000000002
+      },
+      "alpha": {
+        "gc_alpha": 0.6,
+        "gc_forced": true,
+        "color_alpha": 0.6,
+        "effective": 0.6
+      },
+      "raw_artist_alpha": 0.6,
+      "raw_color_alpha": 0.6,
+      "text": null,
+      "font_size_pt": null,
+      "angle": null,
+      "path_vertices_pdf": [
+        [
+          131.259375,
+          100.18375
+        ],
+        [
+          188.85937500000003,
+          100.18375
+        ],
+        [
+          188.85937500000003,
+          143.38375000000002
+        ],
+        [
+          131.259375,
+          143.38375000000002
+        ],
+        [
+          131.259375,
+          100.18375
+        ]
+      ],
+      "path_codes": [
+        1,
+        2,
+        2,
+        2,
+        79
+      ]
+    }
+  ],
+  "warnings": [],
+  "capture_issues": [
+    "collection_capture_pending",
+    "unassociated_material_event"
+  ],
+  "capture_revision": "CA1",
+  "complete_source_manifest": false,
+  "page_size_pt": [
+    282.4593811035156,
+    211.06375122070312
+  ],
+  "generated_at": "2026-11-17T22:45:06.018787+00:00",
+  "capture_source_sha256": "6253f1709a9d39ff67b6199daf1c1f92e8afc39431b5764f5e5a2601350d3102"
+}

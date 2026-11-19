@@ -1,0 +1,564 @@
+{
+  "schema_version": 1,
+  "classification": "capture_contract_counterexamples",
+  "generated_at": "2026-11-17T20:59:58.254490+00:00",
+  "script_sha256": "ba49f1d6b6574795ed7d5a5c8a62e53393aeefdf53b47bf7b3f20e8845313cb8",
+  "versions": {
+    "python": "3.12.3",
+    "matplotlib": "3.10.8",
+    "pypdfium2": "5.8.0",
+    "pdfium": "149.0.7825.0",
+    "numpy": "2.4.6",
+    "pillow": "12.2.0",
+    "freetype": "2.6.1"
+  },
+  "premises": {
+    "pdf_fonttype": 42,
+    "pdf_use14corefonts": false,
+    "font_family": [
+      "DejaVu Sans"
+    ],
+    "font_size_pt": 10.0,
+    "text_usetex": false,
+    "bbox_padding_inches": 0.1,
+    "pdf_points_per_inch": 72,
+    "page_comparison_tolerance_pt": 0.0001,
+    "pdfium_render_scale": 1,
+    "pdfium_execution": "same_process_serial",
+    "pdf_storage": "memory"
+  },
+  "alpha_cases": [
+    {
+      "case_id": "artist_alpha_0_6",
+      "figure_size_inches": [
+        2.0,
+        2.0
+      ],
+      "figure_dpi": 100.0,
+      "canvas": "FigureCanvasAgg",
+      "figure_facecolor_rgba": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rectangle_bounds_figure": [
+        0.2,
+        0.2,
+        0.6,
+        0.6
+      ],
+      "edgecolor_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "input_facecolor_rgba": [
+        0,
+        0,
+        0,
+        0.6
+      ],
+      "input_artist_alpha": 0.6,
+      "get_facecolor_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        0.6
+      ],
+      "get_alpha": 0.6,
+      "frozen_getter_product_alpha": 0.36,
+      "frozen_prediction_rgb": [
+        163,
+        163,
+        163
+      ],
+      "draw_contract_alpha": 0.6,
+      "draw_contract_prediction_rgb": [
+        102,
+        102,
+        102
+      ],
+      "pdf": {
+        "page_count": 1,
+        "bytes_length": 1238,
+        "page_size_pt": [
+          144.0,
+          144.0
+        ],
+        "media_box_pt": [
+          0.0,
+          0.0,
+          144.0,
+          144.0
+        ],
+        "crop_box_pt": [
+          0.0,
+          0.0,
+          144.0,
+          144.0
+        ],
+        "rotation_degrees": 0,
+        "bitmap_size_px": [
+          144,
+          144
+        ],
+        "sample_xy_px": [
+          72,
+          72
+        ],
+        "center_rgb": [
+          102,
+          102,
+          102
+        ],
+        "background_sample_xy_px": [
+          0,
+          0
+        ],
+        "background_rgb": [
+          255,
+          255,
+          255
+        ],
+        "auxiliary_fill_alpha_values": [
+          0.6
+        ]
+      },
+      "interpretation": {
+        "classification": "counterexample",
+        "frozen_product_matches_render": false,
+        "draw_contract_matches_render": true,
+        "render_implied_black_alpha": [
+          0.6,
+          0.6,
+          0.6
+        ]
+      }
+    },
+    {
+      "case_id": "artist_alpha_none",
+      "figure_size_inches": [
+        2.0,
+        2.0
+      ],
+      "figure_dpi": 100.0,
+      "canvas": "FigureCanvasAgg",
+      "figure_facecolor_rgba": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rectangle_bounds_figure": [
+        0.2,
+        0.2,
+        0.6,
+        0.6
+      ],
+      "edgecolor_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "input_facecolor_rgba": [
+        0,
+        0,
+        0,
+        0.6
+      ],
+      "input_artist_alpha": null,
+      "get_facecolor_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        0.6
+      ],
+      "get_alpha": null,
+      "frozen_getter_product_alpha": 0.6,
+      "frozen_prediction_rgb": [
+        102,
+        102,
+        102
+      ],
+      "draw_contract_alpha": 0.6,
+      "draw_contract_prediction_rgb": [
+        102,
+        102,
+        102
+      ],
+      "pdf": {
+        "page_count": 1,
+        "bytes_length": 1236,
+        "page_size_pt": [
+          144.0,
+          144.0
+        ],
+        "media_box_pt": [
+          0.0,
+          0.0,
+          144.0,
+          144.0
+        ],
+        "crop_box_pt": [
+          0.0,
+          0.0,
+          144.0,
+          144.0
+        ],
+        "rotation_degrees": 0,
+        "bitmap_size_px": [
+          144,
+          144
+        ],
+        "sample_xy_px": [
+          72,
+          72
+        ],
+        "center_rgb": [
+          102,
+          102,
+          102
+        ],
+        "background_sample_xy_px": [
+          0,
+          0
+        ],
+        "background_rgb": [
+          255,
+          255,
+          255
+        ],
+        "auxiliary_fill_alpha_values": [
+          0.6
+        ]
+      },
+      "interpretation": {
+        "classification": "control_agrees",
+        "frozen_product_matches_render": true,
+        "draw_contract_matches_render": true,
+        "render_implied_black_alpha": [
+          0.6,
+          0.6,
+          0.6
+        ]
+      }
+    },
+    {
+      "case_id": "opaque",
+      "figure_size_inches": [
+        2.0,
+        2.0
+      ],
+      "figure_dpi": 100.0,
+      "canvas": "FigureCanvasAgg",
+      "figure_facecolor_rgba": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "rectangle_bounds_figure": [
+        0.2,
+        0.2,
+        0.6,
+        0.6
+      ],
+      "edgecolor_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "input_facecolor_rgba": [
+        0,
+        0,
+        0,
+        1.0
+      ],
+      "input_artist_alpha": 1.0,
+      "get_facecolor_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "get_alpha": 1.0,
+      "frozen_getter_product_alpha": 1.0,
+      "frozen_prediction_rgb": [
+        0,
+        0,
+        0
+      ],
+      "draw_contract_alpha": 1.0,
+      "draw_contract_prediction_rgb": [
+        0,
+        0,
+        0
+      ],
+      "pdf": {
+        "page_count": 1,
+        "bytes_length": 1234,
+        "page_size_pt": [
+          144.0,
+          144.0
+        ],
+        "media_box_pt": [
+          0.0,
+          0.0,
+          144.0,
+          144.0
+        ],
+        "crop_box_pt": [
+          0.0,
+          0.0,
+          144.0,
+          144.0
+        ],
+        "rotation_degrees": 0,
+        "bitmap_size_px": [
+          144,
+          144
+        ],
+        "sample_xy_px": [
+          72,
+          72
+        ],
+        "center_rgb": [
+          0,
+          0,
+          0
+        ],
+        "background_sample_xy_px": [
+          0,
+          0
+        ],
+        "background_rgb": [
+          255,
+          255,
+          255
+        ],
+        "auxiliary_fill_alpha_values": [
+          1.0
+        ]
+      },
+      "interpretation": {
+        "classification": "control_agrees",
+        "frozen_product_matches_render": true,
+        "draw_contract_matches_render": true,
+        "render_implied_black_alpha": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  ],
+  "bbox_cases": [
+    {
+      "case_id": "ordinary",
+      "figure_size_inches": [
+        4.0,
+        3.0
+      ],
+      "figure_dpi": 100.0,
+      "canvas": "FigureCanvasAgg",
+      "layout_engine": null,
+      "plot_x": [
+        0,
+        1,
+        2
+      ],
+      "plot_y": [
+        0,
+        1,
+        4
+      ],
+      "ylabel": "Value",
+      "ylabel_rotation": 0.0,
+      "ylabel_ha": "right",
+      "xlabel": "Time",
+      "pre_draw_renderer": "RendererAgg",
+      "pre_draw_tightbbox_inches": [
+        -0.12277777777777779,
+        -0.10277777777777784,
+        3.722777777777778,
+        2.742777777777778
+      ],
+      "save_tightbbox_calls": [
+        {
+          "renderer": "MixedModeRenderer",
+          "bounds_inches": [
+            -0.123046875,
+            -0.09144097222222225,
+            3.7230468749999996,
+            2.7314409722222224
+          ],
+          "figure_dpi": 72.0,
+          "is_saving": true
+        }
+      ],
+      "get_tightbbox_restored": true,
+      "pre_draw_predicted_page_size_pt": [
+        282.44000000000005,
+        211.88000000000002
+      ],
+      "save_predicted_page_size_pt": [
+        282.45937499999997,
+        211.06375000000003
+      ],
+      "pdf": {
+        "page_count": 1,
+        "bytes_length": 7831,
+        "page_size_pt": [
+          282.4593811035156,
+          211.06375122070312
+        ],
+        "media_box_pt": [
+          0.0,
+          0.0,
+          282.4593811035156,
+          211.06375122070312
+        ],
+        "crop_box_pt": [
+          0.0,
+          0.0,
+          282.4593811035156,
+          211.06375122070312
+        ],
+        "rotation_degrees": 0
+      },
+      "interpretation": {
+        "classification": "counterexample",
+        "save_minus_pre_bounds_inches": [
+          -0.0002690972222222088,
+          0.011336805555555593,
+          0.0002690972222216814,
+          -0.011336805555555607
+        ],
+        "bounds_agree_within_1e_9_inches": false,
+        "pre_prediction_error_pt": [
+          0.01938110351557043,
+          -0.8162487792968989
+        ],
+        "save_prediction_error_pt": [
+          6.103515659106051e-06,
+          1.220703097715159e-06
+        ],
+        "pre_prediction_matches_pdf": false,
+        "save_prediction_matches_pdf": true
+      }
+    },
+    {
+      "case_id": "constrained_layout",
+      "figure_size_inches": [
+        4.0,
+        3.0
+      ],
+      "figure_dpi": 100.0,
+      "canvas": "FigureCanvasAgg",
+      "layout_engine": "ConstrainedLayoutEngine",
+      "plot_x": [
+        0,
+        1,
+        2
+      ],
+      "plot_y": [
+        0,
+        1,
+        4
+      ],
+      "ylabel": "Value",
+      "ylabel_rotation": 0.0,
+      "ylabel_ha": "right",
+      "xlabel": "Time",
+      "pre_draw_renderer": "RendererAgg",
+      "pre_draw_tightbbox_inches": [
+        0.04166999999999994,
+        0.04167000000000002,
+        3.91666,
+        2.91666
+      ],
+      "save_tightbbox_calls": [
+        {
+          "renderer": "MixedModeRenderer",
+          "bounds_inches": [
+            0.04166999999999997,
+            0.04167000000000007,
+            3.9166600000000003,
+            2.91666
+          ],
+          "figure_dpi": 72.0,
+          "is_saving": true
+        }
+      ],
+      "get_tightbbox_restored": true,
+      "pre_draw_predicted_page_size_pt": [
+        296.39951999999994,
+        224.39952
+      ],
+      "save_predicted_page_size_pt": [
+        296.39952000000005,
+        224.39952
+      ],
+      "pdf": {
+        "page_count": 1,
+        "bytes_length": 7859,
+        "page_size_pt": [
+          296.3995056152344,
+          224.39952087402344
+        ],
+        "media_box_pt": [
+          0.0,
+          0.0,
+          296.3995056152344,
+          224.39952087402344
+        ],
+        "crop_box_pt": [
+          0.0,
+          0.0,
+          296.3995056152344,
+          224.39952087402344
+        ],
+        "rotation_degrees": 0
+      },
+      "interpretation": {
+        "classification": "control_agrees",
+        "save_minus_pre_bounds_inches": [
+          2.7755575615628914e-17,
+          4.85722573273506e-17,
+          4.440892098500626e-16,
+          0.0
+        ],
+        "bounds_agree_within_1e_9_inches": true,
+        "pre_prediction_error_pt": [
+          -1.4384765563590918e-05,
+          8.740234420656634e-07
+        ],
+        "save_prediction_error_pt": [
+          -1.4384765677277755e-05,
+          8.740234420656634e-07
+        ],
+        "pre_prediction_matches_pdf": true,
+        "save_prediction_matches_pdf": true
+      }
+    }
+  ],
+  "observed_counterexamples": [
+    "artist_alpha_0_6",
+    "ordinary"
+  ],
+  "limitations": [
+    "Capture-contract characterization only; no product detector evaluation or accuracy claim.",
+    "Synthetic fixtures only; no benchmark, holdout, or frozen B0 files are read or changed.",
+    "Alpha evidence is the center of one black rectangle over opaque white at PDFium scale 1.",
+    "PDF /ca byte search is auxiliary, not a general parser or proof of artist association.",
+    "Tightbbox evidence is pre-draw Agg versus the actual save-time renderer, never post-save.",
+    "Constrained layout is an observed comparison, not a presumed agreeing control.",
+    "Font metrics, Matplotlib, FreeType and PDFium versions may change these observations.",
+    "Page agreement uses 0.0001 pt tolerance for PDFium page-size float precision.",
+    "The probe lock cannot serialize unrelated callers of Matplotlib or PDFium."
+  ]
+}

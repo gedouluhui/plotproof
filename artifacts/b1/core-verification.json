@@ -1,0 +1,36 @@
+{
+  "generated_at": "2026-11-17T20:21:36.337841+00:00",
+  "scope": "B1 pure core and test-only single-page PDF integration; not a complete wrapper or benchmark",
+  "command": "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv/Scripts/python.exe -m pytest -q --tb=short",
+  "exit_code": 0,
+  "passed": 217,
+  "b0_pinned_files_verified": 24,
+  "versions": {
+    "pytest": "9.2.0",
+    "matplotlib": "3.10.8",
+    "pypdfium2": "5.8.0",
+    "fonttools": "4.61.1",
+    "pillow": "12.2.0"
+  },
+  "source_sha256": {
+    "plotproof/__init__.py": "272fb299b67ca6a4f71f0b60a56b33ec73a1ebb688f6460e6f7611d2006ec8f7",
+    "plotproof/alignment.py": "79c12fabd53f3968dcbd38f9b8d32c4c3be6a8d75a525a16479286f0966aa9c7",
+    "plotproof/core.py": "e28c6ca5d8bde522c16df1a5564bafb77d855b171edbd3875ecdbf11832d00e4",
+    "plotproof/evidence.py": "0cd35744e86638d3724ef39121e13bc2b4e86868897de3f673cc7ce637f9fe5b",
+    "plotproof/geometry.py": "f9dfc75a23d5a090b49dbbb00a1e4943b4ed46f8752f4f75a48a9ecff240bf64",
+    "plotproof/occlusion.py": "8df62db9724a8d0fbf14407ebff201a6cd2f46b862303305f2c6b0485779129a",
+    "plotproof/rules.py": "229b39695b9a061152d69684106eb81e03ca63d36181a68199cb1fc4fd044dfb",
+    "plotproof/units.py": "c538f32580bed367cc25cd097d852f9b2de3cad4da0159a5d309802e3748c06b",
+    "tests/_core_fixtures.py": "1aad173ffea9d7a84f96ec0afa6d7516f596424fcd1998527c2069cdaa1cf63c",
+    "tests/test_alignment.py": "af590e77bfacd9b5016a7e7a899105042dd84973634ab836dc48392e2ccb4068",
+    "tests/test_core.py": "2df99ccec99df1c2e28fe46ca39d00baad8b4027d6219382e6fe3a31f4fc3c92",
+    "tests/test_core_mutations.py": "f5093d85edf6905d5137633f5cbbb0c963d7462c79e0c3a61ff16337b13f0063",
+    "tests/test_core_pdf_integration.py": "306569d4df78edf1f4908fd95da019748f556fec16fb0a99c3cd601c6c1d54a8",
+    "tests/test_geometry.py": "282880de6ec60c75fdde82af93bb01c2c2d8919342b239d7f835f12395e7ea96",
+    "tests/test_manifest_mutations.py": "6ba9da37ee8f3fbf6bd343542731884b4bf44ac97d9ea885d14c6f7f0f4b65ac",
+    "tests/test_package.py": "b29e87632ea4d17bc5948c71024dba5b298b7f2b85ee47fdf17febaa75b9b57d",
+    "tests/test_rules.py": "f9373cb0e0c6986f816fd961ce046ceef407084e9a31809ac06f80f627da2127",
+    "tests/test_units.py": "ae2f6cb78075bf58be3c8e880ec0315cbd65652addc51079e6568b21f67c9b15"
+  },
+  "visual_contact_sheet": "artifacts/b1/core-real-pdf-contact-sheet.png"
+}

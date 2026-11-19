@@ -30,14 +30,17 @@ def run_probe(extra: str = "") -> dict[str, object]:
     return json.loads(result.stdout)
 
 
-def test_package_exposes_design_stage_version() -> None:
-    assert plotproof.__version__ == "0.0.0.dev0"
-    assert plotproof.__all__ == []
+def test_package_exposes_the_preview_version_and_lazy_api() -> None:
+    assert plotproof.__version__ == "0.1.0a1"
+    assert sorted(plotproof.__all__) == ["CheckError", "CheckReport",
+                                        "check_figure", "render_html"]
+    # The attribute exists without importing the heavy assembly at package import.
+    assert callable(plotproof.check_figure)
 
 
 def test_importing_the_package_loads_no_heavy_dependency() -> None:
     probe = run_probe()
-    assert probe["version"] == "0.0.0.dev0"
+    assert probe["version"] == "0.1.0a1"
     assert probe["heavy"] == []
 
 
