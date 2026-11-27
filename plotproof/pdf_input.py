@@ -342,8 +342,10 @@ def _decode_snapshot(reply, digest: str, limits: PdfLimits, scale: float | None)
                            crop, media, 0, tuple(characters), render)
     except PdfReadError:
         raise
-    except (ValueError, TypeError, KeyError, OverflowError, RecursionError, struct.error):
-        raise PdfReadError('worker_protocol') from None
+    except (ValueError, TypeError, KeyError, OverflowError, RecursionError, struct.error) as error:
+        # Keep the machine-readable reason first; the detail makes a failed
+        # platform build diagnosable without guessing which check rejected it.
+        raise PdfReadError('worker_protocol: ' + str(error)[:120]) from None
 
 
 def read_pdf(path, expected_sha256: str, *, limits: PdfLimits = PdfLimits(),

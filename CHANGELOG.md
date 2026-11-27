@@ -1,5 +1,9 @@
 # Changelog
 
+
+## Unreleased
+
+- Align public governance, bilingual quickstarts, issue templates, and documentation validation.
 ## 0.1.0a2 — 2026-11-19
 
 Fixes what a fresh install would have hit.
