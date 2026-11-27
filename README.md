@@ -238,3 +238,34 @@ python -m plotproof check make_figure.py --html report.html
 ```
 
 退出码：`0` 表示 PASS/UNKNOWN，`1` 表示 FAIL，`2` 表示超出契约。
+
+## Quickstart and support
+
+### Problem
+Detect silent Matplotlib PDF export defects by combining save-time draw intent with bounded PDF character-box evidence.
+
+### Install
+```sh
+python -m pip install -e ".[dev]"
+```
+
+### Success
+```sh
+python -m plotproof demo --output plotproof-demo
+```
+Expected: The generated clean figure passes and the deliberately clipped figure fails; the demo command exits 0 after verifying both controls.
+
+### Deliberate failure
+```sh
+python -m plotproof check does-not-exist.py --json missing-report.json --html missing-report.html
+```
+Expected: The missing figure module is rejected with exit 2 and no success is claimed.
+
+### Evidence and coverage boundaries
+Evidence includes 356 tests for the deterministic core, bounded PDF reader, CA1 capture, and one end-to-end assembly. There is no holdout run, accuracy number, or font cmap evidence, and D4_missing_glyph is not assessed. PASS means only that no supported defect was found with sufficient coverage in assessed classes.
+
+### Support status
+Version 0.1.0a2 is a B1 engineering preview for Python 3.12 and Matplotlib 3.10.8. The PDF worker path is verified on Windows only. It is not a certified detector and has no accuracy claim. Maintenance is best-effort with no SLA.
+
+### Limitations
+Rotated text, mathtext, TeX, wrapped/rasterized text, path effects, arbitrary/multi-page/rotated PDFs, and semantic or aesthetic judgment are outside scope. D2 is skipped when images or collections prevent a complete paint inventory.
